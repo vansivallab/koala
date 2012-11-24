@@ -14,7 +14,12 @@
         Y: <div id='y'></div>
     </div>
 </body>
-<script type='text/javascript'>
+
+<script src="http://128.237.150.158:3000/socket.io/socket.io.js"></script>
+<script src="js/main.js"></script>
+<script>
+	var socket = io.connect('http://128.237.150.158:3000/');
+
     function down() {
         alert("down");
         //$("#message").html("down");
@@ -32,7 +37,7 @@
 
     window.onload = function() {
         alert("test 0");
-        util.patchFnBind();
+        window.util.patchFnBind();
         alert("test 2");
         //$.fn.ontap(down, up, move);
     }

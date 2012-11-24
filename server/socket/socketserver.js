@@ -6,14 +6,17 @@ var fs = require('fs');
 
 //set up write stream
 var db = fs.createWriteStream('foo.txt');
-db.write('-----new write session-----\n');
+db.write('[');
 
 // Listen for client connection event
 // io.sockets.* is the global, *all clients* socket
 // For every client that is connected, a separate callback is called
+var connectionCount = 0;
+var comma = "";
 io.sockets.on('connection', function(socket){
 	// Listen for this client's "send" event
 	// remember, socket.* is for this particular client
+	connectionCount++;
 	socket.on('send', function(data) {
 		// Since io.sockets.* is the *all clients* socket,
 		// this is a broadcast message.
@@ -22,11 +25,14 @@ io.sockets.on('connection', function(socket){
 		io.sockets.emit('receive', data);
 		
 		//write to db file
-		db.write(JSON.stringify(data)+'\n');
+		db.write(comma+'\n'+JSON.stringify(data));
+		comma = ",";
 	});
 
 	socket.on('disconnect', function() {
-		if(io.sockets.length === 0) {
+		connectionCount--;
+		if(connectionCount === 0) {
+			db.write('\n]');
 			db.destroy();
 		}
 	});
