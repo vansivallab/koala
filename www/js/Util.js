@@ -19,9 +19,7 @@ window.util.isChrome = function(){
 }
 
 window.util.patchFnBind = function(){
-	alert("test3");
     if (Function.prototype.bind === undefined){
-		alert("test4");
        Function.prototype.bind = function (bind) {
             var self = this;
             return function () {
@@ -29,7 +27,6 @@ window.util.patchFnBind = function(){
                 return self.apply(bind || null, args);
             };
         };
-	   alert("test5");
     }
 }
 

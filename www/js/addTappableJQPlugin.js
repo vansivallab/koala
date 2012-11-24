@@ -1,4 +1,5 @@
 function addTappableJQPlugin(){
+	alert("is this place getting called?");
     // `this` is the jquery wrapper for the element
     // Functions on `$.fn` can be accessed by any jQuery object
     // * Example: `$('#loc').onButtonTap(fn)`
@@ -98,6 +99,7 @@ function addTappableJQPlugin(){
             });
         }
     }
+	alert("finished calling this");
 }
 
 // Attach to load event so that we know jquery load first
