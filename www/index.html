@@ -1,17 +1,57 @@
 <!-- vim: set et ts=4 sts=4 sw=4: -->
+
 <!DOCTYPE html>
 <html>
 <head>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js" type="text/javascript"></script>
-    <script src="js/jqtouch.min.js"></script>
-    <script src="js/Util.js" type="text/javascript"></script>
-    <script src="js/addTappableJQPlugin.js"></script>
+    <style>
+        #paint_canvas {
+            border: 1px solid #000000;
+            height: 1000px;
+            width: 1000px;
+        }
+
+        .ignoreCanvas {
+            display: none;
+        }
+
+        #imageTmp {
+            cursor: crosshair;
+            position: absolute;
+            left: 1px;
+            top: 1px;
+        }
+
+        #canvasContainer {
+            position: relative;
+            margin: 10px;
+            box-shadow: 0px 0px 10px #333333;
+            -moz-box-shadow: 0px 0px 10px #333333;
+            -webkit-box-shadow: 0px 0px 10px #333333;
+            width: 770;
+            border: 1px solid #999999;
+            background: url("../img/trans.png");
+        }
+
+        #mainCanvas {
+            cursor: crosshair;
+        }
+
+        #imageDelta {
+            position: absolute;
+            left: 1px;
+            top: 1px;
+        }
+    </style>
 </head>
 <body>
-    <div id="position">
-        Message: <div id='message'></div> <br />
-        X: <div id='x'></div> <br />
-        Y: <div id='y'></div>
+    <div id="canvasContainer">
+        <canvas id="mainCanvas" width="770" height="550"></canvas>
+        <canvas id="imageDelta" width="770" height="550"></canvas>
+        <canvas id="imageTmp" width="770" height="550"></canvas>
+        <canvas id="mergeCanvas" class="ignoreCanvas" height="770" width="550"></canvas>
+    </div>
+    <div>
+        <h1 id="message"></h1>
     </div>
 </body>
 
@@ -21,35 +61,31 @@
 <!--
 <script src="js/main.js"></script>
 -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+<script src="js/jqtouch.min.js"></script>
+<script src="js/Util.js"></script>
+
+<!--
+<script src="http://128.237.140.203:9994/target/target-script-min.js">
+</script>
+-->
+
+<!-- the project paint app -->
+<script src="js/paint/img_loader.js"></script>
+<script src="js/paint/tools.js"></script>
+<script src="js/paint/paint.js"></script>
+<script src="js/paint/pair.js"></script>
+<script src="js/paint/line.js"></script>
+<script src="js/paint/rect.js"></script>
+
 <script>
-	//var socket = io.connect('http://128.237.150.158:3000/');
-
-    function down() {
-        alert("down");
-        //$("#message").html("down");
-    }
-
-    function up() {
-        alert("up");
-        //$("#message").html("up");
-    }
-
-    function move() {
-        alert("move");
-        //$("#message").html("move");
-    }
+    //var socket = io.connect('http://128.237.150.158:3000/');
 
     window.onload = function() {
-        //window.util.patchFnBind();
-        alert("beginning 3");
-        if (window.addTappableJQPlugin) {
-            alert("addTappableJQPlugin exists");
-        }
-        else {
-            alert("addTappableJQPlugin does not exist");
-        }
         window.util.patchFnBind();
-        $.fn.ontap(down, up, move);
+        var paint = new Paint("mainCanvas", "imageDelta", "imageTmp", "mergeCanvas");
+        paint.toolbox.setWidth(5);
+        paint.toolbox.setMode("pencil");
     }
 </script>
 </html>
