@@ -185,7 +185,7 @@ var Tools = function (/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
         this.mousemove = function (e) {
             if (tool.isMouseDown) {
 				$("#message").html("touchmove");
-                context.clearRect(0, 0, canvas.width, canvas.height);
+                //context.clearRect(0, 0, canvas.width, canvas.height);
                 context.lineTo(e._x, e._y);
                 context.stroke();
             }
@@ -207,7 +207,7 @@ var Tools = function (/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
 
         this.touchmove = function (e) {
             if (tool.isMouseDown) {
-                context.clearRect(0, 0, canvas.width, canvas.height);
+                //context.clearRect(0, 0, canvas.width, canvas.height);
                 context.lineTo(e.touches[0].clientX, e.touches[0].clientY);
                 context.stroke();
             }
