@@ -24,6 +24,10 @@ window.onload = function() {
 }
 
 var strokeCount = 0;
+// tool is "rectangle"
+// event is -1 is up, 0 is move, 1 is down
+// pX, pY is starting point
+// nX, nY is ending point
 function sendStrokeData(tool, event, pX, pY, nX, nY){
 	var data = {
 		userId: "foopanda",
