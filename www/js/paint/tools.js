@@ -38,7 +38,7 @@ var Tools = function (/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
         this.mousedown = function (/*Event Obj*/ e) {
             if (tool.isMouseDown) return;
 
-			$("#message").html("startDraw");
+            $("#message").html("startDraw");
 
             tool.isMouseDown = true;
             rect.x1 = e._x; // store initial x,y coordinate
@@ -69,6 +69,9 @@ var Tools = function (/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
 
             rect.x2 = e._x;
             rect.y2 = e._y;
+
+            // now transmit the information to the server
+            sendStrokeData("rectangle", 1, rect.x1, rect.y1, rect.x2, rect.y2);
         };
 
 
