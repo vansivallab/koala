@@ -1,8 +1,11 @@
+// vim: set et ts=4 sts=4 sw=4:
+
 //main.js
 window.onload = function() {
 	window.util.patchFnBind();
 	window.socket = io.connect('http://128.237.150.158:3000/');
-	var paint = new Paint("mainCanvas", "imageDelta", "imageTmp", "mergeCanvas");
+	//var paint = new Paint("mainCanvas", "imageDelta", "imageTmp", "mergeCanvas");
+    var paint = new Paint("imageDelta", "imageTmp");
 	paint.toolbox.setWidth(5);
 	paint.toolbox.setOpacity(0.1);
 	paint.toolbox.setMode("pencil");

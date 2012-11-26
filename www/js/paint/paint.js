@@ -2,33 +2,27 @@
 
 var num = 0;
 
-var Paint = function (mainCanvasId, imageDeltaId, imageTmpId, mergeCanvasId, loadingBarsId) {
-    this.imgView = $('#' + mainCanvasId);
-    this.img_context = (this.imgView.get(0)).getContext('2d');
+//var Paint = function (mainCanvasId, imageDeltaId, imageTmpId, mergeCanvasId, loadingBarsId) {
+var Paint = function (imageDeltaId, imageTmpId) {
+    //this.imgView = $('#' + mainCanvasId);
+    //this.img_context = (this.imgView.get(0)).getContext('2d');
 
-    //this.container = this.imgView.parent();
     this.delta_canvas = $('#' + imageDeltaId);
     this.tmp_canvas = $('#' + imageTmpId);
 
-    this.loadingBars = $('#' + loadingBarsId);
+    //this.loadingBars = $('#' + loadingBarsId);
 
     this.toolbox = new Tools(this.delta_canvas.get(0), this.tmp_canvas.get(0));
     var toolbox = this.toolbox;
     this.toolbox.pencil_mode(); /* Set Default Tool to pencil */
-    //var toolbox = this.toolbox;
 
-    /*
-    var test_context = this.tmp_canvas.get(0).getContext('2d');
-    test_context.strokeRect(10, 10, 20, 20);
-    // */
-
-    /* mouse event handlers
+    //* mouse event handlers
     this.tmp_canvas.get(0).addEventListener('mousedown', event_handler, false);
     this.tmp_canvas.get(0).addEventListener('mousemove', event_handler, false);
     document.addEventListener('mouseup', event_handler, false);
     // */
 
-    //*
+    //* touch event handlers
     this.tmp_canvas.get(0).addEventListener('touchstart', event_handler, false);
     this.tmp_canvas.get(0).addEventListener('touchmove', event_handler, false);
     document.addEventListener('touchend', event_handler, false);
@@ -36,15 +30,12 @@ var Paint = function (mainCanvasId, imageDeltaId, imageTmpId, mergeCanvasId, loa
 
     //this.tmp_canvas.get(0).addEventListener('mouseout', event_handler, false);
 
-    this.InitImgLoader = new ImgLoader(mainCanvasId);
+    //this.InitImgLoader = new ImgLoader(mainCanvasId);
     this.DeltaImgLoader = new ImgLoader(imageDeltaId);
-    this.MergeImgLoader = new ImgLoader(mergeCanvasId);
+    //this.MergeImgLoader = new ImgLoader(mergeCanvasId);
 
-    this._haschanges = false; // false;
-    this.hasChanges = function () {
-        return this._haschanges;
-    };
-    this.setHasChanges = function (/*Bool*/val) { this._haschanges = val; }
+    this._haschanges = false;
+    this.setHasChanges = function (/*Bool*/ val) { this._haschanges = val; }
 
     function event_handler(/*Event Obj*/ e) {
         //e.stopPropagation();
@@ -59,24 +50,17 @@ var Paint = function (mainCanvasId, imageDeltaId, imageTmpId, mergeCanvasId, loa
         }
 
         var toolFunctionCall = e.type;
-        
-        /*
-        if (num < 10) {
-            num++;
-            alert(toolFunctionCall);
-            //alert("this is getting called");
-        }
-        */
 
+        e.preventDefault();
+        
         /*if(e.type === 'mouseout') {
         console.log('mouseout');
         toolFunctionCall = 'mouseup';
         }*/
 
-        //if (toolFunctionCall == 'mousedown') 
-		if (toolFunctionCall == 'mousedown')
+        if (toolFunctionCall == 'mousedown')
             {self.setHasChanges(true);}
-		
+
         /* Handlers for touch events */
         if (toolFunctionCall == "touchstart") {
             self.toolbox.tool.touchstart(e);
@@ -91,20 +75,27 @@ var Paint = function (mainCanvasId, imageDeltaId, imageTmpId, mergeCanvasId, loa
         }
 
         /* Handlers for mouse events */
+        if (toolFunctionCall == "mousedown") {
+            self.toolbox.tool.mousedown(e);
+        }
 
-        /*
-        if (self.toolbox.tool[toolFunctionCall]) {
-            if (num < 10) {
-                num++;
-                //alert("this is getting called");
-            }
-            self.toolbox.tool[toolFunctionCall](e);
-        } 
-        */
+        if (toolFunctionCall == "mousemove") {
+            self.toolbox.tool.mousemove(e);
+        }
+
+        if (toolFunctionCall == "mouseup") {
+            self.toolbox.tool.mouseup(e);
+        }
+
     }
 
     var self = this.self = this;
 }
+
+Paint.prototype.hasChanges = function () {
+    return this._haschanges;
+};
+
 
 Paint.prototype.loadImg = function (png) {
     //console.log(arguments.callee.caller);
@@ -116,14 +107,14 @@ Paint.prototype.loadImg = function (png) {
 };
 
 Paint.prototype.clearAllCanvases = function () {
-	this.InitImgLoader.clearCanvas();
-	this.DeltaImgLoader.clearCanvas();
+    this.InitImgLoader.clearCanvas();
+    this.DeltaImgLoader.clearCanvas();
 };
 
 Paint.prototype.getDelta = function () {
-	//console.log("What is the return of getDelta");
-	//console.log(this.DeltaImgLoader.getPNG());
-	return this.DeltaImgLoader.getPNG();
+    //console.log("What is the return of getDelta");
+    //console.log(this.DeltaImgLoader.getPNG());
+    return this.DeltaImgLoader.getPNG();
 };
 
 Paint.prototype.mergeImg = function (png1, png2, clearMerge) {
@@ -135,7 +126,7 @@ Paint.prototype.mergeImg = function (png1, png2, clearMerge) {
 	return mergedPNG;
 };
 
-Paint.prototype.saveImg = function (/*HTML img tag*/img) {
+Paint.prototype.saveImg = function (/*HTML img tag*/ img) {
     var png1 = this.InitImgLoader.getPNG();
     var png2 = this.DeltaImgLoader.getPNG();
     var res_png = this.mergeImg(png1, png2);
