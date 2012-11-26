@@ -4,9 +4,12 @@
 var io = require('socket.io').listen(3000);
 var fs = require('fs');
 
+var Canvas = require('./controllers/canvasController.js');
+var canvas = new Canvas('mongodb://128.237.150.158:27017/koala/vansiTestCanvas'); //change this
 //set up write stream
 var db = fs.createWriteStream('foo.txt');
 db.write('[');
+
 
 // Listen for client connection event
 // io.sockets.* is the global, *all clients* socket
@@ -17,16 +20,19 @@ io.sockets.on('connection', function(socket){
 	// Listen for this client's "send" event
 	// remember, socket.* is for this particular client
 	connectionCount++;
-	socket.on('send', function(data) {
+	socket.on('newStroke', function(data) {
 		// Since io.sockets.* is the *all clients* socket,
 		// this is a broadcast message.
 
 		// Broadcast a "receive" event with the data received from "send"
-		io.sockets.emit('receive', data);
+		//io.sockets.emit('loadStroke', data);
+		socket.broadcast.emit('loadStroke', data);
 		
 		//write to db file
 		db.write(comma+'\n'+JSON.stringify(data));
 		comma = ",";
+		canvas.addStroke(data);
+		
 	});
 
 	socket.on('disconnect', function() {
@@ -35,5 +41,9 @@ io.sockets.on('connection', function(socket){
 			db.write('\n]');
 			db.destroy();
 		}
+	});
+	
+	canvas.getStroke({}, function(data) {
+		socket.emit('loadCanvas', data);
 	});
 });
