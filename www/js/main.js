@@ -8,8 +8,8 @@ window.onload = function() {
     var paint = new Paint("imageDelta", "imageTmp");
 	paint.toolbox.setWidth(5);
 	paint.toolbox.setOpacity(0.1);
-	paint.toolbox.setMode("pencil");
-	
+	paint.toolbox.("pencil");
+
 	//socket events
 	window.socket.on('loadStroke', function(data) {
 		console.log(data);
@@ -25,16 +25,16 @@ window.onload = function() {
 
 var strokeCount = 0;
 function sendStrokeData(tool, event, x, y){
-	var data = {
-		userId: "foopanda",
-		strokeId: strokeCount,
-		canvasId: "ad109s",
-		tool: tool,
-		event: event,
-		x: x,
-		y: y
-	}
-	
-	window.socket.emit('newStroke', data);
-	strokeCount++;
+    var data = {
+        userId: "foopanda",
+        strokeId: strokeCount,
+        canvasId: "ad109s",
+        tool: tool,
+    	event: event,
+    	x: x,
+    	y: y
+    }
+
+    window.socket.emit('newStroke', data);
+    strokeCount++;
 }
