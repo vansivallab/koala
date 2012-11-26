@@ -177,21 +177,33 @@ var Tools = function (/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
 
     // Pencil Tool
     this.pencil_mode = function () {
-
+		this.pX; this.pY;
         this.mousedown = function (e) {
             if (tool.isMouseDown) { return; }
-            context.beginPath();
+			this.pX = e._x;
+			this.pY = e._y;
 			$("#message").html("touchstart");
+			
+            context.beginPath();
             context.moveTo(e._x, e._y);
+			
             tool.isMouseDown = true;
         };
 
         this.mousemove = function (e) {
             if (tool.isMouseDown) {
 				$("#message").html("touchmove");
-                //context.clearRect(0, 0, canvas.width, canvas.height);
+                
+				//context.beginPath();
+				//context.moveTo(this.pX, this.pY);
+				
+				//context.clearRect(0, 0, canvas.width, canvas.height);
                 context.lineTo(e._x, e._y);
                 context.stroke();
+				//context.closePath();
+				
+				this.pX = e._x;
+				this.pY = e._y;
             }
         };
 

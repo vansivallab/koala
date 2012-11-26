@@ -7,8 +7,8 @@ window.onload = function() {
 	//var paint = new Paint("mainCanvas", "imageDelta", "imageTmp", "mergeCanvas");
     var paint = new Paint("imageDelta", "imageTmp");
 	paint.toolbox.setWidth(5);
-	paint.toolbox.setOpacity(0.1);
-	paint.toolbox.setMode("rectangle");
+	paint.toolbox.setOpacity(1);
+	paint.toolbox.setMode("pencil");
 	
 	var mainCanvasDLib = new DrawingLib(document.getElementById("mainCanvas"));
 	var deltaCanvasDLib = new DrawingLib(document.getElementById("imageDelta"));
@@ -30,7 +30,7 @@ window.onload = function() {
 			if(entry.drawData.tool === 'rectangle') {
 				mainCanvasDLib.drawRect(entry.drawData.pX, entry.drawData.pY, entry.drawData.nX, entry.drawData.nY);
 			}
-			else if(entry.drawData.tool === 'pencil') {
+			else if(entry.drawData.tool === 'pencil' || entry.drawData.tool === 'line') {
 				mainCanavasDLib.drawLine(entry.drawData.pX, entry.drawData.pY, entry.drawData.nX, entry.drawData.nY);
 			}
 			else if(entry.drawData.tool === 'circle') {
