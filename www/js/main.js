@@ -8,7 +8,7 @@ window.onload = function() {
     var paint = new Paint("imageDelta", "imageTmp");
 	paint.toolbox.setWidth(5);
 	paint.toolbox.setOpacity(0.1);
-	paint.toolbox.("pencil");
+	paint.toolbox.setMode("pencil");
 
 	//socket events
 	window.socket.on('loadCanvasEntry', function(data) {

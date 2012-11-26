@@ -21,10 +21,10 @@ Canvas.prototype.addStroke = function(data) {
 		if(err) {throw err;}
 	});
 	
-	Stroke.find({}, function (err, items) {
+	/*Stroke.find({}, function (err, items) {
 		if(err) {throw err;}
 		console.log("all strokes: "+JSON.stringify(items));
-	});
+	});*/
 }
 
 Canvas.prototype.getStroke = function(searchJSON, callback) {
