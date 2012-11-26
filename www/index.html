@@ -3,9 +3,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Koala</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0; user-scalable=no">
+    <title>Koala</title>
     <style>
+        body {
+            overflow: hidden;
+            width: 100%;
+        }
+
         #paint_canvas {
             border: 1px solid #000000;
             height: 1000px;
@@ -50,15 +55,18 @@
         <canvas id="mainCanvas" width="770" height="550"></canvas>
         <canvas id="imageDelta" width="770" height="550"></canvas>
         <canvas id="imageTmp" width="770" height="550"></canvas>
+    <!--
         <canvas id="mergeCanvas" class="ignoreCanvas" height="770" width="550"></canvas>
+    -->
     </div>
     <div>
         <h1 id="message"></h1>
     </div>
 </body>
 
+<!--
 <script src="http://128.237.150.158:3000/socket.io/socket.io.js"></script>
-
+-->
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
 <script src="js/lib/Util.js"></script>
