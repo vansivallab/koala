@@ -5,8 +5,10 @@ var CanvasSchema = new mongoose.Schema({
 	strokeId: Number,
 	tool: String,
 	event: Number,
-	x: Number,
-	y: Number,
+	pX: Number,
+	pY: Number,
+	nX: Number,
+	nY: Number,
 	dateStamp: Date
 });
 

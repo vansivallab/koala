@@ -12,8 +12,10 @@ Canvas.prototype.addStroke = function(data) {
 	newStroke.strokeId = data.strokeId;
 	newStroke.tool = data.tool;
 	newStroke.event = data.event;
-	newStroke.x = data.x;
-	newStroke.y = data.y;
+	newStroke.pX = data.pX;
+	newStroke.pY = data.pY;
+	newStroke.nX = data.nX;
+	newStroke.nY = data.nY;
 	newStroke.dateStamp = new Date();
 	newStroke.save(function(err) {
 		if(err) {throw err;}

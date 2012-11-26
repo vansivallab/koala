@@ -24,15 +24,17 @@ window.onload = function() {
 }
 
 var strokeCount = 0;
-function sendStrokeData(tool, event, x, y){
+function sendStrokeData(tool, event, pX, pY, nX, nY){
 	var data = {
 		userId: "foopanda",
 		strokeId: strokeCount,
 		canvasId: "ad109s",
 		tool: tool,
 		event: event,
-		x: x,
-		y: y
+		pX: pX,
+		pY: pY,
+		nX: nX,
+		nY: nY
 	}
 	
 	window.socket.emit('newStroke', data);
