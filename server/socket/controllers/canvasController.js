@@ -10,12 +10,7 @@ Canvas.prototype.addStroke = function(data) {
 	//need to validate data
 	newStroke.userId = data.userId;
 	newStroke.strokeId = data.strokeId;
-	newStroke.tool = data.tool;
-	newStroke.event = data.event;
-	newStroke.pX = data.pX;
-	newStroke.pY = data.pY;
-	newStroke.nX = data.nX;
-	newStroke.nY = data.nY;
+	newStroke.drawData = data.drawData;
 	newStroke.dateStamp = new Date();
 	newStroke.save(function(err) {
 		if(err) {throw err;}

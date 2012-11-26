@@ -1,7 +1,5 @@
 // vim: set et ts=4 sts=4 sw=4:
 
-var num = 0;
-
 //var Paint = function (mainCanvasId, imageDeltaId, imageTmpId, mergeCanvasId, loadingBarsId) {
 var Paint = function (imageDeltaId, imageTmpId) {
     //this.imgView = $('#' + mainCanvasId);

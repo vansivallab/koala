@@ -5,7 +5,50 @@
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0; user-scalable=no">
     <title>Koala</title>
-    <style rel="stylesheet" href="css/styles.css"></style>
+    <style>
+		body {
+			overflow: hidden;
+			width: 100%;
+		}
+
+		#paint_canvas {
+			border: 1px solid #000000;
+			height: 1000px;
+			width: 1000px;
+		}
+
+		.ignoreCanvas {
+			display: none;
+		}
+
+		#imageTmp {
+			cursor: crosshair;
+			position: absolute;
+			left: 1px;
+			top: 1px;
+		}
+
+		#canvasContainer {
+			position: relative;
+			margin: 10px;
+			box-shadow: 0px 0px 10px #333333;
+			-moz-box-shadow: 0px 0px 10px #333333;
+			-webkit-box-shadow: 0px 0px 10px #333333;
+			width: 770;
+			border: 1px solid #999999;
+			background: url("../img/trans.png");
+		}
+
+		#mainCanvas {
+			cursor: crosshair;
+		}
+
+		#imageDelta {
+			position: absolute;
+			left: 1px;
+			top: 1px;
+		}		
+	</style>
 </head>
 <body>
     <div id="canvasContainer">
@@ -21,7 +64,7 @@
     </div>
 </body>
 
-<script src="http://128.237.150.158:3000/socket.io/socket.io.js"></script>
+<script src="http://128.237.116.117:3000/socket.io/socket.io.js"></script>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
 <script src="js/lib/Util.js"></script>	
@@ -36,6 +79,7 @@
 <script src="js/paint/pair.js"></script>
 <script src="js/paint/line.js"></script>
 <script src="js/paint/rect.js"></script>
+<script src="js/paint/drawingLib.js"></script>
 
 <script src="js/main.js"></script>
 </html>
