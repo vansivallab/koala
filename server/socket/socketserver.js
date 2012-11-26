@@ -26,12 +26,13 @@ io.sockets.on('connection', function(socket){
 
 		// Broadcast a "receive" event with the data received from "send"
 		//io.sockets.emit('loadStroke', data);
-		socket.broadcast.emit('loadStroke', data);
+		socket.broadcast.emit('loadCanvasEntry', data);
+		
+		canvas.addStroke(data);
 		
 		//write to db file
 		db.write(comma+'\n'+JSON.stringify(data));
 		comma = ",";
-		canvas.addStroke(data);
 		
 	});
 

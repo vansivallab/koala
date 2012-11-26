@@ -11,7 +11,7 @@ window.onload = function() {
 	paint.toolbox.("pencil");
 
 	//socket events
-	window.socket.on('loadStroke', function(data) {
+	window.socket.on('loadCanvasEntry', function(data) {
 		console.log(data);
 		//loading one stroke
 	});
