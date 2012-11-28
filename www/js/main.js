@@ -3,24 +3,21 @@
 //main.js
 window.onload = function() {
 	window.util.patchFnBind();
-	window.socket = io.connect('http://128.237.116.117:3000/');
-	//var paint = new Paint("mainCanvas", "imageDelta", "imageTmp", "mergeCanvas");
-    var paint = new Paint("imageDelta", "imageTmp");
-	paint.toolbox.setWidth(5);
-	paint.toolbox.setOpacity(1);
-	paint.toolbox.setMode("pencil");
+	window.socket = io.connect('http://128.237.232.225:3000/');
 	
 	var mainCanvasDLib = new DrawingLib(document.getElementById("mainCanvas"));
 	var deltaCanvasDLib = new DrawingLib(document.getElementById("imageDelta"));
 
-	window.mainCanvasDLib = mainCanvasDLib; //debug
-	window.deltaCanvasDLib = deltaCanvasDLib;
-	mainCanvasDLib.drawRect(0,0,100, 100);
+	//var paint = new Paint("mainCanvas", "imageDelta", "imageTmp", "mergeCanvas");
+    var paint = new Paint("imageDelta", "imageTmp");
+	paint.toolbox.setWidth(5);
+	paint.toolbox.setOpacity(.1);
+	paint.toolbox.setMode("pencil");
 	
 	function isValidEntry(entry) {
 		return util.exists(entry.drawData) && typeof(entry.drawData.tool) == 'string' 
-				&& ((typeof(entry.drawData.pX) == 'number' && typeof(entry.drawData.pY) == 'number' 
-				&& typeof(entry.drawData.nX) == 'number' && typeof(entry.drawData.nY) == 'number')
+				&& ((typeof(entry.drawData.x1) == 'number' && typeof(entry.drawData.y1) == 'number' 
+				&& typeof(entry.drawData.x2) == 'number' && typeof(entry.drawData.y2) == 'number')
 				|| (entry.drawData.tool === 'circle' && typeof(entry.drawData.x) == 'number' 
 				&& typeof(entry.drawData.y) == 'number' && typeof(entry.drawData.radius) == 'number'));
 	}
@@ -28,13 +25,19 @@ window.onload = function() {
 	function loadCanvasEntry(entry) {
 		if(isValidEntry(entry)) {
 			if(entry.drawData.tool === 'rectangle') {
-				mainCanvasDLib.drawRect(entry.drawData.pX, entry.drawData.pY, entry.drawData.nX, entry.drawData.nY);
+				mainCanvasDLib.drawRect(entry.drawData.x1, entry.drawData.y1, 
+					entry.drawData.x2, entry.drawData.y2, entry.drawData.color,
+					entry.drawData.width, entry.drawData.opacity);
 			}
-			else if(entry.drawData.tool === 'pencil' || entry.drawData.tool === 'line') {
-				mainCanavasDLib.drawLine(entry.drawData.pX, entry.drawData.pY, entry.drawData.nX, entry.drawData.nY);
+			else if(entry.drawData.tool === 'line' || entry.drawData.tool === 'pencil') {
+				mainCanvasDLib.drawLine(entry.drawData.x1, entry.drawData.y1, 
+					entry.drawData.x2, entry.drawData.y2, entry.drawData.color,
+					entry.drawData.width, entry.drawData.opacity)
 			}
 			else if(entry.drawData.tool === 'circle') {
-				mainCanavasDLib.drawLine(entry.drawData.x, entry.drawData.y, entry.drawData.radius);
+				mainCanvasDLib.drawLine(entry.drawData.x, entry.drawData.y, 
+					entry.drawData.radius, entry.drawData.color, 
+					entry.drawData.width, entry.drawData.opacity);
 			}
 		}
 	}
@@ -43,6 +46,7 @@ window.onload = function() {
 	window.socket.on('loadCanvasEntry', loadCanvasEntry);
 
 	window.socket.on('loadCanvas', function(data) {
+		mainCanvasDLib.clearCanvas();
 		for(var d = 0; d < data.length; d++) {
 			loadCanvasEntry(data[d]);
 		}
@@ -51,7 +55,7 @@ window.onload = function() {
 };
 
 var strokeCount = 0;
-// drawData = {tool, event, pX, pY, nX, nY} or {tool, event, x, y, radius}
+// drawData = {tool, event, x1, y1, x2, y2} or {tool, event, x, y, radius}
 // tool is "rectangle"
 // event is -1 is up, 0 is move, 1 is down
 // pX, pY is starting point
