@@ -49,17 +49,20 @@ DrawingLib.prototype.drawLine = function(x1, y1, x2, y2, color, width, opacity) 
 };
 
 DrawingLib.prototype.drawCircle = function(x, y, radius, color, width, opacity) {
+	alert("circle doesnt work");
 	if(util.exists(color)) {this.color = color;}
 	if(util.exists(width)) {this.width = width;}
 	if(util.exists(opacity)) {this.opacity = opacity;}
 	this.ctx.strokeStyle = this.color;
-    this.ctx.lineWidth = this.width;
     this.ctx.globalAlpha = this.opacity; 
 	
 	this.ctx.beginPath();
-	this.ctx.arc(x, y, radius, 0, 2*Math.PI, true);
+	this.ctx.arc(x, y, radius, 0, 2*Math.PI, false);
+	this.ctx.fillStyle = "rgba(0,0,0,0)";
+	this.ctx.fill();
+    this.ctx.lineWidth = this.width;
+	this.ctx.strokeStyle = this.color;
 	this.ctx.stroke();
-	this.ctx.closePath();
 };
 
 

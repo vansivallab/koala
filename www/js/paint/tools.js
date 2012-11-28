@@ -272,29 +272,29 @@ var Tools = function (/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
 			color: context.strokeStyle, width: context.lineWidth, 
 			opacity: context.globalAlpha};
 		
-        this.startdraw = function (e) {
+        this.mousedown = function (e) {
             if (tool.isMouseDown) { return; }
             tool.isMouseDown = true;
 			this.drawData.x = e._x;
 			this.drawData.y = e._y;
         };
 
-        this.draw = function (e) {
+        this.mousemove = function (e) {
             if (tool.isMouseDown) {
-                console.log(canvas);
                 context.clearRect(0, 0, canvas.width, canvas.height);
 
-                this.drawData.radius = Math.sqrt(Math.pow(drawData.x - e._x, 2)
-										+Math.pow(drawData.y - e._y, 2));
+                this.drawData.radius = Math.sqrt(Math.pow(this.drawData.x - e._x, 2)
+										+Math.pow(this.drawData.y - e._y, 2));
 
                 context.beginPath();
-                context.arc(this.drawData.x1, this.drawData.y1, this.drawData.radius, 0, 2 * Math.PI, true);
-                context.stroke();
+                context.arc(this.drawData.x1, this.drawData.y1, 
+							this.drawData.radius, 0, 2 * Math.PI, true);
                 context.closePath();
+				context.stroke();
             }
         };
 
-        this.enddraw = function (e) {
+        this.mouseup = function (e) {
             if (tool.isMouseDown) {
                 tool.save_history();
 				sendStrokeData(this.drawData)
