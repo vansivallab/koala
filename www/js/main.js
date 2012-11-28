@@ -3,16 +3,17 @@
 //main.js
 window.onload = function() {
 	window.util.patchFnBind();
-	window.socket = io.connect('http://128.237.232.225:3000/');
+	window.socket = io.connect('http://128.237.151.24:3000/');
 	
 	var mainCanvasDLib = new DrawingLib(document.getElementById("mainCanvas"));
 	var deltaCanvasDLib = new DrawingLib(document.getElementById("imageDelta"));
 	window.mainCanvasDLib = mainCanvasDLib;
+	window.deltaCanvasDLib = deltaCanvasDLib;
 	//var paint = new Paint("mainCanvas", "imageDelta", "imageTmp", "mergeCanvas");
     var paint = new Paint("imageDelta", "imageTmp");
 	paint.toolbox.setWidth(5);
 	paint.toolbox.setOpacity(1);
-	paint.toolbox.setMode("circle");
+	paint.toolbox.setMode("rectangle");
 	
 	function isValidEntry(entry) {
 		return util.exists(entry.drawData) && typeof(entry.drawData.tool) == 'string' 
@@ -58,8 +59,9 @@ var strokeCount = 0;
 // drawData = {tool, event, x1, y1, x2, y2} or {tool, event, x, y, radius}
 // tool is "rectangle"
 // event is -1 is up, 0 is move, 1 is down
-// pX, pY is starting point
-// nX, nY is ending point
+// x1, y1 is starting point
+// x2, y2 is ending point
+// color, width, opacity
 function sendStrokeData(drawData){
 	var data = {
 		userId: "foopanda",

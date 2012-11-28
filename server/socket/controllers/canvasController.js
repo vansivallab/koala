@@ -29,5 +29,8 @@ Canvas.prototype.getStroke = function(searchJSON, callback) {
 	});
 };
 
+Canvas.prototype.clearData = function() {
+	Stroke.find({}).remove();
+};
 
 module.exports = Canvas;

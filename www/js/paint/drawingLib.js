@@ -29,7 +29,12 @@ DrawingLib.prototype.drawRect = function(x1, y1, x2, y2, color, width, opacity) 
     this.ctx.lineWidth = this.width;
     this.ctx.globalAlpha = this.opacity;
 	
-	this.ctx.strokeRect(x1, y1, x2, y2);
+	var x = Math.min(x1, x2);
+	var y = Math.min(y1, y2);
+	var w = Math.abs(x2-x1);
+	var h = Math.abs(y2-y1);
+	
+	this.ctx.strokeRect(x, y, w, h);
 	this.currX = x2; this.currY = y2;
 };
 
