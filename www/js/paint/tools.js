@@ -12,10 +12,19 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
     var imgView_context = imgView.getContext('2d');
 
     this.isMouseDown = false;
-
-    this.setColor = function(color) { context.strokeStyle = color; };
-    this.setWidth = function(width) { context.lineWidth = width; };
-    this.setOpacity = function(opacity) { context.globalAlpha = opacity; };
+	
+    this.setColor = function (color) {
+        this.color = color;
+        //context.strokeStyle = color;
+    };
+    this.setWidth = function (width) {
+        this.width = width;
+        //context.lineWidth = width;
+    };
+    this.setOpacity = function (opacity) {
+        this.opacity = opacity;
+        //context.globalAlpha = opacity;
+    };
 
     this.save_history = function() {
         imgView_context.drawImage(canvas, 0, 0);
@@ -23,7 +32,12 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
     };
 
     // wrapper function for setting modes
-    this.setMode = function(mode) {
+    this.setMode = function (mode) {
+        // reset the variables in case they got lost, e.g. in eraser
+        context.strokeStyle = this.color;
+        context.lineWidth = this.width;
+        context.globalAlpha = this.opacity;
+		
         if (mode == "rectangle") { this.rect_mode(); }
         else if (mode == "pencil") { this.pencil_mode(); }
         else if (mode == "line") { this.line_mode(); }
