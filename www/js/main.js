@@ -3,21 +3,21 @@
 //main.js
 window.onload = function() {
 	window.util.patchFnBind();
-	window.socket = io.connect('http://128.237.245.45:3000/');
+	window.socket = io.connect('http://128.237.165.154:3000/');
 	
 	var mainCanvasDLib = new DrawingLib(document.getElementById("mainCanvas"));
 	var deltaCanvasDLib = new DrawingLib(document.getElementById("imageDelta"));
 	window.mainCanvasDLib = mainCanvasDLib;
 	window.deltaCanvasDLib = deltaCanvasDLib;
 	//var paint = new Paint("mainCanvas", "imageDelta", "imageTmp", "mergeCanvas");
-    /*
     
+    /*
     var paint = new Paint("imageDelta", "imageTmp");
 	paint.toolbox.setWidth(5);
 	paint.toolbox.setOpacity(1);
 
-	paint.toolbox.setMode("pencil");   */
-	
+	paint.toolbox.setMode("pencil");
+	*/
 
 	function isValidEntry(entry) {
 		return util.exists(entry.drawData) && typeof(entry.drawData.tool) == 'string' 
