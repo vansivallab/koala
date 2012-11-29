@@ -1,4 +1,12 @@
+var paint = new Paint("imageDelta", "imageTmp");
+paint.toolbox.setWidth(5);
+paint.toolbox.setOpacity(1);
+
+paint.toolbox.setMode("pencil");
 var selectedBrush = "pencil";
+
+/*resets needed */
+document.getElementById("showHide").style.background = "#7080D7";
 document.getElementById("show").style.display = "block";
 
 /* select tool */
