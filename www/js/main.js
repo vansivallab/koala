@@ -10,10 +10,14 @@ window.onload = function() {
 	window.mainCanvasDLib = mainCanvasDLib;
 	window.deltaCanvasDLib = deltaCanvasDLib;
 	//var paint = new Paint("mainCanvas", "imageDelta", "imageTmp", "mergeCanvas");
+    /*
+    
     var paint = new Paint("imageDelta", "imageTmp");
 	paint.toolbox.setWidth(5);
 	paint.toolbox.setOpacity(1);
-	paint.toolbox.setMode("eraser");
+
+	paint.toolbox.setMode("pencil");   */
+	
 
 	function isValidEntry(entry) {
 		return util.exists(entry.drawData) && typeof(entry.drawData.tool) == 'string' 
