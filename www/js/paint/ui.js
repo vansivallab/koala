@@ -2,6 +2,7 @@ var paint = new Paint("imageDelta", "imageTmp");
 paint.toolbox.setColor('black');
 paint.toolbox.setWidth(5);
 paint.toolbox.setOpacity(1);
+paint.toolbox.setColor("black");
 
 paint.toolbox.setMode("pencil");
 
