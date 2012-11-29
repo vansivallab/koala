@@ -1,10 +1,11 @@
 body {
 	overflow: hidden;
 	width: 100%;
+    background: grey;
 }
 
 #paint_canvas {
-	border: 1px solid #000000;
+	border: 1px solid #888;
 	height: 1000px;
 	width: 1000px;
 }
@@ -22,13 +23,17 @@ body {
 
 #canvasContainer {
 	position: relative;
-	margin: 10px;
+    top: 0px;
+    left: 0px;
+	/*margin: 10px;
 	box-shadow: 0px 0px 10px #333333;
 	-moz-box-shadow: 0px 0px 10px #333333;
 	-webkit-box-shadow: 0px 0px 10px #333333;
+    background: url("../img/trans.png"); */
+    background: white;
 	width: 770;
 	border: 1px solid #999999;
-	background: url("../img/trans.png");
+
 }
 
 #mainCanvas {
@@ -39,4 +44,112 @@ body {
 	position: absolute;
 	left: 1px;
 	top: 1px;
+}
+
+#toolbar {
+    position: absolute;
+    display:none;
+    top: 32px;
+    right:0px;
+    width:28px;
+    background: #4A60D7;
+    padding: 2px;
+    padding-bottom: 4px;
+}
+
+#buttons {
+    position: relative;
+    display: block;
+    margin-left: 2px;
+    margin-top: 2px;
+}
+
+#brushes {
+    position: relative;
+    display: block;
+    margin-left: 2px;
+    margin-top: 2px;
+}
+
+#showHide {
+    position:absolute; 
+    top: 0px;
+    right: 0px;
+    width: 28px;
+    padding: 2px;
+    padding-top:1px;
+    /*background: #7080d7;*/
+    background:white;
+}
+
+#pencil {
+    background: url("../img/brush.png") -3px -4px;
+}
+#line {
+    background: url("../img/brush.png") -28px -3px;
+}
+#rectangle {
+    background: url("../img/brush.png") -4px -24px;
+}
+#circle {
+    background: url("../img/brush.png") -28px -24px;
+}
+#show {
+    background: url("../img/brush.png") -51px -24px;
+    display: none;
+}
+#hide {
+    background: url("../img/brush.png") -71px -24px;
+    display: none;
+    
+}
+
+.brush {
+    border: 1px solid #dcdcdc;
+    -moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+    -moz-box-shadow:inset 0px 0px 0px 1px #f6f6f6;
+	-webkit-box-shadow:inset 0px 0px 0px 1px #f6f6f6;
+	box-shadow:inset 0px 0px 0px 1px #f6f6f6;
+    width: 20px;
+    margin: 2px;
+    height: 20px;
+    float: left;  
+}
+
+.brush:hover {
+    border: 1px solid #666666;
+    box-shadow: 0px 0px 1px #333333;
+    -moz-box-shadow: 0px 0px 1px #333333;
+    -webkit-box-shadow: 0px 0px 1px #333333;
+}
+
+.selected {
+    border: 1px solid black;
+    box-shadow: 0px 0px 2px #333333;
+    -moz-box-shadow: 0px 0px 2px #333333;
+    -webkit-box-shadow: 0px 0px 2px #333333;
+}
+
+.button {
+    border: 1px solid #dcdcdc;
+    -moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+    -moz-box-shadow:inset 0px 0px 0px 1px #f6f6f6;
+	-webkit-box-shadow:inset 0px 0px 0px 1px #f6f6f6;
+	box-shadow:inset 0px 0px 0px 1px #f6f6f6;
+    width: 20px;
+    margin: 2px;
+    margin-bottom:3px;
+    height: 20px;
+    float: left;  
+}
+
+.button:hover {
+    border: 1px solid #666666;
+    box-shadow: 0px 0px 1px #333333;
+    -moz-box-shadow: 0px 0px 1px #333333;
+    -webkit-box-shadow: 0px 0px 1px #333333;
 }
