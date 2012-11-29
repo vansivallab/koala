@@ -28,6 +28,7 @@ var Tools = function (/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
         else if (mode == "pencil") { this.pencil_mode(); }
         else if (mode == "line") { this.line_mode(); }
         else if (mode == "circle") { this.circle_mode(); }
+        else if (mode == "eraser") { this.eraser_mode(); }
     };
 
     // Rectangle Tool
@@ -200,8 +201,8 @@ var Tools = function (/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
 			this.drawData.y1 = e._y;
 			$("#message").html("touchstart");
 			
-            //context.beginPath();
-            //context.moveTo(e._x, e._y);
+            context.beginPath();
+            context.moveTo(e._x, e._y);
             tool.isMouseDown = true;
         };
 
@@ -287,7 +288,7 @@ var Tools = function (/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
 										+Math.pow(this.drawData.y - e._y, 2));
 
                 context.beginPath();
-                context.arc(this.drawData.x1, this.drawData.y1, 
+                context.arc(this.drawData.x, this.drawData.y, 
 							this.drawData.radius, 0, 2 * Math.PI, true);
                 context.closePath();
 				context.stroke();
@@ -297,9 +298,61 @@ var Tools = function (/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
         this.mouseup = function (e) {
             if (tool.isMouseDown) {
                 tool.save_history();
+
+                // now send the information to the server
 				sendStrokeData(this.drawData)
             }
             tool.isMouseDown = false;
         };
     };
+
+    this.eraser_mode = function(/*Event Obj*/ e) {
+
+        // JSON obj that we will send to the server
+		this.drawData ={tool: "eraser", event: 0, x1: 0, y1: 0, 
+			x2: 0, y2: 0, width: context.lineWidth};
+        
+		this.mousedown = function (/*Event Obj*/ e) {
+            if (tool.isMouseDown) { return; }
+			this.drawData.x1 = e._x;
+			this.drawData.y1 = e._y;
+			$("#message").html("touchstart");
+
+            // These are default values for an eraser tool
+            context.globalCompositeOperation = "copy";
+            context.strokeStyle = "white";
+
+            // Now begins the normal line operation
+            context.beginPath();
+            context.moveTo(e._x, e._y);
+            tool.isMouseDown = true;
+        };
+
+        this.mousemove = function (/*Event Obj*/ e) {
+            if (tool.isMouseDown) {
+                this.drawData.x2 = e._x;
+				this.drawData.y2 = e._y;
+				context.beginPath();
+				context.moveTo(this.drawData.x1, this.drawData.y1);
+				
+				//context.clearRect(0, 0, canvas.width, canvas.height);
+                context.lineTo(this.drawData.x2, this.drawData.y2);
+				context.closePath();
+                context.stroke();
+				
+				sendStrokeData(this.drawData)
+				this.drawData.x1 = this.drawData.x2;
+				this.drawData.y1 = this.drawData.y2;
+            }
+        };
+
+        this.mouseup = function (e) {
+            if (tool.isMouseDown) {
+				//context.closePath()
+                tool.save_history();
+            }
+            tool.isMouseDown = false;
+        };
+
+    }
 };
