@@ -78,7 +78,7 @@ function sendStrokeData(drawData){
 		drawData: drawData
 	}
 	
-    console.log(data);
+    //console.log(data);
 	window.socket.emit('newStroke', data);
 	strokeCount++;
 }
