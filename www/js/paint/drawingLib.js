@@ -54,7 +54,6 @@ DrawingLib.prototype.drawLine = function(x1, y1, x2, y2, color, width, opacity) 
 };
 
 DrawingLib.prototype.drawCircle = function(x, y, radius, color, width, opacity) {
-	alert("circle doesnt work");
 	if(util.exists(color)) {this.color = color;}
 	if(util.exists(width)) {this.width = width;}
 	if(util.exists(opacity)) {this.opacity = opacity;}
@@ -70,4 +69,8 @@ DrawingLib.prototype.drawCircle = function(x, y, radius, color, width, opacity) 
 	this.ctx.stroke();
 };
 
+DrawingLib.prototype.erase = function(x1, y1, x2, y2, width) {
+	//this.ctx.globalCompositeOperation = "copy";
+	this.drawLine(x1, y1, x2, y2, "white", width, 1);
+};
 

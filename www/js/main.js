@@ -3,7 +3,7 @@
 //main.js
 window.onload = function() {
 	window.util.patchFnBind();
-	window.socket = io.connect('http://128.237.151.24:3000/');
+	window.socket = io.connect('http://128.237.245.45:3000/');
 	
 	var mainCanvasDLib = new DrawingLib(document.getElementById("mainCanvas"));
 	var deltaCanvasDLib = new DrawingLib(document.getElementById("imageDelta"));
@@ -13,6 +13,7 @@ window.onload = function() {
     var paint = new Paint("imageDelta", "imageTmp");
 	paint.toolbox.setWidth(5);
 	paint.toolbox.setOpacity(1);
+
 	paint.toolbox.setMode("pencil");
     
     var selectedBrush = "pencil";
@@ -57,11 +58,12 @@ window.onload = function() {
     
     
 	
+
 	function isValidEntry(entry) {
 		return util.exists(entry.drawData) && typeof(entry.drawData.tool) == 'string' 
 				&& ((typeof(entry.drawData.x1) == 'number' && typeof(entry.drawData.y1) == 'number' 
 				&& typeof(entry.drawData.x2) == 'number' && typeof(entry.drawData.y2) == 'number')
-				|| (entry.drawData.tool === 'circle' && typeof(entry.drawData.x) == 'number' 
+				|| (entry.drawData.tool === 'circle' && typeof(entry.drawData.x) == 'number'
 				&& typeof(entry.drawData.y) == 'number' && typeof(entry.drawData.radius) == 'number'));
 	}
 	
@@ -78,10 +80,14 @@ window.onload = function() {
 					entry.drawData.width, entry.drawData.opacity)
 			}
 			else if(entry.drawData.tool === 'circle') {
-				mainCanvasDLib.drawLine(entry.drawData.x, entry.drawData.y, 
+				mainCanvasDLib.drawCircle(entry.drawData.x, entry.drawData.y, 
 					entry.drawData.radius, entry.drawData.color, 
 					entry.drawData.width, entry.drawData.opacity);
 			}
+            else if(entry.drawData.tool === "eraser") {
+                mainCanvasDLib.erase(entry.drawData.x1, entry.drawData.y1,
+                    entry.drawData.x2, entry.drawData.y2, entry.drawData.width);
+            }
 		}
 	}
 
