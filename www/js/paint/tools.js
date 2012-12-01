@@ -127,7 +127,7 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
 				// now transmit the information to the server
 				sendStrokeData(this.drawData);
             }
-			alert('touch end')
+			//alert('touch end')
             tool.isMouseDown = false;
 
             $("#message").html("touchend");

@@ -5,7 +5,7 @@ var io = require('socket.io').listen(3000);
 var fs = require('fs');
 
 var Canvas = require('./controllers/canvasController.js');
-var canvas = new Canvas('mongodb://128.237.165.154:27017/koala/vansiTestCanvas'); //change this
+var canvas = new Canvas('mongodb://128.237.118.184:27017/koala/vansiTestCanvas'); //change this
 canvas.clearData();
 //set up write stream
 /*var db = fs.createWriteStream('foo.txt');
