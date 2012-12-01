@@ -50,6 +50,8 @@ window.onload = function() {
             }
 		}
 	}
+    
+    
 
 	//socket events
 	window.socket.on('loadCanvasEntry', loadCanvasEntry);
@@ -60,6 +62,8 @@ window.onload = function() {
 			loadCanvasEntry(data[d]);
 		}
 	});
+    
+    
 	
 };
 
