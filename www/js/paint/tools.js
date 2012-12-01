@@ -57,6 +57,7 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
             $("#message").html("startDraw");
 
             tool.isMouseDown = true;
+
             this.drawData.x1 = e._x; // store initial x,y coordinate
             this.drawData.y1 = e._y;
         };
@@ -68,6 +69,9 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
             var y = Math.min(e._y, this.drawData.y1);
             var w = Math.abs(e._x - this.drawData.x1);
             var h = Math.abs(e._y - this.drawData.y1);
+
+            this.drawData.x2 = e._x;
+            this.drawData.y2 = e._y;
 
             context.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -83,13 +87,9 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
             }
             tool.isMouseDown = false;
 
-            this.drawData.x2 = e._x;
-            this.drawData.y2 = e._y;
-
             // now transmit the information to the server
             sendStrokeData(this.drawData);
         };
-
 
         this.touchstart = function(/*Event Obj*/ e) {
             if (tool.isMouseDown) return;
@@ -109,6 +109,9 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
             var w = Math.abs(e.touches[0].clientX - this.drawData.x1);
             var h = Math.abs(e.touches[0].clientY - this.drawData.y1);
 
+			this.drawData.x2 = e.touches[0].clientX;
+			this.drawData.y2 = e.touches[0].clientY;
+
             context.clearRect(0, 0, canvas.width, canvas.height);
 
             if (!w || !h) return;
@@ -120,14 +123,11 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
             if (tool.isMouseDown) {
                 //tool.mousemove(e);
                 tool.save_history();
-				
-				this.drawData.x2 = e.touches[0].clientX;
-				this.drawData.y2 = e.touches[0].clientY;
-
-				// now transmit the information to the server
-				sendStrokeData(this.drawData);
             }
-			alert('touch end')
+
+			// now transmit the information to the server
+			sendStrokeData(this.drawData);
+
             tool.isMouseDown = false;
 
             $("#message").html("touchend");
