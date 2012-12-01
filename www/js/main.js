@@ -3,7 +3,7 @@
 //main.js
 window.onload = function() {
 	window.util.patchFnBind();
-	window.socket = io.connect('http://128.237.165.154:3000/');
+	window.socket = io.connect('http://128.237.151.154:3000/');
 	
 	var mainCanvasDLib = new DrawingLib(document.getElementById("mainCanvas"));
 	var deltaCanvasDLib = new DrawingLib(document.getElementById("imageDelta"));
