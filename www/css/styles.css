@@ -1,7 +1,7 @@
 body {
 	overflow: hidden;
 	width: 100%;
-    background: grey;
+    background: white;
 }
 
 .ignoreCanvas {
@@ -25,7 +25,7 @@ body {
 	-webkit-box-shadow: 0px 0px 10px #333333;
     background: url("../img/trans.png"); */
     background: white;
-	width: 770px;
+	width: 1024px;
 	border: 1px solid #999999;
 
 }
@@ -42,13 +42,15 @@ body {
 
 #toolbar {
     position: fixed;
-    display:none;
-    top: 32px;
-    right:0px;
-    width:28px;
-    background: #4A60D7;
+    top: 10px;
+    right:-155px;
+    width:150px;
+    background: #7080D7; /*#4A60D7;*/
     padding: 2px;
     padding-bottom: 4px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    overflow:hidden;
 }
 
 #buttons {
@@ -61,13 +63,13 @@ body {
 #brushes {
     position: relative;
     display: block;
-    margin-left: 2px;
-    margin-top: 2px;
+    margin-left: 12px;
+    margin-top: 5px;
 }
 
 #showHide {
     position:fixed; 
-    top: 0px;
+    bottom: 0px;
     right: 0px;
     width: 28px;
     padding: 2px;
@@ -77,30 +79,105 @@ body {
 }
 
 #pencil {
-    background: url("../img/brush.png") -3px -4px;
+    background: url("../img/brush.png") -15px -10px;
 }
 #line {
-    background: url("../img/brush.png") -28px -3px;
+    background: url("../img/brush.png") -63px -8px;
 }
 #rectangle {
-    background: url("../img/brush.png") -4px -24px;
+    background: url("../img/brush.png") -14px -53px;
 }
 #circle {
-    background: url("../img/brush.png") -28px -24px;
+    background: url("../img/brush.png") -61px -53px;
 }
 #eraser {
-    background: url("../img/brush.png") -51px -6px;
+    background: url("../img/brush.png") -112px -10px;
 }
 
 #show {
-    background: url("../img/brush.png") -51px -24px;
+    background: url("../img/brush.png") -114px -56px;
     display: none;
 }
 #hide {
-    background: url("../img/brush.png") -71px -24px;
+    background: url("../img/brush.png") -158px -57px;
     display: none;
     
 }
+
+#colors {
+    position: relative;
+    display: block;
+    margin-left: 15px;
+    margin-top: 10px;
+
+}
+
+#sliders {
+    position: relative;
+    top: 150px;
+    right: 0px;
+    display: block;
+    margin-top: 10px;
+    width:150px;
+    background: #7080D7;
+}
+
+#sliders p {
+    margin-top: 10px;
+    font-size: 12px;
+    color: black;
+    font-family: 'Arial', san-serif;
+    font-weight:bold;
+}
+
+#topSlider {
+    position: absolute;
+    top: 16px;
+    right: -3px;
+    width:150px;
+    background: #7080D7;
+    padding-left: 5px;
+}
+
+#bottomSlider {
+    position: absolute;
+    top: 57px;
+    right: -3px;
+    width:150px;
+    background: #7080D7;
+    padding-left:5px;
+    padding-bottom: 5px;
+}
+
+#view {
+    position: relative;
+    display: block;
+    margin-top: 270px;
+    margin-bottom: 10px;
+    margin-left: 50px;
+    height: 50px;
+    width: 50px;
+    -moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+    background: #f6f6f6;
+    border: 1px solid #dcdcdc;
+    -moz-box-shadow:inset 0px 0px 0px 1px #ffffff;
+	-webkit-box-shadow:inset 0px 0px 0px 1px #ffffff;
+	box-shadow:inset 0px 0px 0px 1px #ffffff;
+}
+
+#littleCanvas {
+    position:absolute;
+    top: 3px;
+    left: 3px;
+    -moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+}
+
+
+
 
 .brush {
     border: 1px solid #dcdcdc;
@@ -110,9 +187,9 @@ body {
     -moz-box-shadow:inset 0px 0px 0px 1px #f6f6f6;
 	-webkit-box-shadow:inset 0px 0px 0px 1px #f6f6f6;
 	box-shadow:inset 0px 0px 0px 1px #f6f6f6;
-    width: 20px;
-    margin: 2px;
-    height: 20px;
+    width: 30px;
+    margin: 5px;
+    height: 30px;
     float: left;  
 }
 
@@ -121,6 +198,27 @@ body {
     box-shadow: 0px 0px 1px #333333;
     -moz-box-shadow: 0px 0px 1px #333333;
     -webkit-box-shadow: 0px 0px 1px #333333;
+}
+
+.color {
+    width: 22px;
+    background: red;
+    margin: 3px;
+    height: 22px;
+    float: left;  
+    -moz-border-radius:15px;
+	-webkit-border-radius:15px;
+	border-radius:15px;
+    border: 1px solid #666666;
+    
+    
+}
+
+.color:hover, .current {
+    border: 1px solid black;
+    box-shadow: 0px 0px 2px #333333;
+    -moz-box-shadow: 0px 0px 2px #333333;
+    -webkit-box-shadow: 0px 0px 2px #333333;
 }
 
 .selected {
@@ -151,3 +249,4 @@ body {
     -moz-box-shadow: 0px 0px 1px #333333;
     -webkit-box-shadow: 0px 0px 1px #333333;
 }
+

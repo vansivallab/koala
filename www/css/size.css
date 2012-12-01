@@ -1,0 +1,70 @@
+/* Use for notes */
+
+/*
+********************************************************************************
+BASIC
+*********************************************************************************/
+
+/* Smartphone size DESKTOP window (using VIEWPORT width) ----------- */
+@media only screen and (min-width : 0px) and (max-width : 480px) {
+	#main {
+		background-color: green;
+	}
+}
+
+/*
+********************************************************************************
+TABLET STYLES
+*********************************************************************************/
+/* All iPads (including 2 and 3) report the same device width and device height */
+
+
+/* iPads (portrait and landscape) (using DEVICE WIDTH) ----------- */
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
+	#main {
+		background-color: yellow;
+		/* won't take effect, because the two rules below overwrite it */
+	}
+}
+
+/* iPads size (portrait) (using DEVICE height) ----------- */
+@media screen and (device-width : 768px) and (orientation : portrait) {
+	#main {
+		background-color:  silver;
+	}
+}
+
+/* iPads size (landscape) (using DEVICE width) ----------- */
+@media screen and (max-device-width : 1024px) and (orientation : landscape) {
+	#main {
+		background-color: black;
+	}
+}
+
+/*
+********************************************************************************
+SMARTPHONE STYLES
+*********************************************************************************/
+
+
+/* Smartphones (using DEVICE width) ----------- */
+@media screen and (min-device-width : 320px) and (max-device-width : 800px) {
+	#main {
+		background-color: blue;
+		/* should get overridden by the styles below */
+	}
+}
+
+/* Smartphones (landscape) (using DEVICE width) ----------- */
+@media screen and (min-device-width : 321px) and (max-device-width : 800px) {
+	#main {
+		background-color: purple;
+	}
+}
+
+/* Smartphones (portrait) (using DEVICE width) ----------- */
+@media screen and (max-device-width : 320px) {
+	#main {
+		background-color: aqua;
+	}
+}
