@@ -2,7 +2,7 @@ var paint = new Paint("imageDelta", "imageTmp");
 paint.toolbox.setWidth(5);
 paint.toolbox.setOpacity(.8);
 paint.toolbox.setColor("rgb(163,73,164)");
-paint.toolbox.setMode("pencil");
+paint.toolbox.setMode("rectangle");
 
 
 var $show = $("#show");
