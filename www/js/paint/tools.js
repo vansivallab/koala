@@ -15,15 +15,15 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
 	
     this.setColor = function (color) {
         this.color = color;
-        //context.strokeStyle = color;
+        context.strokeStyle = color;
     };
     this.setWidth = function (width) {
         this.width = width;
-        //context.lineWidth = width;
+        context.lineWidth = width;
     };
     this.setOpacity = function (opacity) {
         this.opacity = opacity;
-        //context.globalAlpha = opacity;
+        context.globalAlpha = opacity;
     };
 
     this.save_history = function() {
@@ -55,11 +55,14 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
             if (tool.isMouseDown) return;
 
             $("#message").html("startDraw");
-
+            
             tool.isMouseDown = true;
 
             this.drawData.x1 = e._x; // store initial x,y coordinate
             this.drawData.y1 = e._y;
+            this.drawData.color = this.color;
+            this.drawData.width = this.width;
+            this.drawData.opacity = this.opacity;
         };
 
         this.mousemove = function(/*Event Obj*/ e) {
@@ -99,6 +102,9 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
             // store initial x,y coordinates
             this.drawData.x1 = e.touches[0].clientX;
             this.drawData.y1 = e.touches[0].clientY;
+            this.drawData.color = this.color;
+            this.drawData.width = this.width;
+            this.drawData.opacity = this.opacity;
         };
 
         this.touchmove = function(/*Event Obj*/ e) {
@@ -147,6 +153,9 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
             tool.isMouseDown = true;
             this.drawData.x1 = e._x; // store initial x,y coordinate
             this.drawData.y1 = e._y;
+            this.drawData.color = this.color;
+            this.drawData.width = this.width;
+            this.drawData.opacity = this.opacity;            
         };
 
         this.mousemove = function(/*Event Obj*/ e) {
@@ -178,6 +187,9 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
             // store initial x, y coordinates
             this.drawData.x1 = e.touches[0].clientX;
             this.drawData.y1 = e.touches[0].clientY;
+            this.drawData.color = this.color;
+            this.drawData.width = this.width;
+            this.drawData.opacity = this.opacity;            
         };
 
         this.touchmove = function(/*Event Obj*/ e) {
@@ -214,6 +226,10 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
             if (tool.isMouseDown) { return; }
 			this.drawData.x1 = e._x;
 			this.drawData.y1 = e._y;
+            this.drawData.color = this.color;
+            this.drawData.width = this.width;
+            this.drawData.opacity = this.opacity;
+            
 			$("#message").html("touchstart");
 			
             context.beginPath();
@@ -255,6 +271,9 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
             tool.isMouseDown = true;
 			this.drawData.x1 = e.touches[0].clientX;
 			this.drawData.y1 = e.touches[0].clientY;
+            this.drawData.color = this.color;
+            this.drawData.width = this.width;
+            this.drawData.opacity = this.opacity;
         };
 
         this.touchmove = function(e) {
@@ -294,6 +313,9 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
             tool.isMouseDown = true;
 			this.drawData.x = e._x;
 			this.drawData.y = e._y;
+            this.drawData.color = this.color;
+            this.drawData.width = this.width;
+            this.drawData.opacity = this.opacity;
         };
 
         this.mousemove = function(e) {
@@ -326,6 +348,9 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
             tool.isMouseDown = true;
 			this.drawData.x = e.touches[0].clientX;
 			this.drawData.y = e.touches[0].clientY;
+            this.drawData.color = this.color;
+            this.drawData.width = this.width;
+            this.drawData.opacity = this.opacity;
         };
 
         this.touchmove = function(e) {
@@ -359,18 +384,22 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
         // JSON obj that we will send to the server
 		this.drawData ={tool: "eraser", event: 0, x1: 0, y1: 0, 
 			x2: 0, y2: 0, width: context.lineWidth};
-        this.prevColor = context.strokeStyle;
+        this.eraserColor = 'white';
 		
 		this.mousedown = function(/*Event Obj*/ e) {
             if (tool.isMouseDown) { return; }
 			this.drawData.x1 = e._x;
 			this.drawData.y1 = e._y;
+            this.drawData.color = this.color;
+            this.drawData.width = this.width;
+            this.drawData.opacity = this.opacity;
+
 			$("#message").html("touchstart");
 
             // These are default values for an eraser tool
             context.globalCompositeOperation = "copy";
-            context.strokeStyle = "white";
-			this.prevColor = context.strokeStyle;
+            context.strokeStyle = this.eraserColor;
+			
 
             // Now begins the normal line operation
             context.beginPath();
@@ -402,7 +431,7 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
 				//context.closePath()
                 //tool.save_history();
             }
-			context.strokeStyle = this.prevColor;
+			
             tool.isMouseDown = false;
         };
 		
@@ -414,8 +443,8 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
 
             // These are default values for an eraser tool
             context.globalCompositeOperation = "copy";
-            context.strokeStyle = "white";
-			this.prevColor = context.strokeStyle;
+            context.strokeStyle = this.eraserColor;
+
 
             // Now begins the normal line operation
             context.beginPath();
@@ -447,7 +476,7 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
 				//context.closePath()
                 //tool.save_history();
             }
-			context.strokeStyle = this.prevColor;
+
             tool.isMouseDown = false;
         };
 
