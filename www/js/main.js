@@ -10,6 +10,7 @@ window.onload = function() {
 	window.mainCanvasDLib = mainCanvasDLib;
 	window.deltaCanvasDLib = deltaCanvasDLib;
 
+
 	function isValidEntry(entry) {
 		return util.exists(entry.drawData) && typeof(entry.drawData.tool) == 'string' 
 				&& ((typeof(entry.drawData.x1) == 'number' && typeof(entry.drawData.y1) == 'number' 

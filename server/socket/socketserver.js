@@ -7,6 +7,7 @@ var Util = require('./util.js');
 var KoalaDBController = require('.//controllers/koalaDBController.js');
 var koalaDB = new KoalaDBController('mongodb://localhost:27017/koala'); //change this
 //koalaDB.clearData();
+
 //set up write stream
 /*var db = fs.createWriteStream('foo.txt');
 db.write('[');
