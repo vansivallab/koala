@@ -1,0 +1,122 @@
+/*load screen css*/
+#canvasSelection {
+    padding-top: 30px;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+}
+
+#loadLogo {
+    margin: 100px auto 50px auto;
+    font-family: 'Finger Paint', cursive;
+    font-size: 50px;
+    color: red;
+    display:block;
+}
+
+
+
+.loadButton {
+	-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+	box-shadow:inset 0px 1px 0px 0px #ffffff;
+    
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ffffff), color-stop(1, #f6f6f6) );
+	background:-moz-linear-gradient( center top, #ffffff 5%, #f6f6f6 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f6f6f6');
+	background-color:#ffffff;
+    
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #dcdcdc;
+    
+	display:inline-block;
+	color:#666666;
+	font-family: 'Arial', san-serif;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+	text-shadow:1px 1px 0px #ffffff;
+}.loadButton:hover {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #f6f6f6), color-stop(1, #ffffff) );
+	background:-moz-linear-gradient( center top, #f6f6f6 5%, #ffffff 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f6f6', endColorstr='#ffffff');
+	background-color:#f6f6f6;
+}.loadButton:active {
+	position:relative;
+	top:1px;
+}
+
+
+.loadStyle {
+    width: 300px;
+    max-height: 200px;
+    margin: 0px auto;
+    padding: 10px;
+    text-align: center;
+    background: #f6f6f6;
+    border: 1px solid #dcdcdc;
+    -moz-box-shadow:inset 0px 0px 0px 1px #ffffff;
+    -webkit-box-shadow:inset 0px 0px 0px 1px #ffffff;
+    box-shadow:inset 0px 0px 0px 1px #ffffff;
+    overflow: auto;
+}
+
+.selectionElement {
+    margin: 1px 5px;
+    padding:0px 5px;
+    text-align:center;
+    
+}
+.selectionElements .divide {
+    width: 95%;
+}
+
+.title {
+    display: block;
+    font-size: 18px;
+    color: #00b9ff;
+    font-weight: bold;
+    margin: 30px 0px 10px 0px;
+}
+
+.text {
+    font-size: 15px;
+    color:#666666;
+    text-shadow:1px 1px 0px #ffffff;
+    display: inline;
+    margin-right: 15px;
+}
+
+.selectionElement:hover {
+    font-weight:bold;
+    cursor: default;
+}
+.selectionElement:active {
+    text-shadow:1px 1px 0px #f6f6f6; 
+}
+
+#selectionElements .loadButton {
+    padding: 0px 2px;
+    margin-left: 15px;
+    display:inline;
+    font-weight:normal;
+    -moz-border-radius:20px;
+	-webkit-border-radius:20px;
+	border-radius:20px;
+}
+
+
+#selectionElements input[type=text],
+#selectionElements input[type=text]:hover {
+    width: 200px;
+    height: 17px;
+    border: 1px solid #dcdcdc;
+    -moz-border-radius:3px;
+    -webkit-border-radius:3px;
+    border-radius:3px;
+}
+
+

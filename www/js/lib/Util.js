@@ -88,3 +88,17 @@ window.util.makeAspectRatioCanvas = function(parent, aspectRatio){
     canvas.html("Your browser doesn't support canvas :(");
     return canvas;
 };
+
+window.util.validateEmail = function(email) {
+    var regex = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+    if(regex.test(email)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+window.util.validateInput = function(input) {
+
+}
+
