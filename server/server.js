@@ -3,7 +3,7 @@
 var express = require("express");
 //var fs = require("fs");
 var app = express();
-var wwwDir = "/../../www";
+var wwwDir = "/../www";
 //console.log('files: '+JSON.stringify(fs.readdirSync(__dirname+wwwDir+"/")));
 
 app.use("/", express.static(__dirname + wwwDir+'/'));

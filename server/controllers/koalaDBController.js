@@ -7,8 +7,8 @@ function KoalaDB(connection) {
 	this.connections = [];
 }
 
-KoalaDB.prototype.addUser = function(username, password/*, superuser*/) {
-	UserController.newUser(username, password/*, superuser*/);
+KoalaDB.prototype.addUser = function(username, password/*, superuser*/, callback) {
+	UserController.newUser(username, password/*, superuser*/, callback);
 	//need to validate data
 };
 
@@ -35,20 +35,22 @@ KoalaDB.prototype.getCanvases = function(searchJSON, userId, callback) {
 	});
 };
 
+//or register
 KoalaDB.prototype.login = function(username, password, callback) {
 	//console.log("KBController line 39 loggin in");
 	//console.log("asdf: ");//+UserController !== undefined);
-	UserController.authUser(username, password, function(userObj) {
-		var data = {valid: userObj !== -1, connKey: Util.generateConnKey(256/8)};
+	UserController.authUser(username, password, function(validity, userObj) {
+		var retData = {validConn: validity !== -1};
 		
 		//if user doesnt exist, make one
-		if(userObj === undefined) {
-			return this.addUser(username, password, function() {
-				return callback(data); //assume user creation sucessful
+		if(validity === 0) {
+			return this.addUser(username, password, function(newUserObj) {
+				return callback(newUserObj, retData); //assume user creation sucessful
 			});
 		}
 		else {
-			return callback(data);
+			userObj.lastLoginTimestamp = new Date();
+			return callback(userObj, retData);
 		}
 	}.bind(this));
 };

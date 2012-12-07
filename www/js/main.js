@@ -5,6 +5,12 @@ window.onload = function() {
 	window.util.patchFnBind();
 	window.socket = io.connect('http://localhost:3000/');
 	
+	window.connData = {
+		username: "",
+		connKey: "",
+		canvasId: ""
+	}
+	
 	var mainCanvasDLib = new DrawingLib(document.getElementById("mainCanvas"));
 	var deltaCanvasDLib = new DrawingLib(document.getElementById("imageDelta"));
 	window.mainCanvasDLib = mainCanvasDLib;
@@ -41,25 +47,35 @@ window.onload = function() {
                     entry.drawData.x2, entry.drawData.y2, entry.drawData.width);
             }
 		}
-	}
-    
-    
+	}    
 
 	//socket events
 	window.socket.on('loadCanvasEntry', loadCanvasEntry);
 
 	window.socket.on('loadCanvas', function(data) {
-		mainCanvasDLib.clearCanvas();
-		for(var d = 0; d < data.length; d++) {
-			loadCanvasEntry(data[d]);
+		console.log('loadCanvas');
+		console.log(data);
+		
+		if(util.exists(data.canvasId) && util.exists(data.strokes)) {
+			window.connData.canvasId = data.canvasId;
+			mainCanvasDLib.clearCanvas();
+			for(var d = 0; d < data.strokes.length; d++) {
+				loadCanvasEntry(data.strokes[d]);
+			}
+		}
+		else {
+			//tell user canvas is invalid
 		}
 	});
-    
-	window.socket.emit('login', {username: 'foopanda', password: 'asdf'});
-    window.socket.on('loginCallback', function(data) {
-		console.log(data);
-	});
 	
+	function userLogin(username, password) {
+		window.connData.username = username;
+		window.socket.emit('login', {username: username, password: password});
+	}
+   window.socket.on('loginCallback', function(data) {
+		console.log(data);
+		window.connData.connKey = data.connKey;
+	});
 };
 
 var strokeCount = 0;
@@ -71,14 +87,32 @@ var strokeCount = 0;
 // color, width, opacity
 function sendStrokeData(drawData){
 	var data = {
-		username: "foopanda",
-		userStrokeId: "foopanda"+'_'+strokeCount,
-		drawData: drawData,
-		connKey: "asdf"
-	}
+		userStrokeId: window.connData.username+'_'+strokeCount,
+		drawData: drawData
+	};
+	
+	$.extend(true, data, window.connData);
 	
     //console.log(data);
-	window.socket.emit('newStroke', data);
+	window.socket.emit('addStroke', data);
 	strokeCount++;
+}
+
+function createCanvas() {
+	window.socket.emit('createCanvas', window.connData);
+}
+
+function selectCanvas(canvasId) {
+	var data = {}
+	$.extend(true, data, window.connData);
+	data.canvasId = canvasId;
+	window.socket.emit('selectCanvas', data);
+	console.log('send selectCanvas', data);
+}
+
+function sendCanvasSelection(canvasId) {
+	var data = {userCanvasId: canvasId}
+	$.extend(true, data, window.connData);
+	window.socket.emit('selectCanvas', data);
 }
 
