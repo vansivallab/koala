@@ -4,6 +4,7 @@
 window.onload = function() {
 	window.util.patchFnBind();
 	window.socket = io.connect('http://localhost:3000/');
+
 	
 	var mainCanvasDLib = new DrawingLib(document.getElementById("mainCanvas"));
 	var deltaCanvasDLib = new DrawingLib(document.getElementById("imageDelta"));

@@ -6,6 +6,7 @@ var fs = require('fs');
 
 var Canvas = require('./controllers/canvasController.js');
 var canvas = new Canvas('mongodb://localhost:27017/koala/vansiTestCanvas'); //change this
+
 canvas.clearData();
 //set up write stream
 /*var db = fs.createWriteStream('foo.txt');
