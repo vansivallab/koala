@@ -54,7 +54,10 @@ window.onload = function() {
 		}
 	});
     
-    
+	window.socket.emit('login', {username: 'foopanda', password: 'asdf'});
+    window.socket.on('loginCallback', function(data) {
+		console.log(data);
+	});
 	
 };
 

@@ -26,7 +26,7 @@ io.sockets.on('connection', function(socket){
 	socket.on('login', function(data) {
 		return koalaDB.login(data.username, data.password, function(data) {
 			socket.connKey = data.connKey;
-			return socket.emit('loginConnect', data);
+			return socket.emit('loginCallback', data);
 		})
 	});
 	

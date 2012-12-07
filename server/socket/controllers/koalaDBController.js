@@ -36,8 +36,8 @@ KoalaDB.prototype.getCanvases = function(searchJSON, userId, callback) {
 };
 
 KoalaDB.prototype.login = function(username, password, callback) {
-	console.log("KBController line 39 loggin in");
-	console.log("asdf: ");//+UserController !== undefined);
+	//console.log("KBController line 39 loggin in");
+	//console.log("asdf: ");//+UserController !== undefined);
 	UserController.authUser(username, password, function(userObj) {
 		var data = {valid: userObj !== -1, connKey: Util.generateConnKey(256/8)};
 		

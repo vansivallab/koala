@@ -11,9 +11,10 @@ var Util = {
 
 	setSocketCanvas: function(socket, canvasId, callback) {
 		if(this.exists(socket.userObj)) {
-			return socket.userObj.getCanvas(canvasId, function(canvas) {
-				socket.canvasObj = canvas;
-				if(Util.exists(callback)) {return callback(canvas);}
+			return socket.userObj.getCanvas(canvasId, function(canvasObj) {
+				socket.canvasObj = canvasObj;
+				socket.join(canvasObj.userCanvasId);
+				if(Util.exists(callback)) {return callback(canvasObj);}
 			});
 		}
 	},
