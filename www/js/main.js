@@ -3,7 +3,7 @@
 //main.js
 window.onload = function() {
 	window.util.patchFnBind();
-	window.socket = io.connect('http://128.237.118.184:3000/');
+	window.socket = io.connect('http://localhost:3000/');
 	
 	var mainCanvasDLib = new DrawingLib(document.getElementById("mainCanvas"));
 	var deltaCanvasDLib = new DrawingLib(document.getElementById("imageDelta"));
@@ -67,10 +67,10 @@ var strokeCount = 0;
 // color, width, opacity
 function sendStrokeData(drawData){
 	var data = {
-		userId: "foopanda",
-		strokeId: strokeCount,
-		canvasId: "ad109s",
-		drawData: drawData
+		username: "foopanda",
+		userStrokeId: "foopanda"+'_'+strokeCount,
+		drawData: drawData,
+		connKey: "asdf"
 	}
 	
     //console.log(data);

@@ -1,36 +1,24 @@
 var mongoose = require('mongoose');
-var Stroke = require('../models/canvasModel.js');
+var Stroke = require('../models/strokeModel.js');
+var Canvas = require('../models/canvasModel.js');
 
-function Canvas(connection) {
-	mongoose.connect(connection);
-}
-
-Canvas.prototype.addStroke = function(data) {
-	var newStroke = new Stroke();
-	//need to validate data
-	newStroke.userId = data.userId;
-	newStroke.strokeId = data.strokeId;
-	newStroke.drawData = data.drawData;
-	newStroke.dateStamp = new Date();
-	newStroke.save(function(err) {
+function newCanvas(userObjId) {
+	var id = generateCanvasId(6); //11 mill possible canvases
+	var result = new Canvas({_creatorId: userObjId, userIds: [userObjId], userCanvasId: id});
+	result.save(function(err) {
 		if(err) {throw err;}
 	});
-	
-	/*Stroke.find({}, function (err, items) {
-		if(err) {throw err;}
-		console.log("all strokes: "+JSON.stringify(items));
-	});*/
+	return result;
 }
 
-Canvas.prototype.getStroke = function(searchJSON, callback) {
-	Stroke.find(searchJSON, function(err, results) {
-		if(err) {throw err;}
-		callback(results);
-	});
-};
+function generateCanvasId(idLen) {
+	var chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+	var id = '';
+	for(var i = 0; i < idLen; i++) {
+		id += chars[Math.round(Math.random()*(chars.length-1))];
+	}
+	//need to check if id already exists, but it is an async call :(
+	return id;
+}
 
-Canvas.prototype.clearData = function() {
-	Stroke.find({}).remove();
-};
-
-module.exports = Canvas;
+module.exports = newCanvas;
