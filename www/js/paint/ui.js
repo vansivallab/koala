@@ -55,6 +55,7 @@ function drawPreview() {
     ctx.arc(preview.width/2,preview.height/2,previewWidth/2,0,2*Math.PI);
     ctx.fill();
 };    
+drawPreview();
 
 /* Set color. */
 $(".color").on("click touchstart", function(){
@@ -68,6 +69,11 @@ $(".color").on("click touchstart", function(){
 });
 
 
+//login page
+
+
+
+//select canvas
 
 
     

@@ -89,7 +89,7 @@ window.util.makeAspectRatioCanvas = function(parent, aspectRatio){
     return canvas;
 };
 
-window.util.validateEmail = function(email) {
+window.util.isValidEmail = function(email) {
     var regex = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
     if(regex.test(email)) {
         return true;
@@ -98,7 +98,12 @@ window.util.validateEmail = function(email) {
     }
 }
 
-window.util.validateInput = function(input) {
+window.util.isValidInput = function(input) {
+    if(input.match(/^[a-zA-Z0-9]+$/)) {
+        return input;
+    } else {
+        return "";
+    }
 
 }
 
