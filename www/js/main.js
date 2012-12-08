@@ -5,189 +5,85 @@ var connectionKey = "";
 //main.js
 window.onload = function() {
 	window.util.patchFnBind();
-	window.socket = io.connect('http://128.237.229.235:3000/');
-
+	window.socket = newSocket('http://localhost:3000/');	
+	
 	var mainCanvasDLib = new DrawingLib(document.getElementById("mainCanvas"));
 	var deltaCanvasDLib = new DrawingLib(document.getElementById("imageDelta"));
 	window.mainCanvasDLib = mainCanvasDLib;
 	window.deltaCanvasDLib = deltaCanvasDLib;
+	
+	
+	//login 
+	var loginForm = document.getElementById('loginForm');
 
-	function isValidEntry(entry) {
-		return util.exists(entry.drawData) && typeof(entry.drawData.tool) == 'string' 
-				&& ((typeof(entry.drawData.x1) == 'number' && typeof(entry.drawData.y1) == 'number' 
-				&& typeof(entry.drawData.x2) == 'number' && typeof(entry.drawData.y2) == 'number')
-				|| (entry.drawData.tool === 'circle' && typeof(entry.drawData.x) == 'number'
-				&& typeof(entry.drawData.y) == 'number' && typeof(entry.drawData.radius) == 'number'));
+	// Attaching the submit event to the form.
+	// Different browsers do it differently so we include both ways below (grr IE)
+	if (loginForm.attachEvent) {
+		loginForm.attachEvent("submit", submitForm);
+	} else {
+		loginForm.addEventListener("submit", submitForm);
+	}
+
+	function submitForm() {
+		var email = $('#email').val();
+		var password = $('#password').val();
+		var msg = "";
+		
+		if(($.trim(email).length == 0) || (window.util.isValidEmail(email) == false)) {
+			msg = msg + "Invalid Email Address <br />";   
+		}
+		if(($.trim(password).length == 0) || (window.util.isValidInput(password) == false)) {
+			msg = msg + "Invalid Password <br />";
+		}
+		
+		if(msg == "") {
+			window.socket.e.login(email, password);
+			$('#error').html("");
+		}
+		else {
+			$('#error').html(msg);
+			
+		}
 	}
 	
-	function loadCanvasEntry(entry) {
-		if(isValidEntry(entry)) {
-			if(entry.drawData.tool === 'rectangle') {
-				mainCanvasDLib.drawRect(entry.drawData.x1, entry.drawData.y1, 
-					entry.drawData.x2, entry.drawData.y2, entry.drawData.color,
-					entry.drawData.width, entry.drawData.opacity);
-			}
-			else if(entry.drawData.tool === 'line' || entry.drawData.tool === 'pencil') {
-				mainCanvasDLib.drawLine(entry.drawData.x1, entry.drawData.y1, 
-					entry.drawData.x2, entry.drawData.y2, entry.drawData.color,
-					entry.drawData.width, entry.drawData.opacity)
-			}
-			else if(entry.drawData.tool === 'circle') {
-				mainCanvasDLib.drawCircle(entry.drawData.x, entry.drawData.y, 
-					entry.drawData.radius, entry.drawData.color, 
-					entry.drawData.width, entry.drawData.opacity);
-			}
-            else if(entry.drawData.tool === "eraser") {
-                mainCanvasDLib.erase(entry.drawData.x1, entry.drawData.y1,
-                    entry.drawData.x2, entry.drawData.y2, entry.drawData.width);
-            }
-		}
-	}
+	//populate canvas ids on canvas selection screen
+	function loadCanvasElementMarkup(filePath) {
+		return "<div class='selectionElement' id='"
+			+ filePath +"'> " 
+			+ "<div class='text'>"+ filePath
+			+ "</div>"
+		+ "</div>";
+	};
 
-    
-	//socket events
-	window.socket.on('loadCanvasEntry', loadCanvasEntry);
-
-	window.socket.on('loadCanvas', function(data) {
-		mainCanvasDLib.clearCanvas();
-		for(var d = 0; d < data.length; d++) {
-			loadCanvasEntry(data[d]);
-		}
+	// select canvas
+	$('#canvasSelection').children('#selectionElements').on('click', '.selectionElement',  function() {
+		window.socket.e.selectCanvas($(this).attr('id'));
 	});
 
-    //get user data and redirect to pick canvas page 
-    window.socket.on('loginCallback', function(data) {
-        if(data[0] == true) { //check if user info was valid
-            connectionKey = data[1];
-            
-            //get list of canvas ids
-            var canvasSelectionJSelect = $('#canvasSelection').children('#selectionElements');       
-            for(var i = 2; i < data.length; i++) {
-                canvasSelectionJSelect.append(loadCanvasElementMarkup(data[i]));            
-                canvasSelectionJSelect.append("<div class='divide'></div>");
-            }
-            
-            //redirect
-            navigateTo('#select');
+	// add new canvas
+	$('#addButton').on('click', function() {
+		var name = $('#newFile').val();
+		var msg = "";
+		if(($.trim(name).length == 0) || (window.util.isValidInput(name) == false)) {
+			msg = msg + "Invalid Canvas Name <br />";   
+		}
+		
+		$('#errorCanvas').html(msg);
+		if(msg == "") {
 
-        } else {
-            $('#error').html("Invalid Username/Password");
-        }
-    });
+			var data = {
+				connectionKey: connectionKey,
+				canvasId: name
+			}
+			
+			window.socket.e.createCanvas();
+			
+		}
+
+		
+	});
 };
-
-var strokeCount = 0;
-// drawData = {tool, event, x1, y1, x2, y2} or {tool, event, x, y, radius}
-// tool is "rectangle"
-// event is -1 is up, 0 is move, 1 is down
-// x1, y1 is starting point
-// x2, y2 is ending point
-// color, width, opacity
-function sendStrokeData(drawData){
-	var data = {
-		userId: "foopanda",
-		strokeId: strokeCount,
-		canvasId: "ad109s",
-		drawData: drawData
-	}
-
-    //console.log(data);
-	window.socket.emit('newStroke', data);
-	strokeCount++;
-}
-
-
 
 
 //client code
-
-
-
-//login
-var loginForm = document.getElementById('loginForm');
-
-// Attaching the submit event to the form.
-// Different browsers do it differently so we include both ways below (grr IE)
-if (loginForm.attachEvent) {
-	loginForm.attachEvent("submit", submitForm);
-} else {
-	loginForm.addEventListener("submit", submitForm);
-}
-
-function submitForm() {
-    var email = $('#email').val();
-    var password = $('#password').val();
-    var msg = "";
-
-    if(($.trim(email).length == 0) || (window.util.isValidEmail(email) == false)) {
-        msg = msg + "Invalid Email Address <br />";   
-    }
-    if(($.trim(password).length == 0) || (window.util.isValidInput(password) == false)) {
-        msg = msg + "Invalid Password <br />";
-    }
-
-    if(msg == "") {
-        sendLoginData(email, password);
-        $('#error').html("");
-    }
-    else {
-        $('#error').html(msg);
-    }
-
-
-}
-
-//send username and password
-function sendLoginData(email, password){
-	var data = {
-		userId: email,
-        password: password
-	}
-
-	window.socket.emit('newUser', data);
-}
-
-//populate canvas ids on canvas selection screen
-function loadCanvasElementMarkup(filePath) {
-	return "<div class='selectionElement' id='"
-        + filePath +"'> " 
-        + "<div class='text'>"+ filePath
-        + "</div>"
-	+ "</div>";
-};
-
-
-
-
-// select canvas
-$('#canvasSelection').children('#selectionElements').on('click', '.selectionElement',  function() {
-	var data = {
-		connectionKey: connectionKey,
-        canvasId: $(this).attr('id')
-	}
-    
-	window.socket.emit('selectCanvas', data); 
-});
-
-// add new canvas
-$('#addButton').on('click', function() {
-    var name = $('#newFile').val();
-    var msg = "";
-    if(($.trim(name).length == 0) || (window.util.isValidInput(name) == false)) {
-        msg = msg + "Invalid Canvas Name <br />";   
-    }
-    
-    $('#errorCanvas').html(msg);
-    if(msg == "") {
-
-        var data = {
-            connectionKey: connectionKey,
-            canvasId: name
-        }
-        
-        window.socket.emit('newCanvas', data);
-    }
-
-    
-});
 

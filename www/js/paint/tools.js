@@ -94,7 +94,7 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
             tool.isMouseDown = false;
 
             // now transmit the information to the server
-            sendStrokeData(this.drawData);
+            window.socket.e.sendStrokeData(this.drawData);
         };
 
         this.touchstart = function(/*Event Obj*/ e) {
@@ -134,7 +134,7 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
                 tool.save_history();
             }
 			// now transmit the information to the server
-			sendStrokeData(this.drawData);
+			window.socket.e.sendStrokeData(this.drawData);
             tool.isMouseDown = false;
 
             $("#message").html("touchend");
@@ -176,7 +176,7 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
             if (tool.isMouseDown) {
                 //tool.mousemove(e);
                 tool.save_history();
-				sendStrokeData(this.drawData);
+				window.socket.e.sendStrokeData(this.drawData);
             }
             tool.isMouseDown = false;
         };
@@ -209,7 +209,7 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
         this.touchend = function(/*Event Obj*/ e) {
             if (tool.isMouseDown) {
                 tool.save_history();
-				sendStrokeData(this.drawData);
+				window.socket.e.sendStrokeData(this.drawData);
             }
             tool.isMouseDown = false;
         };
@@ -252,7 +252,10 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
                 context.lineCap = "round";
                 context.stroke();
 
-				sendStrokeData(this.drawData);
+				//sendStrokeData(this.drawData);
+				
+				window.socket.e.sendStrokeData(this.drawData);
+
 				tool.save_history();
 				this.drawData.x1 = this.drawData.x2;
 				this.drawData.y1 = this.drawData.y2;
@@ -294,7 +297,10 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
 
                 context.stroke();
 
-				sendStrokeData(this.drawData);
+				//sendStrokeData(this.drawData);
+				
+				window.socket.e.sendStrokeData(this.drawData);
+
 				tool.save_history();
 				this.drawData.x1 = this.drawData.x2;
 				this.drawData.y1 = this.drawData.y2;
@@ -307,7 +313,6 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
             }
             tool.isMouseDown = false;
         };
-
 
     };
 	
@@ -346,7 +351,7 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
                 tool.save_history();
 
                 // now send the information to the server
-				sendStrokeData(this.drawData)
+				window.socket.e.sendStrokeData(this.drawData)
             }
             tool.isMouseDown = false;
         };
@@ -381,7 +386,7 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
                 tool.save_history();
 
                 // now send the information to the server
-				sendStrokeData(this.drawData)
+				window.socket.e.sendStrokeData(this.drawData)
             }
             tool.isMouseDown = false;
         };
@@ -427,7 +432,7 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
 				context.closePath();
                 context.stroke();
 				
-				sendStrokeData(this.drawData);
+				window.socket.e.sendStrokeData(this.drawData);
 				tool.save_history();
 				this.drawData.x1 = this.drawData.x2;
 				this.drawData.y1 = this.drawData.y2;
@@ -472,7 +477,7 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
 				context.closePath();
                 context.stroke();
 				
-				sendStrokeData(this.drawData);
+				window.socket.e.sendStrokeData(this.drawData);
 				tool.save_history();
 				this.drawData.x1 = this.drawData.x2;
 				this.drawData.y1 = this.drawData.y2;
