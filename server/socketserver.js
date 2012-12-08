@@ -37,6 +37,7 @@ io.sockets.on('connection', function(socket){
 			socket.session.userObj.createCanvas(function(canvasObj) {
 				socket.session.canvasObj = canvasObj;
 				socket.join(canvasObj.userCanvasId);
+				console.log('ss line40: '+JSON.stringify(canvasObj));
 				socket.emit('loadCanvas', {canvasId: canvasObj.userCanvasId, strokes: []});
 			});
 		}
@@ -65,8 +66,12 @@ io.sockets.on('connection', function(socket){
 			socket.session.canvasObj.addStroke(data);
 			
 			// Broadcast a "receive" event with the data received from "send"
-			//io.sockets.emit('loadStroke', data);.to(socket.session.canvasObj.userCanvasId)
-			socket.broadcast.emit('loadCanvasEntry', data);
+			//io.sockets.emit('loadStroke', data);
+			//.to(socket.session.canvasObj.userCanvasId)
+			
+			console.log("broadcasting to: "+socket.session.canvasObj.userCanvasId);
+			//socket.broadcast.join(socket.session.canvasObj.userCanvasId);
+			socket.broadcast.to(socket.session.canvasObj.userCanvasId).emit('loadCanvasEntry', data);
 		}
 	});
 	
