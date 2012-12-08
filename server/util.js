@@ -21,10 +21,11 @@ var Util = {
 				if(Util.exists(canvasObj)) {
 					socket.session.canvasObj = canvasObj;
 					socket.join(canvasObj.userCanvasId);
+					console.log('--exists--\n');
 					if(Util.exists(callback)) {return callback(canvasObj);}
 				}
 				else {
-					console.log("--asdf--\n");
+					console.log("--doesn't exist--\n\n");
 				}
 			});
 		}

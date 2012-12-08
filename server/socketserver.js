@@ -51,7 +51,7 @@ io.sockets.on('connection', function(socket){
 		//pick load session.canvasObj
 		if(Util.isValidConn(socket, data) && Util.isValidCanvasId(data.canvasId)) {
 			Util.setSocketCanvas(socket, data.canvasId, function(canvasObj) {
-				//socket.session.canvasObj.addConnection(socket.session.userObj.username);
+				socket.session.canvasObj.addConnection(socket.session.userObj.username);
 				canvasObj.getStrokes(function(strokes) {
 					console.log("loadCanvas Strokes: "+JSON.stringify(strokes));
 					socket.emit('loadCanvas', {canvasId: data.canvasId, strokes: strokes});
@@ -78,7 +78,21 @@ io.sockets.on('connection', function(socket){
 		}
 	});
 	
-	/*socket.on('disconnect', function() {
-		socket.session.canvasObj.removeConnection(socket.session.userObj.username);
-	});*/
+	socket.on('inviteUser', function(data) {
+		if(Util.isValidConn(socket, data) && Util.exists(socket.session.canvasObj)) {
+			koalaDB.getUser({username: data.inviteUsername}, function(inviteUserObj) {
+				if(Util.exists(inviteUserObj)) {
+					inviteUserObj.addCanvas(socket.session.canvasObj.userCanvasId);
+				}
+			});
+		}
+	});
+	
+	socket.on('disconnect', function(data) {
+		console.log('---disconnecting---');
+		console.log('socket ses: '+JSON.stringify(socket.session));
+		if(Util.isValidConn(socket, data) && Util.exists(socket.session.canvasObj)) {
+			socket.session.canvasObj.removeConnection(socket.session.userObj.username);
+		}
+	});
 });

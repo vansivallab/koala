@@ -13,10 +13,7 @@ KoalaDB.prototype.addUser = function(username, password/*, superuser*/, callback
 };
 
 KoalaDB.prototype.getUser = function(searchJSON, callback) {
-	User.find(searchJSON, function(err, results) {
-		if(err) {throw err;}
-		if(Util.exists(callback)) {return callback(result);}
-	});
+	UserController.findOne(searchJSON, callback);
 };
 
 KoalaDB.prototype.clearData = function(callback) {

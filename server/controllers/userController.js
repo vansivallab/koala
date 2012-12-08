@@ -16,7 +16,7 @@ var UserController = {
 					userCanvasIds: []
 				});
 				
-				user.lastLoginTimestamp = result.registeredTimestamp = new Date();
+				user.lastLoginTimestamp = user.registeredTimestamp = new Date();
 				user.save(function(err) {
 					if(err) {throw err;}
 					return callback(user);
@@ -50,6 +50,13 @@ var UserController = {
 			if(Util.exists(callback)) {
 				return callback(validity, result);
 			}
+		});
+	},
+	
+	findOne: function(searchJSON, callback) {
+		User.findOne(searchJSON, function(err, userObj) {
+			if(err) {throw err;}
+			if(Util.exists(callback)) {return callback(userObj);}
 		});
 	}
 }

@@ -129,6 +129,15 @@ function newSocket(connAddr) {
 		console.log('send selectCanvas', data);
 	};
 	
+	retSocket.e.inviteUser = function(inviteUsername) {
+		var data = {};
+		$.extend(true, data, this.connData);
+		data.userToInvite = inviteUsername;
+		
+		this.socket.emit('inviteUser', data);
+		console.log('invitingUser to', data);
+	};
+	
 	return retSocket;
 }
 
