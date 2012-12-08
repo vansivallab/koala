@@ -1,5 +1,3 @@
-<!-- vim: set et ts=4 sts=4 sw=4: -->
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,71 +5,134 @@
     <title>Koala</title>
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/loadscreen.css">
 </head>
 <body>
-    <div id="canvasContainer">
-    <!--
-    changing some variables around:
-    * imageDelta => mainCanvas
-    * imageTmp   => imageDelta
-    -->
-    <!--
-        <canvas id="mainCanvas" width="1024" height="768"></canvas>
-        -->
-        <canvas id="mainCanvas" width="1024" height="768"></canvas>
-        <canvas id="imageDelta" width="1024" height="768"></canvas>
-        <div id="showHide">
-            <div id="buttons">
-                <div id="show" class="button"></div>
-                <div id="hide" class="button"></div>
-            </div>
-        </div>
-        <div id="toolbar">
-            <div id="brushes">
-                <div id="pencil" class="selected brush"></div>
-                <div id="line" class="brush"></div>
-                <div id="rectangle" class="brush"></div>
-                <div id="circle" class="brush"></div>
-                <div id="eraser" class="brush"></div>
-                <div id="hand" class="brush"></div>
-            </div>
-            <div id="colors">
-
-                <div class=" color" id="1" style="background:rgb(127,127,127)" value="rgb(127,127,127)"></div>
-                <div class=" color" id="2" style="background:rgb(63,72,204)" value="rgb(63,72,204)"> </div>
-                <div class=" color" id="3" style="background:rgb(0,162,232)" value="rgb(0,162,232)"></div>
-                <div class=" color" id="4" style="background:rgb(255,127,39)" value="rgb(255,127,39)"></div>
-
-                <div class=" color" id="7" style="background:rgb(255,174,201)" value="rgb(255,174,201)"></div>
-                <div class="current color" id="8" style="background:rgb(163,73,164)" value="rgb(163,73,164)"></div>
-                <div class=" color" id="9" style="background:rgb(34,177,76)" value="rgb(34,177,76)"></div>
-                <div class=" color" id="10" style="background:rgb(255,242,0)" value="rgb(255,242,0)"></div>
-
-                <div class=" color" id="6" style="background:rgb(255,255,255)" value="rgb(255,255,255)"></div>
-                <div class=" color" id="5" style="background:rgb(237,28,36)" value="rgb(237,28,36)"></div>
-                <div class=" color" id="11" style="background:rgb(136,0,21)" value="rgb(136,0,21)"></div>
-                <div class=" color" id="12" style="background:rgb(0,0,0)" value="rgb(0,0,0)"></div>
-
-            </div>
-            
-            
-            <div id="sliders">
-                <div id="topSlider">
-                    <p> Width: </p>
-                    <input type="range" value="5" min="1" max="40" step="1" id="width" />
-                </div>
-                <div id="bottomSlider">
-                    <p> Opacity: </p>
-                    <input type="range" value="0.8" min="0" max="1" step="0.1" id="opacity" />
-                </div>                
-            </div>
-            <div id="view"><canvas id="littleCanvas" width="44" height="44">
-                Your browser doesn't support HTML5 canvas!
-            </div>
-        </div>
+    <!-- Log In or Sign Up -->
+    <div class="page" id="loginView">
+        <a href="#select">Select Canvas</a>
+        <a href="#canvas">Start Drawing</a>
+        <br /><p />
+        
+        <form id="loginForm" action="javascript:submitForm()">
+          <label for="email">email:</label>
+          <input type="text" id="email" ><br>
+          <label for="password">password:</label>
+          <input type="password" id="password"><br />
+          <input type="submit" name="login" value="Enter"><br />
+        </form>
+        <br /> <p />
+        <div id="error"></div>
+        
     </div>
-    <div>
-        <h1 id="message"></h1>
+    <!-- Pick Canvas -->
+    <div class="page" id="selectView" >
+        <a href="#login">Sign Out</a>
+        <a href="#canvas">Start Drawing</a>
+        <br /><p />
+        
+        
+        <div id='canvasSelection'>
+                <div id='canvasSelectionTitle' class="title">Select Canvas</div>
+                <div id='selectionElements' class="loadStyle">
+                    
+                    <!--saved canvases dynamically added here-->
+                   
+                    <!--add new canvas button-->
+                    <input type="text" placeholder = "Canvas Name" id= "newFile" />
+                    <input type="button" class="loadButton" value=">" id="addButton" />
+                </div>
+
+       </div>
+       <br /><p />
+       <div id="errorCanvas"></div>
+       
+       
+    </div>
+    
+    
+    
+    <!-- Draw -->  
+    <div class="page" id="canvasView" >
+        
+        <div class="page" id="canvasContainer">
+		<!--
+		changing some variables around:
+		* imageDelta => mainCanvas
+		* imageTmp   => imageDelta
+		-->
+		<!--
+			<canvas id="mainCanvas" width="1024" height="768"></canvas>
+			-->
+			<canvas id="mainCanvas" width="1024" height="768"></canvas>
+			<canvas id="imageDelta" width="1024" height="768"></canvas>
+
+			<!--
+				<canvas id="mergeCanvas" class="ignoreCanvas" height="770" width="550"></canvas>
+			-->
+            <div id="showHide">
+                <div id="buttons">
+                    <div id="show" class="button"></div>
+                    <div id="hide" class="button"></div>
+                </div>
+            </div>
+            
+            <div id="toolbar">
+                <div id="mainTools">
+                    <div id="brushes">
+                        <div id="pencil" class="selected brush"></div>
+                        <div id="line" class="brush"></div>
+                        <div id="rectangle" class="brush"></div>
+                        <div id="circle" class="brush"></div>
+                        <div id="eraser" class="brush"></div>
+                        <div id="hand" class="brush"></div>
+                    </div>
+                </div>
+                
+                <div id="subTools">
+                    <div id="sliders">
+                        <div class="slider" id="widthSlider"></div>
+                        <div class="drag" id="width"></div>
+
+                        <div class="slider" id="opacitySlider"></div>
+                        <div class="drag" id="opacity"></div>
+                        
+                    </div>
+                    <div id="colors">
+
+                        <div class=" color" id="1" style="background:rgb(127,127,127)" value="rgb(127,127,127)"></div>
+                        <div class=" color" id="2" style="background:rgb(63,72,204)" value="rgb(63,72,204)"> </div>
+                        
+                        <div class=" color" id="3" style="background:rgb(0,162,232)" value="rgb(0,162,232)"></div>
+                        <div class=" color" id="4" style="background:rgb(255,127,39)" value="rgb(255,127,39)"></div>
+
+                        <div class=" color" id="7" style="background:rgb(255,174,201)" value="rgb(255,174,201)"></div>
+                        <div class="current color" id="8" style="background:rgb(163,73,164)" value="rgb(163,73,164)"></div>
+                        
+                        <div class=" color" id="9" style="background:rgb(34,177,76)" value="rgb(34,177,76)"></div>
+                        <div class=" color" id="10" style="background:rgb(255,242,0)" value="rgb(255,242,0)"></div>
+
+                        <div class=" color" id="6" style="background:rgb(255,255,255)" value="rgb(255,255,255)"></div>
+                        <div class=" color" id="5" style="background:rgb(237,28,36)" value="rgb(237,28,36)"></div>
+                        
+                        <div class=" color" id="11" style="background:rgb(136,0,21)" value="rgb(136,0,21)"></div>
+                        <div class=" color" id="12" style="background:rgb(0,0,0)" value="rgb(0,0,0)"></div>
+
+                    </div>
+                    
+                    <div id="view"><canvas id="littleCanvas" width="44" height="44">
+                        Your browser doesn't support HTML5 canvas!
+                    </div>
+                    
+                </div>
+                
+            </div>
+        </div>
+        <div>
+            <h1 id="message"></h1>
+        </div>
+        <a href="#select">Select Canvas</a>
+        <a href="#login">Sign Out</a>
     </div>
 </body>
 
@@ -79,16 +140,21 @@
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
 <script src="js/lib/Util.js"></script>	
-<script type="text/javascript" src="js/lib/slider.js"></script>
+
 
 <!-- Weinre-->
 <!--<script src="http://128.237.140.203:9994/target/target-script-min.js"></script>-->
 
 <!-- the project paint app -->
+<script src="js/pages.js"></script>
 <script src="js/paint/img_loader.js"></script>
 <script src="js/paint/tools.js"></script>
 <script src="js/paint/paint.js"></script>
 <script src="js/paint/drawingLib.js"></script>
+<script src="js/paint/slider.js"></script>
 <script src="js/paint/ui.js"></script>
 <script src="js/main.js"></script>
+
+
+
 </html>

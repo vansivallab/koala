@@ -4,6 +4,10 @@ body {
     background: white;
 }
 
+.page {
+    display: none;
+}
+
 .ignoreCanvas {
 	display: none;
 }
@@ -40,28 +44,23 @@ body {
 	position: relative;
     top: 0px;
     left: 0px;
-	/*margin: 10px;
-	box-shadow: 0px 0px 10px #333333;
-	-moz-box-shadow: 0px 0px 10px #333333;
-	-webkit-box-shadow: 0px 0px 10px #333333;
-    background: url("../img/trans.png"); */
     background: white;
 	width: 1024px;
 	border: 1px solid #999999;
+    display: block;
 
 }
 
+/*toolbar-----------------*/
 #toolbar {
     position: fixed;
     top: 10px;
-    right:-155px;
-    width:150px;
-    background: #7080D7; /*#4A60D7;*/
+    right:-165px;
+    width:160px;
+    height:228px;
     padding: 2px;
-    padding-bottom: 4px;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
     overflow:hidden;
+    
 }
 
 #buttons {
@@ -71,22 +70,38 @@ body {
     margin-top: 2px;
 }
 
+
+#mainTools {
+    position: absolute;
+    top: 2px;
+    right:0px;
+    width:35px;
+    height:224px;
+    background: #7080D7;
+    padding: 2px;
+    padding-top:5px;
+    padding-bottom: 1px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    overflow:hidden;
+}
+
 #brushes {
     position: relative;
     display: block;
-    margin-left: 12px;
-    margin-top: 5px;
+    width: 34px;
+    margin: 1px;
+    float: right;
 }
 
 #showHide {
     position:fixed; 
-    bottom: 0px;
-    right: 0px;
+    top: 0px;
+    left: 0px;
     width: 28px;
     padding: 2px;
     padding-top:1px;
-    /*background: #7080d7;*/
-    background:white;
+
 }
 
 #pencil {
@@ -105,6 +120,11 @@ body {
     background: url("../img/brush.png") -112px -10px;
 }
 
+#hand {
+    background: url("../img/brush.png") -153px -10px;
+}
+
+
 #show {
     background: url("../img/brush.png") -114px -56px;
     display: none;
@@ -113,69 +133,6 @@ body {
     background: url("../img/brush.png") -158px -57px;
     display: none;
     
-}
-
-#colors {
-    position: relative;
-    display: block;
-    margin-left: 15px;
-    margin-top: 10px;
-
-}
-
-#sliders {
-    position: relative;
-    top: 150px;
-    right: 0px;
-    display: block;
-    margin-top: 10px;
-    width:150px;
-    background: #7080D7;
-}
-
-#sliders p {
-    margin-top: 10px;
-    font-size: 12px;
-    color: black;
-    font-family: 'Arial', san-serif;
-    font-weight:bold;
-}
-
-#topSlider {
-    position: absolute;
-    top: 16px;
-    right: -3px;
-    width:150px;
-    background: #7080D7;
-    padding-left: 5px;
-}
-
-#bottomSlider {
-    position: absolute;
-    top: 57px;
-    right: -3px;
-    width:150px;
-    background: #7080D7;
-    padding-left:5px;
-    padding-bottom: 5px;
-}
-
-#view {
-    position: relative;
-    display: block;
-    margin-top: 270px;
-    margin-bottom: 10px;
-    margin-left: 50px;
-    height: 50px;
-    width: 50px;
-    -moz-border-radius:5px;
-	-webkit-border-radius:5px;
-	border-radius:5px;
-    background: #f6f6f6;
-    border: 1px solid #dcdcdc;
-    -moz-box-shadow:inset 0px 0px 0px 1px #ffffff;
-	-webkit-box-shadow:inset 0px 0px 0px 1px #ffffff;
-	box-shadow:inset 0px 0px 0px 1px #ffffff;
 }
 
 #littleCanvas {
@@ -199,7 +156,7 @@ body {
 	-webkit-box-shadow:inset 0px 0px 0px 1px #f6f6f6;
 	box-shadow:inset 0px 0px 0px 1px #f6f6f6;
     width: 30px;
-    margin: 5px;
+    margin: 2px;
     height: 30px;
     float: left;  
 }
@@ -214,29 +171,30 @@ body {
 .color {
     width: 22px;
     background: red;
-    margin: 3px;
+    margin: 1px;
     height: 22px;
     float: left;  
     -moz-border-radius:15px;
 	-webkit-border-radius:15px;
 	border-radius:15px;
-    border: 1px solid #666666;
+    border: 1px solid #000000;
+    box-shadow: inset 0px 0px 2px #333333;
+    -moz-box-shadow: inset 0px 0px 2px #333333;
+    -webkit-box-shadow: 0inset px 0px 2px #333333;
     
     
 }
 
 .color:hover, .current {
-    border: 1px solid black;
-    box-shadow: 0px 0px 2px #333333;
-    -moz-box-shadow: 0px 0px 2px #333333;
-    -webkit-box-shadow: 0px 0px 2px #333333;
+    border: 1px solid blue;
 }
 
+
 .selected {
-    border: 1px solid black;
+    border: 1px solid #333;
     box-shadow: 0px 0px 2px #333333;
     -moz-box-shadow: 0px 0px 2px #333333;
-    -webkit-box-shadow: 0px 0px 2px #333333;
+    -webkit-box-shadow: 0px 0px 2px #333333; 
 }
 
 .button {
@@ -261,3 +219,95 @@ body {
     -webkit-box-shadow: 0px 0px 1px #333333;
 }
 
+
+.drag {
+    position: absolute;
+    width: 22px;
+    background: white;
+    height: 22px;  
+    -moz-border-radius:15px;
+	-webkit-border-radius:15px;
+	border-radius:15px;
+    border: 1px solid #666666;
+    box-shadow: inset 0px 0px 2px #333333;
+    -moz-box-shadow: inset 0px 0px 2px #333333;
+    -webkit-box-shadow: inset 0px 0px 2px #333333;
+}
+
+.slider {
+    width: 4px;
+    height: 224px;
+    background: grey;
+    position: absolute;
+    
+}
+
+#subTools {
+    float: left;
+    position: absolute;
+    display: block;
+    border: 1px solid #333;
+    height: 228px;
+    width: 120px;
+    margin-top: 0px;
+    margin-left:2px;
+    margin-right: 0px;
+    border-radius: 5px;
+    background: white;
+    
+}
+
+#sliders {
+    width:96px;
+    height: 224px;
+    margin: 2px;
+    position:absolute;
+    right: 0px;
+    top: 0px;
+}
+
+
+#opacitySlider {
+    top: 0px;
+    right:14px;
+}
+
+#opacity {
+    top: 160px; /*.8 opacity */
+    right: 4px;
+}
+
+#widthSlider {
+    top: 0px;
+    right: 42px;
+}
+
+#width {
+    top: 21px; /* 5px width */
+    right: 32px;
+}
+
+#colors {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 54px;
+    
+
+}
+
+#view {
+    position: absolute;
+    bottom: 4px;
+    left: 4px;
+    height: 50px;
+    width: 50px;
+    -moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+    background: #f6f6f6;
+    border: 1px solid #dcdcdc;
+    -moz-box-shadow:inset 0px 0px 0px 1px #ffffff;
+	-webkit-box-shadow:inset 0px 0px 0px 1px #ffffff;
+	box-shadow:inset 0px 0px 0px 1px #ffffff;
+}

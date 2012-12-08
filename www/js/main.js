@@ -1,5 +1,7 @@
 // vim: set et ts=4 sts=4 sw=4:
 
+var connectionKey = "";
+
 //main.js
 window.onload = function() {
 	window.util.patchFnBind();
@@ -41,9 +43,8 @@ window.onload = function() {
             }
 		}
 	}
-    
-    
 
+    
 	//socket events
 	window.socket.on('loadCanvasEntry', loadCanvasEntry);
 
@@ -54,8 +55,25 @@ window.onload = function() {
 		}
 	});
 
+    //get user data and redirect to pick canvas page 
+    window.socket.on('loginCallback', function(data) {
+        if(data[0] == true) { //check if user info was valid
+            connectionKey = data[1];
+            
+            //get list of canvas ids
+            var canvasSelectionJSelect = $('#canvasSelection').children('#selectionElements');       
+            for(var i = 2; i < data.length; i++) {
+                canvasSelectionJSelect.append(loadCanvasElementMarkup(data[i]));            
+                canvasSelectionJSelect.append("<div class='divide'></div>");
+            }
+            
+            //redirect
+            navigateTo('#select');
 
-
+        } else {
+            $('#error').html("Invalid Username/Password");
+        }
+    });
 };
 
 var strokeCount = 0;
@@ -77,4 +95,99 @@ function sendStrokeData(drawData){
 	window.socket.emit('newStroke', data);
 	strokeCount++;
 }
+
+
+
+
+//client code
+
+
+
+//login
+var loginForm = document.getElementById('loginForm');
+
+// Attaching the submit event to the form.
+// Different browsers do it differently so we include both ways below (grr IE)
+if (loginForm.attachEvent) {
+	loginForm.attachEvent("submit", submitForm);
+} else {
+	loginForm.addEventListener("submit", submitForm);
+}
+
+function submitForm() {
+    var email = $('#email').val();
+    var password = $('#password').val();
+    var msg = "";
+
+    if(($.trim(email).length == 0) || (window.util.isValidEmail(email) == false)) {
+        msg = msg + "Invalid Email Address <br />";   
+    }
+    if(($.trim(password).length == 0) || (window.util.isValidInput(password) == false)) {
+        msg = msg + "Invalid Password <br />";
+    }
+
+    if(msg == "") {
+        sendLoginData(email, password);
+        $('#error').html("");
+    }
+    else {
+        $('#error').html(msg);
+    }
+
+
+}
+
+//send username and password
+function sendLoginData(email, password){
+	var data = {
+		userId: email,
+        password: password
+	}
+
+	window.socket.emit('newUser', data);
+}
+
+//populate canvas ids on canvas selection screen
+function loadCanvasElementMarkup(filePath) {
+	return "<div class='selectionElement' id='"
+        + filePath +"'> " 
+        + "<div class='text'>"+ filePath
+        + "</div>"
+	+ "</div>";
+};
+
+
+
+
+// select canvas
+$('#canvasSelection').children('#selectionElements').on('click', '.selectionElement',  function() {
+	var data = {
+		connectionKey: connectionKey,
+        canvasId: $(this).attr('id')
+	}
+    
+	window.socket.emit('selectCanvas', data); 
+});
+
+// add new canvas
+$('#addButton').on('click', function() {
+    var name = $('#newFile').val();
+    var msg = "";
+    if(($.trim(name).length == 0) || (window.util.isValidInput(name) == false)) {
+        msg = msg + "Invalid Canvas Name <br />";   
+    }
+    
+    $('#errorCanvas').html(msg);
+    if(msg == "") {
+
+        var data = {
+            connectionKey: connectionKey,
+            canvasId: name
+        }
+        
+        window.socket.emit('newCanvas', data);
+    }
+
+    
+});
 
