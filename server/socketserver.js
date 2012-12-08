@@ -18,12 +18,15 @@ io.sockets.on('connection', function(socket){
 	//login
 	socket.on('login', function(data) {
 		return koalaDB.login(data.username, data.password, function(userObj, retData) {
-			socket.session.userObj = userObj;
-			console.log("logging into");
-			console.log(JSON.stringify(userObj));
-			retData.connKey = socket.session.connKey = Util.generateConnKey(256/8);
+			if(retData.validConn) {
+				socket.session.userObj = userObj;
+				console.log("logging into");
+				console.log(JSON.stringify(userObj));
+				retData.connKey = socket.session.connKey = Util.generateConnKey(256/8);
+				
+				console.log("----------\n");
+			}
 			
-			console.log("----------\n");
 			return socket.emit('loginCallback', retData);
 		})
 	});
