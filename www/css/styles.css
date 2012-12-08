@@ -264,7 +264,7 @@ body {
 }
 
 #opacity {
-    top: 0px;
+    top: 160px; /*.8 opacity */
     right: 4px;
 }
 
@@ -274,7 +274,7 @@ body {
 }
 
 #width {
-    top: 0px;
+    top: 21px; /* 5px width */
     right: 32px;
 }
 

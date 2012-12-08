@@ -1,118 +1,87 @@
-// vim: set et ts=4 sts=4 sw=4:
+var connectionKey = "";
 
 //main.js
 window.onload = function() {
 	window.util.patchFnBind();
-	window.socket = io.connect('http://localhost:3000/');
-	
-	window.connData = {
-		username: "",
-		connKey: "",
-		canvasId: ""
-	}
+	window.socket = newSocket('http://localhost:3000/');	
 	
 	var mainCanvasDLib = new DrawingLib(document.getElementById("mainCanvas"));
 	var deltaCanvasDLib = new DrawingLib(document.getElementById("imageDelta"));
 	window.mainCanvasDLib = mainCanvasDLib;
 	window.deltaCanvasDLib = deltaCanvasDLib;
-
-
-	function isValidEntry(entry) {
-		return util.exists(entry.drawData) && typeof(entry.drawData.tool) == 'string' 
-				&& ((typeof(entry.drawData.x1) == 'number' && typeof(entry.drawData.y1) == 'number' 
-				&& typeof(entry.drawData.x2) == 'number' && typeof(entry.drawData.y2) == 'number')
-				|| (entry.drawData.tool === 'circle' && typeof(entry.drawData.x) == 'number'
-				&& typeof(entry.drawData.y) == 'number' && typeof(entry.drawData.radius) == 'number'));
-	}
 	
-	function loadCanvasEntry(entry) {
-		if(isValidEntry(entry)) {
-			if(entry.drawData.tool === 'rectangle') {
-				mainCanvasDLib.drawRect(entry.drawData.x1, entry.drawData.y1, 
-					entry.drawData.x2, entry.drawData.y2, entry.drawData.color,
-					entry.drawData.width, entry.drawData.opacity);
-			}
-			else if(entry.drawData.tool === 'line' || entry.drawData.tool === 'pencil') {
-				mainCanvasDLib.drawLine(entry.drawData.x1, entry.drawData.y1, 
-					entry.drawData.x2, entry.drawData.y2, entry.drawData.color,
-					entry.drawData.width, entry.drawData.opacity)
-			}
-			else if(entry.drawData.tool === 'circle') {
-				mainCanvasDLib.drawCircle(entry.drawData.x, entry.drawData.y, 
-					entry.drawData.radius, entry.drawData.color, 
-					entry.drawData.width, entry.drawData.opacity);
-			}
-            else if(entry.drawData.tool === "eraser") {
-                mainCanvasDLib.erase(entry.drawData.x1, entry.drawData.y1,
-                    entry.drawData.x2, entry.drawData.y2, entry.drawData.width);
-            }
-		}
-	}    
+	
+	//login 
+	var loginForm = document.getElementById('loginForm');
 
-	//socket events
-	window.socket.on('loadCanvasEntry', loadCanvasEntry);
+	// Attaching the submit event to the form.
+	// Different browsers do it differently so we include both ways below (grr IE)
+	if (loginForm.attachEvent) {
+		loginForm.attachEvent("submit", submitForm);
+	} else {
+		loginForm.addEventListener("submit", submitForm);
+	}
 
-	window.socket.on('loadCanvas', function(data) {
-		console.log('loadCanvas');
-		console.log(data);
+	function submitForm() {
+		var email = $('#email').val();
+		var password = $('#password').val();
+		var msg = "";
 		
-		if(util.exists(data.canvasId) && util.exists(data.strokes)) {
-			window.connData.canvasId = data.canvasId;
-			mainCanvasDLib.clearCanvas();
-			for(var d = 0; d < data.strokes.length; d++) {
-				loadCanvasEntry(data.strokes[d]);
-			}
+		if(($.trim(email).length == 0) || (window.util.isValidEmail(email) == false)) {
+			msg = msg + "Invalid Email Address <br />";   
+		}
+		if(($.trim(password).length == 0) || (window.util.isValidInput(password) == false)) {
+			msg = msg + "Invalid Password <br />";
+		}
+		
+		if(msg == "") {
+			window.socket.e.login(email, password);
+			$('#error').html("");
 		}
 		else {
-			//tell user canvas is invalid
+			$('#error').html(msg);
+			
 		}
-	});
-	
-	function userLogin(username, password) {
-		window.connData.username = username;
-		window.socket.emit('login', {username: username, password: password});
 	}
-   window.socket.on('loginCallback', function(data) {
-		console.log(data);
-		window.connData.connKey = data.connKey;
+	
+	//populate canvas ids on canvas selection screen
+	function loadCanvasElementMarkup(filePath) {
+		return "<div class='selectionElement' id='"
+			+ filePath +"'> " 
+			+ "<div class='text'>"+ filePath
+			+ "</div>"
+		+ "</div>";
+	};
+
+	// select canvas
+	$('#canvasSelection').children('#selectionElements').on('click', '.selectionElement',  function() {
+		window.socket.e.selectCanvas($(this).attr('id'));
+	});
+
+	// add new canvas
+	$('#addButton').on('click', function() {
+		var name = $('#newFile').val();
+		var msg = "";
+		if(($.trim(name).length == 0) || (window.util.isValidInput(name) == false)) {
+			msg = msg + "Invalid Canvas Name <br />";   
+		}
+		
+		$('#errorCanvas').html(msg);
+		if(msg == "") {
+
+			var data = {
+				connectionKey: connectionKey,
+				canvasId: name
+			}
+			
+			window.socket.e.createCanvas();
+			
+		}
+
+		
 	});
 };
 
-var strokeCount = 0;
-// drawData = {tool, event, x1, y1, x2, y2} or {tool, event, x, y, radius}
-// tool is "rectangle"
-// event is -1 is up, 0 is move, 1 is down
-// x1, y1 is starting point
-// x2, y2 is ending point
-// color, width, opacity
-function sendStrokeData(drawData){
-	var data = {
-		userStrokeId: window.connData.username+'_'+strokeCount,
-		drawData: drawData
-	};
-	
-	$.extend(true, data, window.connData);
-	
-    //console.log(data);
-	window.socket.emit('addStroke', data);
-	strokeCount++;
-}
 
-function createCanvas() {
-	window.socket.emit('createCanvas', window.connData);
-}
-
-function selectCanvas(canvasId) {
-	var data = {}
-	$.extend(true, data, window.connData);
-	data.canvasId = canvasId;
-	window.socket.emit('selectCanvas', data);
-	console.log('send selectCanvas', data);
-}
-
-function sendCanvasSelection(canvasId) {
-	var data = {userCanvasId: canvasId}
-	$.extend(true, data, window.connData);
-	window.socket.emit('selectCanvas', data);
-}
+//client code
 

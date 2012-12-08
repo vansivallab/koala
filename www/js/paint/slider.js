@@ -1,8 +1,8 @@
 //slider.js
-var startX = 0;            
-var startY = 0;
-var offsetX = 0;           
-var offsetY = 0;
+var startX;            
+var startY;
+var offsetX;           
+var offsetY;
 var dragElement;           
 var oldZIndex = 0;
 var min = 0;
@@ -108,6 +108,8 @@ function OnMove(e)
 
     //dragElement.style.left = (offsetX + e.clientX - startX) + 'px'; //we only want to move up and down
     
+    var target = e.target != null ? e.target : e.srcElement;        
+    
     var positionY = (offsetY + e.clientY - startY);
     if((positionY >= min) && (positionY <= max)) {
         dragElement.style.top =  positionY + 'px';    
@@ -127,7 +129,6 @@ function OnMove(e)
             var opacity = 100 * ( (1 + positionY) /max ); 
             dragElement.value = (Math.floor(opacity)/100);
             previewOpacity = dragElement.value;
-            console.log(previewOpacity);
             drawPreview();
             paint.toolbox.setOpacity(previewOpacity);
 
