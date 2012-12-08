@@ -1,8 +1,8 @@
-var paint = new Paint("imageDelta", "imageTmp");
-paint.toolbox.setWidth(5);
+var paint = new Paint("mainCanvas", "imageDelta");
+paint.toolbox.setWidth(20);
 paint.toolbox.setOpacity(.8);
 paint.toolbox.setColor("rgb(163,73,164)");
-paint.toolbox.setMode("rectangle");
+paint.toolbox.setMode("pencil");
 
 
 var $show = $("#show");

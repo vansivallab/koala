@@ -9,10 +9,13 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
     this.context = context;
     this.canvas = canvas;
 
+    var count = 0;
+
     var imgView_context = imgView.getContext('2d');
 
+    // some default values
     this.isMouseDown = false;
-	
+
     this.setColor = function (color) {
         this.color = color;
         context.strokeStyle = color;
@@ -205,7 +208,6 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
 
         this.touchend = function(/*Event Obj*/ e) {
             if (tool.isMouseDown) {
-                //tool.mousemove(e);
                 tool.save_history();
 				sendStrokeData(this.drawData);
             }
@@ -213,6 +215,7 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
         };
 
     };
+
 
     // Pencil Tool
     this.pencil_mode = function() {
@@ -239,14 +242,16 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
             if (tool.isMouseDown) {
                 this.drawData.x2 = e._x;
 				this.drawData.y2 = e._y;
+
 				context.beginPath();
 				context.moveTo(this.drawData.x1, this.drawData.y1);
-				
-				//context.clearRect(0, 0, canvas.width, canvas.height);
                 context.lineTo(this.drawData.x2, this.drawData.y2);
 				context.closePath();
+
+                context.lineJoin = "round";
+                context.lineCap = "round";
                 context.stroke();
-				
+
 				sendStrokeData(this.drawData);
 				tool.save_history();
 				this.drawData.x1 = this.drawData.x2;
@@ -256,26 +261,29 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
 
         this.mouseup = function(e) {
             if (tool.isMouseDown) {
-				//context.closePath()
-                //tool.save_history();
+                tool.save_history();
             }
             tool.isMouseDown = false;
         };
 
         this.touchstart = function(e) {
             if (tool.isMouseDown) { return; }
-            context.beginPath();
-            //context.moveTo(e.touches[0].clientX, e.touches[0].clientY);
             tool.isMouseDown = true;
 			this.drawData.x1 = e.touches[0].clientX;
 			this.drawData.y1 = e.touches[0].clientY;
             this.drawData.color = this.color;
             this.drawData.width = this.width;
             this.drawData.opacity = this.opacity;
+
+            context.beginPath();
+            context.moveTo(e.touches[0].clientX, e.touches[0].clientY);
         };
 
         this.touchmove = function(e) {
             if (tool.isMouseDown) {
+                context.lineJoin = "round";
+                context.lineCap = "round";
+
 				this.drawData.x2 = e.touches[0].clientX;
 				this.drawData.y2 = e.touches[0].clientY;
 				
@@ -283,8 +291,9 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
 				context.moveTo(this.drawData.x1, this.drawData.y1);
                 context.lineTo(this.drawData.x2, this.drawData.y2);
 				context.closePath();
+
                 context.stroke();
-				
+
 				sendStrokeData(this.drawData);
 				tool.save_history();
 				this.drawData.x1 = this.drawData.x2;
@@ -294,6 +303,7 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
 
         this.touchend = function(e) {
             if (tool.isMouseDown) {
+                tool.save_history();
             }
             tool.isMouseDown = false;
         };

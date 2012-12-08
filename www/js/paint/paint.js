@@ -1,12 +1,17 @@
 // vim: set et ts=4 sts=4 sw=4:
 
 //var Paint = function (mainCanvasId, imageDeltaId, imageTmpId, mergeCanvasId, loadingBarsId) {
-var Paint = function (imageDeltaId, imageTmpId) {
+//var Paint = function (imageDeltaId, imageTmpId) {
+var Paint = function (mainCanvasId, imageDeltaId) {
     //this.imgView = $('#' + mainCanvasId);
     //this.img_context = (this.imgView.get(0)).getContext('2d');
 
-    this.delta_canvas = $('#' + imageDeltaId);
-    this.tmp_canvas = $('#' + imageTmpId);
+// we switched some variable names around.
+// imageDeltaId => mainCanvasId
+// imageTmpId   => imageDeltaId
+
+    this.delta_canvas = $('#' + mainCanvasId);
+    this.tmp_canvas = $('#' + imageDeltaId);
 
     //this.loadingBars = $('#' + loadingBarsId);
 
@@ -29,7 +34,7 @@ var Paint = function (imageDeltaId, imageTmpId) {
     //this.tmp_canvas.get(0).addEventListener('mouseout', event_handler, false);
 
     //this.InitImgLoader = new ImgLoader(mainCanvasId);
-    this.DeltaImgLoader = new ImgLoader(imageDeltaId);
+    this.DeltaImgLoader = new ImgLoader(mainCanvasId);
     //this.MergeImgLoader = new ImgLoader(mergeCanvasId);
 
     this._haschanges = false;

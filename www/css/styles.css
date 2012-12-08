@@ -8,9 +8,30 @@ body {
 	display: none;
 }
 
-#imageTmp {
+/* Changed some canvas name variables
+   imageDelta => imageTmp
+   imageTmp   => imageDelta
+ */
+
+/*
+#mainCanvas {
+	cursor: crosshair;
+}
+
+*/
+
+/* #imageTmp { */
+#imageDelta {
 	cursor: crosshair;
 	position: absolute;
+	left: 1px;
+	top: 1px;
+}
+
+#mainCanvas {
+/* #imageDelta { */
+    cursor: crosshair;
+    position: absolute;
 	left: 1px;
 	top: 1px;
 }
@@ -28,16 +49,6 @@ body {
 	width: 1024px;
 	border: 1px solid #999999;
 
-}
-
-#mainCanvas {
-	cursor: crosshair;
-}
-
-#imageDelta {
-	position: absolute;
-	left: 1px;
-	top: 1px;
 }
 
 #toolbar {

@@ -3,8 +3,8 @@
 //main.js
 window.onload = function() {
 	window.util.patchFnBind();
-	window.socket = io.connect('http://128.237.118.184:3000/');
-	
+	window.socket = io.connect('http://128.237.229.235:3000/');
+
 	var mainCanvasDLib = new DrawingLib(document.getElementById("mainCanvas"));
 	var deltaCanvasDLib = new DrawingLib(document.getElementById("imageDelta"));
 	window.mainCanvasDLib = mainCanvasDLib;
@@ -53,9 +53,9 @@ window.onload = function() {
 			loadCanvasEntry(data[d]);
 		}
 	});
-    
-    
-	
+
+
+
 };
 
 var strokeCount = 0;
@@ -72,7 +72,7 @@ function sendStrokeData(drawData){
 		canvasId: "ad109s",
 		drawData: drawData
 	}
-	
+
     //console.log(data);
 	window.socket.emit('newStroke', data);
 	strokeCount++;
