@@ -1,26 +1,11 @@
-//slider.js
-var startX;            
-var startY;
-var offsetX;           
+//slider.js            
+var startY;           
 var offsetY;
 var dragElement;           
 var oldZIndex = 0;
 var min = 0;
 var max = 200;         
 var maxWidth = 40;
-
-InitDragDrop();
-
-function InitDragDrop()
-{
-    document.onmousedown = OnMouseDown;
-    document.onmouseup = OnMouseUp;
-    
-    //mobile
-    document.ontouchstart = OnTouchStart;
-    document.ontouchend = OnTouchEnd;
-}
-
 
 function OnMouseDown(e)
 {
@@ -37,11 +22,9 @@ function OnMouseDown(e)
         target.className == 'drag')
     {
         // grab the mouse position
-        startX = e.clientX;
         startY = e.clientY;
         
         // grab the clicked element's position
-        offsetX = ExtractNumber(target.style.left);
         offsetY = ExtractNumber(target.style.top);
         
         // bring the clicked element to the front while it is being dragged
@@ -52,7 +35,7 @@ function OnMouseDown(e)
         dragElement = target;
 
         // tell our code to start moving the element with the mouse
-        document.onmousemove = OnMove;
+        document.onmousemove = OnMouseMove;
         
         // cancel out any text selections
         document.body.focus();
@@ -75,11 +58,9 @@ function OnTouchStart(e)
     if (target.className == 'drag')
     {
         // grab the tap position
-        startX = e.clientX;
-        startY = e.clientY;
+        startY = e.changedTouches[0].pageY;
         
         // grab the tapped element's position
-        offsetX = ExtractNumber(target.style.left);
         offsetY = ExtractNumber(target.style.top);
         
         // bring the tapped element to the front while it is being dragged
@@ -90,7 +71,7 @@ function OnTouchStart(e)
         dragElement = target;
 
         // tell our code to start moving the element with the mouse
-        document.ontouchmove = OnMove;
+        document.ontouchmove = OnTouchMove;
         
         // cancel out any text selections
         document.body.focus();
@@ -101,16 +82,45 @@ function OnTouchStart(e)
     }
 }
 
-function OnMove(e)
+function OnMouseMove(e)
 {
     if (e == null) 
-        var e = window.event; 
-
-    //dragElement.style.left = (offsetX + e.clientX - startX) + 'px'; //we only want to move up and down
-    
-    var target = e.target != null ? e.target : e.srcElement;        
+        var e = window.event;         
     
     var positionY = (offsetY + e.clientY - startY);
+    if((positionY >= min) && (positionY <= max)) {
+        dragElement.style.top =  positionY + 'px';    
+        
+        if(dragElement.id == 'width') {
+            //set width value 
+            var fixRange = (max/maxWidth) - 1; //4
+            var width = maxWidth * ( (fixRange + positionY) /max );
+            dragElement.value = Math.floor(width);
+            previewWidth = dragElement.value;
+            drawPreview();
+            paint.toolbox.setWidth(previewWidth);
+
+        }
+        else if(dragElement.id == 'opacity') {
+            //set opacity value
+            var opacity = 100 * ( (1 + positionY) /max ); 
+            dragElement.value = (Math.floor(opacity)/100);
+            previewOpacity = dragElement.value;
+            drawPreview();
+            paint.toolbox.setOpacity(previewOpacity);
+
+        }
+         
+    }
+}
+
+
+function OnTouchMove(e)
+{
+    if (e == null) 
+        var e = window.event;         
+    
+    var positionY = (offsetY + e.changedTouches[0].pageY - startY);
     if((positionY >= min) && (positionY <= max)) {
         dragElement.style.top =  positionY + 'px';    
         
@@ -177,3 +187,23 @@ function ExtractNumber(value)
 	
     return n == null || isNaN(n) ? 0 : n;
 }
+
+function InitDragDrop()
+{
+    document.onmousedown = OnMouseDown;
+    document.onmouseup = OnMouseUp;
+    
+    
+    //mobile
+    subTools.addEventListener('touchstart', OnTouchStart);
+    subTools.addEventListener('touchmove', OnTouchMove);
+    subTools.addEventListener('touchend', OnTouchEnd);
+    
+    
+    document.ontouchstart = OnTouchStart;
+    document.ontouchend = OnTouchEnd;
+    
+    $('#width').css('top', '21px');
+    $('#opacity').css('top', '160px');
+}
+InitDragDrop();
