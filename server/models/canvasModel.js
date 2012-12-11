@@ -5,8 +5,8 @@ var Util = require('../util.js');
 
 var CanvasSchema = new mongoose.Schema({
 	_creatorIds: String,
-	userIds: Array,
-	connections: Array,
+	usernames: Array,
+	userConns: Array,
 	userCanvasId: String,
 	strokes: Array,
 	saveCount: Number,
@@ -45,19 +45,31 @@ CanvasSchema.methods.getStrokes = function(callback) {
 };
 
 CanvasSchema.methods.addUser = function(inviteUsername, callback) {
-	if(this.userIds.find(inviteUsername) === -1) {
-		this.userIds.push(inviteUsername);
+	if(this.usernames.indexOf(inviteUsername) === -1) {
+		this.usernames.push(inviteUsername);
+		
 		this.save(function(err) {
 			if(err) {throw err;}
 			if(Util.exists(callback)) {callback(inviteUsername);}
+		});
+	}
+};
+
+CanvasSchema.methods.addUserObj = function(userObj, callback) {
+	if(this.usernames.indexOf(userObj.username) === -1) {
+		this.usernames.push(userObj.username);
+		
+		this.save(function(err) {
+			if(err) {throw err;}
+			if(Util.exists(callback)) {return callback();}
 		});
 	}
 };
 
 CanvasSchema.methods.removeUser = function(inviteUsername, callback) {
-	var userIdsIdx = this.userIds.find(inviteUsername);
-	if(userIdsIdx !== -1) {
-		this.userIds.splice(userIdsIdx, 1);
+	var usernamesIdx = this.usernames.indexOf(inviteUsername);
+	if(usernamesIdx !== -1) {
+		this.usernames.splice(usernamesIdx, 1);
 		this.save(function(err) {
 			if(err) {throw err;}
 			if(Util.exists(callback)) {callback(inviteUsername);}
@@ -65,9 +77,9 @@ CanvasSchema.methods.removeUser = function(inviteUsername, callback) {
 	}
 };
 
-CanvasSchema.methods.addConnection = function(username, callback) {
-	if(this.connections.indexOf(username) === -1) {
-		this.connections.push(username);
+CanvasSchema.methods.addUserConn = function(username, callback) {
+	if(this.userConns.indexOf(username) === -1) {
+		this.userConns.push(username);
 		this.save(function(err) {
 			if(err) {throw err;}
 			if(Util.exists(callback)) {callback(inviteUsername);}
@@ -75,10 +87,10 @@ CanvasSchema.methods.addConnection = function(username, callback) {
 	}
 };
 
-CanvasSchema.methods.removeConnection = function(username, callback) {
-	var usernameIdx = this.connections.indexOf(username);
+CanvasSchema.methods.removeUserConn = function(username, callback) {
+	var usernameIdx = this.userConns.indexOf(username);
 	if(usernameIdx !== -1) {
-		this.connection.splice(usernameIdx, 1);
+		this.userConns.splice(usernameIdx, 1);
 		this.save(function(err) {
 			if(err) {throw err;}
 			if(Util.exists(callback)) {callback(inviteUsername);}

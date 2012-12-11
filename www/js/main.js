@@ -5,13 +5,13 @@ var connectionKey = "";
 //main.js
 window.onload = function() {
 	window.util.patchFnBind();
-	window.socket = newSocket('http://localhost:3000/');	
 	
 	var mainCanvasDLib = new DrawingLib(document.getElementById("mainCanvas"));
 	var deltaCanvasDLib = new DrawingLib(document.getElementById("imageDelta"));
 	window.mainCanvasDLib = mainCanvasDLib;
 	window.deltaCanvasDLib = deltaCanvasDLib;
 	
+	window.socket = newSocket('http://localhost:3000/', mainCanvasDLib);	
 	
 	//login 
 	var loginForm = document.getElementById('loginForm');

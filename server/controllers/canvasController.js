@@ -13,7 +13,7 @@ var CanvasController = {
 			if(!Util.exists(canvasObj)) {
 				var result = new Canvas({
 					_creatorId: userObj.username,
-					userIds: [userObj.username],
+					usernames: [userObj.username],
 					userCanvasId: userCanvasId,
 					saveCount: 0,
 					saveInterval: 2

@@ -20,7 +20,7 @@ UserSchema.methods.createCanvas = function(callback) {
 	CanvasController.newCanvas(this, function(canvasObj) {
 		console.log("userModel line20: created canvas: "+JSON.stringify(canvasObj));
 		user.userCanvasIds.push(canvasObj.userCanvasId);
-		canvasObj.userIds.push(user.username);
+		canvasObj.usernames.push(user.username);
 		canvasObj.save(function(err) {
 			if(err) {throw err;}
 			user.save(function(err) {
@@ -37,7 +37,7 @@ UserSchema.methods.addCanvas = function(userCanvasId, callback) {
 		CanvasController.findOne(userCanvasId, function(canvasObj) {
 			if(Util.exists(canvasObj)) {
 				user.userCanvasIds.push(canvasObj.userCanvasId);
-				canvasObj.userIds.push(user.username);
+				canvasObj.usernames.push(user.username);
 				canvasObj.save(function(err) {
 					if(err) {throw err;}
 					user.save(function(err) {
@@ -48,6 +48,17 @@ UserSchema.methods.addCanvas = function(userCanvasId, callback) {
 			}
 		});
 		
+	}
+};
+
+UserSchema.methods.addCanvasObj = function(canvasObj, callback) {
+	if(!this.hasCanvas(canvasObj.userCanvasId)) {
+		this.userCanvasIds.push(canvasObj.userCanvasId);
+		
+		this.save(function(err) {
+			if(err) {throw err;}
+			if(Util.exists(callback)) {return callback();}
+		});
 	}
 };
 

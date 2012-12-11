@@ -20,6 +20,7 @@ io.sockets.on('connection', function(socket){
 		return koalaDB.login(data.username, data.password, function(userObj, retData) {
 			if(retData.validConn) {
 				socket.session.userObj = userObj;
+				retData.canvasIds = userObj.userCanvasIds;
 				console.log("logging into");
 				console.log(JSON.stringify(userObj));
 				retData.connKey = socket.session.connKey = Util.generateConnKey(256/8);
@@ -51,7 +52,7 @@ io.sockets.on('connection', function(socket){
 		//pick load session.canvasObj
 		if(Util.isValidConn(socket, data) && Util.isValidCanvasId(data.canvasId)) {
 			Util.setSocketCanvas(socket, data.canvasId, function(canvasObj) {
-				socket.session.canvasObj.addConnection(socket.session.userObj.username);
+				socket.session.canvasObj.addUserConn(socket.session.userObj.username);
 				canvasObj.getStrokes(function(strokes) {
 					console.log("loadCanvas Strokes: "+JSON.stringify(strokes));
 					socket.emit('loadCanvas', {canvasId: data.canvasId, strokes: strokes});
@@ -81,18 +82,21 @@ io.sockets.on('connection', function(socket){
 	socket.on('inviteUser', function(data) {
 		if(Util.isValidConn(socket, data) && Util.exists(socket.session.canvasObj)) {
 			koalaDB.getUser({username: data.inviteUsername}, function(inviteUserObj) {
+				//console.log('\n---trying to invite: data.int
 				if(Util.exists(inviteUserObj)) {
-					inviteUserObj.addCanvas(socket.session.canvasObj.userCanvasId);
+					inviteUserObj.addCanvasObj(socket.session.canvasObj);
+					socket.session.canvasObj.addUserObj(inviteUserObj);
 				}
 			});
 		}
 	});
 	
-	socket.on('disconnect', function(data) {
+	socket.on('userDisconnect', function(data) {
 		console.log('---disconnecting---');
 		console.log('socket ses: '+JSON.stringify(socket.session));
+		
 		if(Util.isValidConn(socket, data) && Util.exists(socket.session.canvasObj)) {
-			socket.session.canvasObj.removeConnection(socket.session.userObj.username);
+			socket.session.canvasObj.removeUserConn(socket.session.userObj.username);
 		}
 	});
 });

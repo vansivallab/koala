@@ -14,10 +14,12 @@ var Util = {
 		if(this.isValidCanvasId(userCanvasId) && this.exists(socket.session.userObj)) {
 			console.log("line15 setSocketCanvas: "+JSON.stringify(socket.session));
 			console.log(userCanvasId);
-			console.log('\n');
+			console.log('---\n');
 			socket.session.userObj.getCanvas(userCanvasId, function(canvasObj) {
 				console.log("line19 setSocketCanvas: "+userCanvasId);
 				console.log(JSON.stringify(canvasObj));
+				console.log("here line21\n");
+				
 				if(Util.exists(canvasObj)) {
 					socket.session.canvasObj = canvasObj;
 					socket.join(canvasObj.userCanvasId);
@@ -41,11 +43,17 @@ var Util = {
 	},
 
 	isValidConn: function(socket, connData) {
-		console.log('connection validation');
-		console.log(this.exists(socket.session.userObj) && this.exists(socket.session.connKey) && this.exists(connData.connKey)
-			 && socket.session.connKey === connData.connKey);
-		return this.exists(socket.session.userObj) && this.exists(socket.session.connKey) && this.exists(connData.connKey)
-			 && socket.session.connKey === connData.connKey;
+		/*console.log('\n-----connection validation----');
+		console.log('connData: '+JSON.stringify(connData));
+		console.log("1 "+this.exists(socket.session.userObj));
+		console.log("2 "+this.exists(socket.session.connKey));
+		console.log("3 "+this.exists(connData));
+		console.log("4 "+this.exists(connData.connKey));
+		console.log("5 "+(socket.session.connKey === connData.connKey));*/
+		
+		return this.exists(socket.session.userObj) && this.exists(socket.session.connKey) 
+			&& this.exists(connData) && this.exists(connData.connKey) 
+			&& socket.session.connKey === connData.connKey;
 	}
 }
 

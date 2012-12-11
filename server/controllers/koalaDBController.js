@@ -22,10 +22,6 @@ KoalaDB.prototype.clearData = function(callback) {
 };
 
 KoalaDB.prototype.getCanvases = function(searchJSON, userId, callback) {
-	if(!searchJSON.userIds) {searchJSON.userIds = [userId];}
-	else if(searchJSON.userIds.find(userId) === -1) 
-	{searchJSON.userIds.push(userId);}
-	
 	return Canvas.find(searchJSON, function(err, results) {
 		if(err) {throw err;}
 		if(Util.exists(callback)) {return callback(results);}

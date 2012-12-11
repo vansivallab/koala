@@ -8,37 +8,39 @@ function isValidEntry(entry) {
 			&& typeof(entry.drawData.y) == 'number' && typeof(entry.drawData.radius) == 'number'));
 }
 
-function loadCanvasEntry(entry) {
+function loadCanvasEntry(entry, dLib) {
 	if(isValidEntry(entry)) {
 		if(entry.drawData.tool === 'rectangle') {
-			window.mainCanvasDLib.drawRect(entry.drawData.x1, entry.drawData.y1, 
+			dLib.drawRect(entry.drawData.x1, entry.drawData.y1, 
 				entry.drawData.x2, entry.drawData.y2, entry.drawData.color,
 				entry.drawData.width, entry.drawData.opacity);
 		}
 		else if(entry.drawData.tool === 'line' || entry.drawData.tool === 'pencil') {
-			window.mainCanvasDLib.drawLine(entry.drawData.x1, entry.drawData.y1, 
+			dLib.drawLine(entry.drawData.x1, entry.drawData.y1, 
 				entry.drawData.x2, entry.drawData.y2, entry.drawData.color,
 				entry.drawData.width, entry.drawData.opacity)
 		}
 		else if(entry.drawData.tool === 'circle') {
-			window.mainCanvasDLib.drawCircle(entry.drawData.x, entry.drawData.y, 
+			dLib.drawCircle(entry.drawData.x, entry.drawData.y, 
 				entry.drawData.radius, entry.drawData.color, 
 				entry.drawData.width, entry.drawData.opacity);
 		}
 		else if(entry.drawData.tool === "eraser") {
-			window.mainCanvasDLib.erase(entry.drawData.x1, entry.drawData.y1,
+			dLib.erase(entry.drawData.x1, entry.drawData.y1,
 				entry.drawData.x2, entry.drawData.y2, entry.drawData.width);
 		}
 	}
 }    
 
-function newSocket(connAddr) {
+function newSocket(connAddr, dLib) {
 	var retSocket = io.connect(connAddr);
 
 	/*****************
 	 * Socket Events *
 	 *****************/
-	retSocket.on('loadCanvasEntry', loadCanvasEntry);
+	retSocket.on('loadCanvasEntry', function(data) {
+		loadCanvasEntry(data, this.e.dLib);
+	});
 
 	retSocket.on('loadCanvas', function(data) {
 		console.log('loadCanvas');
@@ -46,9 +48,9 @@ function newSocket(connAddr) {
 		
 		if(util.exists(data.canvasId) && util.exists(data.strokes)) {
 			this.e.connData.canvasId = data.canvasId;
-			window.mainCanvasDLib.clearCanvas();
+			this.e.dLib.clearCanvas();
 			for(var d = 0; d < data.strokes.length; d++) {
-				loadCanvasEntry(data.strokes[d]);
+				loadCanvasEntry(data.strokes[d], this.e.dLib);
 			}
 		}
 		else {
@@ -77,6 +79,18 @@ function newSocket(connAddr) {
 		}
 	});
 	
+	$(window).unload(function() {
+		console.log("disconnecting");
+		console.log(retSocket.e.connData);
+		if(util.exists(retSocket.e.connData) 
+			&& util.exists(retSocket.e.connData.connKey) 
+			&& retSocket.e.connData.connKey.length > 0) {
+			
+			retSocket.emit('userDisconnect', retSocket.e.connData);
+			alert("asdf");
+		}
+	});
+	
 	/****************************************
 	 * My Socket Stuff (Funcitons and Data) *
 	 ****************************************/
@@ -88,6 +102,7 @@ function newSocket(connAddr) {
 			connKey: "",
 			canvasId: ""
 		},
+		dLib: dLib,
 		strokeCount: 0
 	};
 	
@@ -132,7 +147,7 @@ function newSocket(connAddr) {
 	retSocket.e.inviteUser = function(inviteUsername) {
 		var data = {};
 		$.extend(true, data, this.connData);
-		data.userToInvite = inviteUsername;
+		data.inviteUsername = inviteUsername;
 		
 		this.socket.emit('inviteUser', data);
 		console.log('invitingUser to', data);
