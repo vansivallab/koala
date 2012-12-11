@@ -1,6 +1,10 @@
 var mongoose = require('mongoose');
 var UserController = require('./userController.js');
+var User = require('../models/userModel.js');
+var CanvasController = require('../controllers/canvasController.js');
+var Canvas = require('../models/canvasModel.js');
 var Util = require('../util.js');
+
 
 function KoalaDB(connection) {
 	mongoose.connect(connection);
@@ -18,6 +22,7 @@ KoalaDB.prototype.getUser = function(searchJSON, callback) {
 
 KoalaDB.prototype.clearData = function(callback) {
 	User.find({}).remove();
+	Canvas.find({}).remove();
 	if(Util.exists(callback)) {callback();}
 };
 

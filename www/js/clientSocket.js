@@ -87,7 +87,7 @@ function newSocket(connAddr, dLib) {
 	$(window).unload(function() {
 		console.log("disconnecting");
 		console.log(retSocket.e.connData);
-		this.e.logout();
+		retSocket.e.logout();
 	});
 	
 	/****************************************

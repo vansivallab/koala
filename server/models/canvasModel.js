@@ -37,11 +37,8 @@ CanvasSchema.methods.addStroke = function(data, callback) {
 };
 
 CanvasSchema.methods.getStrokes = function(callback) {
-	var strokes = this.strokes;
-	this.save(function(err) {
-		if(err) {throw err;}
-		if(Util.exists(callback)) {return callback(strokes);}
-	});
+	callback(this.strokes);
+	return this.strokes;
 };
 
 CanvasSchema.methods.addUser = function(inviteUsername, callback) {

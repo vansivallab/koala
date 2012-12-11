@@ -69,9 +69,9 @@ UserSchema.methods.hasCanvas = function(userCanvasId) {
 UserSchema.methods.getCanvas = function(userCanvasId, callback) {
 	console.log("--getting Canvas--: "+userCanvasId);
 	console.log("hasCanvas="+this.hasCanvas(userCanvasId));
-	if(this.hasCanvas(userCanvasId)) {
+	//if(this.hasCanvas(userCanvasId)) {
 		return CanvasController.findOne({'userCanvasId': userCanvasId}, callback);
-	}
+	//}
 };
 
 module.exports = mongoose.model('User', UserSchema);
