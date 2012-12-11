@@ -168,7 +168,11 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
             context.beginPath();
             context.moveTo(this.drawData.x1, this.drawData.y1);
             context.lineTo(this.drawData.x2, this.drawData.y2);
-            context.stroke();
+            
+			context.lineJoin = "round";
+            context.lineCap = "round";
+			
+			context.stroke();
             context.closePath();
         };
 
@@ -202,7 +206,11 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
             context.beginPath();
             context.moveTo(this.drawData.x1, this.drawData.y1);
             context.lineTo(this.drawData.x2, this.drawData.y2);
-            context.stroke();
+            
+			context.lineJoin = "round";
+            context.lineCap = "round";
+			
+			context.stroke();
             context.closePath();
         };
 

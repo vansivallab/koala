@@ -74,21 +74,20 @@ function newSocket(connAddr, dLib) {
 			//redirect 
 			navigateTo('#select');
 			
-		} else {
-			$('#error').html("Invalid Username/Password");
 		}
+		else {$('#error').html("Invalid Username/Password");}
+	});
+	
+	retSocket.on("relogin", function() {
+		//if curr page is !canvas
+		this.e.logout();
+		this.e.login(this.e.connData.username, this.e.password);
 	});
 	
 	$(window).unload(function() {
 		console.log("disconnecting");
 		console.log(retSocket.e.connData);
-		if(util.exists(retSocket.e.connData) 
-			&& util.exists(retSocket.e.connData.connKey) 
-			&& retSocket.e.connData.connKey.length > 0) {
-			
-			retSocket.emit('userDisconnect', retSocket.e.connData);
-			alert("asdf");
-		}
+		this.e.logout();
 	});
 	
 	/****************************************
@@ -102,6 +101,7 @@ function newSocket(connAddr, dLib) {
 			connKey: "",
 			canvasId: ""
 		},
+		password: "",
 		dLib: dLib,
 		strokeCount: 0
 	};
@@ -109,8 +109,18 @@ function newSocket(connAddr, dLib) {
 	//send username and password 
 	retSocket.e.login = function(username, password){ //username is an email
 		this.connData.username = username;
+		this.password = password;
 		console.log(this);
 		this.socket.emit('login', {username: username, password: password});
+	};
+	
+	retSocket.e.logout = function() {
+		if(util.exists(this.connData) 
+			&& util.exists(this.connData.connKey) 
+			&& this.connData.connKey.length > 0) {
+			
+			this.socket.emit('logout', retSocket.e.connData);
+		}
 	};
 
 	// drawData = {tool, event, x1, y1, x2, y2} or {tool, event, x, y, radius}
