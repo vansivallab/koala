@@ -186,7 +186,10 @@ body {
 }
 
 .color:hover, .current {
-    border: 1px solid blue;
+    border: 1px solid #000000;
+    box-shadow: inset 0px 0px 4px #000;
+    -moz-box-shadow: inset 0px 0px 4px #000;
+    -webkit-box-shadow: 0inset px 0px 4px #000;
 }
 
 
@@ -222,9 +225,9 @@ body {
 
 .drag {
     position: absolute;
-    width: 22px;
+    width: 24px;
     background: white;
-    height: 22px;  
+    height: 24px;  
     -moz-border-radius:15px;
 	-webkit-border-radius:15px;
 	border-radius:15px;
@@ -269,7 +272,7 @@ body {
 
 #opacitySlider {
     top: 0px;
-    right:14px;
+    right:15px;
 }
 
 #opacity {
@@ -279,7 +282,7 @@ body {
 
 #widthSlider {
     top: 0px;
-    right: 42px;
+    right: 43px;
 }
 
 #width {
