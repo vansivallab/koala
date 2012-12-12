@@ -53,6 +53,13 @@ var UserController = {
 		});
 	},
 	
+	find: function(searchJSON, callback) {
+		User.find(searchJSON, function(err, userObjs) {
+			if(err) {throw err;}
+			if(Util.exists(callback)) {return callback(userObjs);}
+		});
+	},
+	
 	findOne: function(searchJSON, callback) {
 		User.findOne(searchJSON, function(err, userObj) {
 			if(err) {throw err;}

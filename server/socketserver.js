@@ -52,7 +52,9 @@ io.sockets.on('connection', function(socket){
 		//pick load session.canvasObj
 		if(Util.isValidConn(socket, data) && Util.isValidCanvasId(data.canvasId)) {
 			Util.setSocketCanvas(socket, data.canvasId, function(canvasObj) {
+				console.log("into addUserConn");
 				socket.session.canvasObj.addUserConn(socket.session.userObj.username);
+				console.log("outof addUserConn");
 				canvasObj.getStrokes(function(strokes) {
 					console.log("loadCanvas Strokes: "+JSON.stringify(strokes));
 					socket.emit('loadCanvas', {canvasId: data.canvasId, strokes: strokes});
@@ -141,9 +143,10 @@ io.sockets.on('connection', function(socket){
 	socket.on('logout', function(data) {
 		console.log('---disconnecting---');
 		console.log('socket ses: '+JSON.stringify(socket.session));
-		
-		if(Util.isValidConn(socket, data) && Util.exists(socket.session.canvasObj)) {
-			socket.session.canvasObj.removeUserConn(socket.session.userObj.username);
+		var canvasObj = socket.session.canvasObj;
+		var user = socket.session.userObj;
+		if(Util.isValidConn(socket, data) && Util.exists(canvasObj)) {
+			canvasObj.removeUserConn(user.username);
 		}
 	});
 });
