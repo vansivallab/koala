@@ -61,18 +61,20 @@ function newSocket(connAddr, dLib) {
 	//get user data and redirect to pick canvas page 
 	retSocket.on('loginCallback', function(data) {
 		console.log(data);
+        console.log(data.length);
 		if(data.validConn == true) { //check if user info was valid
 			this.e.connData.connKey = data.connKey;
 			
 			//get list of canvas ids
-			var canvasSelectionJSelect = $('#canvasSelection').children('#selectionElements');       
+			var canvasSelectionJSelect = $('#canvasSelection').children('#selectionElements');  
 			for(var i = 2; i < data.length; i++) {
 				canvasSelectionJSelect.append(loadCanvasElementMarkup(data[i]));            
 				canvasSelectionJSelect.append("<div class='divide'></div>");
 			}
 			
-			//redirect 
-			navigateTo('#select');
+			//redirect
+            $('#selectionElements').css('display', 'block');
+			window.util.navigateTo('#select');
 			
 		}
 		else {$('#error').html("Invalid Username/Password");}

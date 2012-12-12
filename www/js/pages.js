@@ -42,7 +42,7 @@ initViews();
 
 
 //NAVIGATION
-function navigateTo(hash) {
+window.util.navigateTo = function(hash) {
 	if(hash ===  '') {
 		return globalView.loginView.show();
 	}
@@ -59,12 +59,12 @@ if (window.location.hash === '') {
 	window.location.hash = globalView.loginView.hash;
 } 
 else {
-	navigateTo(window.location.hash);
+	window.util.navigateTo(window.location.hash);
 }
 
 window.onhashchange = function() {
 	// actually perform the navigation
-	navigateTo(window.location.hash);
+	window.util.navigateTo(window.location.hash);
 };
 
 });

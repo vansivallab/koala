@@ -13,28 +13,24 @@ window.onload = function() {
 	
 	window.socket = newSocket('http://localhost:3000/', mainCanvasDLib);	
 	
-	//login 
-	var loginForm = document.getElementById('loginForm');
-
-	// Attaching the submit event to the form.
-	// Different browsers do it differently so we include both ways below (grr IE)
-	if (loginForm.attachEvent) {
-		loginForm.attachEvent("submit", submitForm);
-	} else {
-		loginForm.addEventListener("submit", submitForm);
-	}
-
+    
+    $('#loginForm').submit(submitForm);
+    $('#login').on('click ontouchstart', submitForm);
+    
 	function submitForm() {
+        alert("submit!");
 		var email = $('#email').val();
 		var password = $('#password').val();
 		var msg = "";
 		
 		if(($.trim(email).length == 0) || (window.util.isValidEmail(email) == false)) {
-			msg = msg + "Invalid Email Address <br />";   
+			msg = msg + "Invalid Email Address <br />";
+            $('#email').val("");
 		}
 		if(($.trim(password).length == 0) || (window.util.isValidInput(password) == false)) {
 			msg = msg + "Invalid Password <br />";
-		}
+            $('#password').val("");
+        }
 		
 		if(msg == "") {
 			window.socket.e.login(email, password);
