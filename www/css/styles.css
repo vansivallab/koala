@@ -1,3 +1,12 @@
+* {
+/* backface visibility removes flickering when transitioning on iOS */
+    -webkit-backface-visibility: hidden;
+/* turn off the annoying highlight on a tap (we provide our own visual feedback) */
+    -webkit-tap-highlight-color: transparent;
+/* prevent the user from highlighting any text */
+    -webkit-user-select: none;
+}
+
 body {
     overflow: hidden;
     width: 100%;

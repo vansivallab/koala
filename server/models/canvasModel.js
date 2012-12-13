@@ -9,11 +9,9 @@ var CanvasSchema = new mongoose.Schema({
 	userConns: Array,
 	userCanvasId: String,
 	strokes: Array,
-	saveCount: Number,
+	saveCount: Number, //should be the length of stroeks
 	saveInterval: Number
 });
-
-var i = 0;
 
 CanvasSchema.methods.addStroke = function(data, callback) {
 	var newStroke = new Stroke({
@@ -26,13 +24,19 @@ CanvasSchema.methods.addStroke = function(data, callback) {
 	this.strokes.push(newStroke);
 	
 	//need to validate data
-	if(this.saveCount%this.saveInterval == 0) {
+	this.saveCount++;
+	console.log("we may save in addStroke: "+this.saveCount+" "+this.strokes.length);
+	/*for some reason this.saveInterval (6) doesnt work, 
+	maybe because of too many object accesses*/
+	if(this.strokes.length%6 === 0 && this.saveCount > 0) {
+		console.log("saving...");
+		this.saveCount = 0;
 		this.save(function(err) {
 			if(err) {throw err;}
+			console.log("+++ saving stroke +++");
 			if(Util.exists(callback)) {callback(newStroke);}
 		});
 	}
-	this.saveCount++;
 	
 };
 

@@ -1,23 +1,20 @@
 /*load screen css*/
+#helpBox,
+#inviteBox,
+#loginBox,
 #canvasSelection {
     padding-top: 20px;
     text-align: center;
     font-family: 'Arial', sans-serif;
-    font-size: 12px;
+    font-size: 18px;
 }
 
-#helpBox,
-#inviteBox,
-#loginBox {
-    position: relative;
-    margin-top: 20px;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
+#inviteBox {
+    color: #00b9ff;
 }
 
 #error, 
-#errorCanvas {
+#errorInvite {
     color: red;
 }
 
@@ -50,6 +47,7 @@ input[type=password]:hover {
     font-size: 20px;
     font-family: 'Arial', sans-serif;
     color: #00b9ff;
+    -webkit-user-select: text;
 }
 
 #loginBox input[type=text]:active,
@@ -57,13 +55,13 @@ input[type=password]:hover {
 
 }
 
-#koalaBox {
+.koalaBox {
     position: absolute;
     width: 100%;
     bottom: 10px; 
 }
 
-#koalaMini {
+.koalaMini {
     margin-left:auto;
     margin-right:auto;
 }
@@ -113,6 +111,7 @@ input[type=password]:hover {
     }
 }
 
+#friendElements,
 #helpText {
     width: 94%;
     max-width: 276px;
@@ -135,6 +134,8 @@ input[type=password]:hover {
    display: block;
    margin-top: 10px;
 }
+
+
 
 #selectionElements {
     display:none;
