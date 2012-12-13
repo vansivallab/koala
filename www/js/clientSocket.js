@@ -73,7 +73,7 @@ function newSocket(connAddr, dLib) {
 	//get user data and redirect to pick canvas page 
 	retSocket.on('loginCallback', function(data) {
 		console.log(data);
-        console.log(data.canvasIds.length);
+        //console.log(data.canvasIds.length);
 		if(data.validConn == true) { //check if user info was valid
 			this.e.connData.connKey = data.connKey;
 			

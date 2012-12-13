@@ -16,7 +16,7 @@ var CanvasController = {
 					usernames: [userObj.username],
 					userCanvasId: userCanvasId,
 					saveCount: 0,
-					saveInterval: 2
+					saveInterval: 6
 				});
 				console.log("-");
 				console.log(JSON.stringify(result));

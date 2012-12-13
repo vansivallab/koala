@@ -56,7 +56,7 @@ io.sockets.on('connection', function(socket){
 				socket.session.canvasObj.addUserConn(socket.session.userObj.username);
 				console.log("outof addUserConn");
 				canvasObj.getStrokes(function(strokes) {
-					console.log("loadCanvas Strokes: "+JSON.stringify(strokes));
+					console.log("loadCanvas Strokes: "+JSON.stringify(strokes)+"\n");
 					socket.emit('loadCanvas', {canvasId: data.canvasId, strokes: strokes});
 				});
 			});
@@ -75,9 +75,10 @@ io.sockets.on('connection', function(socket){
 			//io.sockets.emit('loadStroke', data);
 			//.to(socket.session.canvasObj.userCanvasId)
 			
-			console.log("broadcasting to: "+socket.session.canvasObj.userCanvasId);
+			console.log("broadcasting "+JSON.stringify(data)+" to: "+socket.session.canvasObj.userCanvasId);
 			//socket.broadcast.join(socket.session.canvasObj.userCanvasId);
 			socket.broadcast.to(socket.session.canvasObj.userCanvasId).emit('loadCanvasEntry', data);
+			console.log("broadcast complete");
 		}
 	});
 	
