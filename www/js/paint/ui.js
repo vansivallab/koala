@@ -21,7 +21,7 @@ $show.css('display', "block");
 
 
 $show.on('click touchstart', function() {
-	$show.css('display', "none");
+    $show.css('display', "none");
     $toolbar.stop().animate({
         right: 0
     });
@@ -29,19 +29,19 @@ $show.on('click touchstart', function() {
     $back.css('display', "block");
     $envelope.css('display', "block");
 
-	
+    
 });
 
 $hide.on('click touchstart', function() {
-	$hide.css('display', "none");
+    $hide.css('display', "none");
     $toolbar.stop().animate({
         right:'-200px'
-    });    
+    });
     $back.css('display', "none");
     $envelope.css('display', "none");
     $show.css('display', "block");
 
-	
+    
 });
 
 $back.on('click touchstart', function() {
@@ -69,10 +69,10 @@ $('#okayInvite').on('click touchstart', function() {
 
 /* select tool */
 $('.brush').on('click touchstart', function() {
-	$oldBrush.removeClass('selected');
-	$(this).addClass('selected');
-	paint.toolbox.setMode($(this).attr('id'));
-	$oldBrush = $(this);
+    $oldBrush.removeClass('selected');
+    $(this).addClass('selected');
+    paint.toolbox.setMode($(this).attr('id'));
+    $oldBrush = $(this);
 });
     
 /* refresh preview image */
@@ -94,7 +94,6 @@ $(".color").on("click touchstart", function(){
     previewColor = $(this).attr("value");
     drawPreview();
     paint.toolbox.setColor(previewColor);
-    
 });
 
 

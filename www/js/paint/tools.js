@@ -9,28 +9,37 @@ var Tools = function(/*Canvas Elem*/ mainCanvas, /*Canvas Elem*/ deltaCanvas) {
     this.context = context;
     this.canvas = canvas;
 
-    var count = 0;
-
     var imgView_context = mainCanvas.getContext('2d');
 
-    // some default values
+    // mark whether the the user has tapped/clicked
     this.isMouseDown = false;
 
+    // store the coordinates of the top-left corner of the canvas
+    var _x = 1;
+    var _y = 1;
+
+    // Set the color at which we draw the strokes
     this.setColor = function (color) {
         this.color = color;
         context.strokeStyle = color;
     };
+
+    // Set the width at which we draw the strokes
     this.setWidth = function (width) {
         this.width = width;
         context.lineWidth = width;
     };
+
+    // Set the opacity at which we draw the strokes
     this.setOpacity = function (opacity) {
         this.opacity = opacity;
         context.globalAlpha = opacity;
     };
 
     this.save_history = function() {
-        imgView_context.drawImage(canvas, 0, 0);
+        imgView_context.drawImage(canvas, -_x+1, -_y+1);
+        console.log("save_history x:" + _x);
+        console.log("save_history y:" + _y);
         context.clearRect(0, 0, canvas.width, canvas.height);
     };
 
@@ -46,20 +55,57 @@ var Tools = function(/*Canvas Elem*/ mainCanvas, /*Canvas Elem*/ deltaCanvas) {
         else if (mode == "line") { this.line_mode(); }
         else if (mode == "circle") { this.circle_mode(); }
         else if (mode == "eraser") { this.eraser_mode(); }
-        else if (mode == "pan") { this.pan_mode(); }
+        else if (mode == "hand") { this.pan_mode(); }
     };
 
     this.pan_mode = function() {
+        // Store the initial and finishing coordinates
+        this.panCoords = {x1: 0, y1: 0,
+                          x2: 0, y2: 0};
+
         this.mousedown = function(/*Event Obj*/ e) {
-            ;
+            if (tool.isMouseDown) { return; }
+            tool.isMouseDown = true;
+
+            // Store the initial coordinate
+            this.panCoords.x1 = e._x;
+            this.panCoords.y1 = e._y;
         };
 
         this.mousemove = function(/*Event Obj*/ e) {
-            ;
+            if (!tool.isMouseDown) return;
+
+            // Store the finishing coordinate
+            this.panCoords.x2 = e._x;
+            this.panCoords.y2 = e._y;
+
+            // Calculate the adjustment
+            var diff_x = this.panCoords.x2 - this.panCoords.x1;
+            var diff_y = this.panCoords.y2 - this.panCoords.y1;
+
+            // Move the mainCanvas
+            $(mainCanvas).css("left", _x + diff_x);
+            $(mainCanvas).css("top", _y + diff_y);
+
+            // Adjusting the top-left corner occurs when the user
+            // has finished panning, i.e. ==> this.mouseup(e);
         };
 
         this.mouseup = function(/*Event Obj*/ e) {
-            ;
+            tool.isMouseDown = false;
+
+            // Remember the top-left corner of the mainCanvas
+            _x += this.panCoords.x2 - this.panCoords.x1;
+            _y += this.panCoords.y2 - this.panCoords.y1;
+
+            console.log("pan mouseup x:" + _x);
+            console.log("pan mouseup y:" + _y);
+
+            // clear panCoords
+            this.panCoords.x1 = 0;
+            this.panCoords.y1 = 0;
+            this.panCoords.x2 = 0;
+            this.panCoords.y2 = 0;
         };
     };
 
@@ -291,8 +337,7 @@ var Tools = function(/*Canvas Elem*/ mainCanvas, /*Canvas Elem*/ deltaCanvas) {
                 // Send the stroke data to the server
                 window.socket.e.sendStrokeData(this.drawData);
 
-                // Put the stroke from the Delta canvas to the Main canvas
-                tool.save_history();
+                // Adjust x1 and y1 in anticipation of another mousemove
                 this.drawData.x1 = this.drawData.x2;
                 this.drawData.y1 = this.drawData.y2;
             }
@@ -303,6 +348,9 @@ var Tools = function(/*Canvas Elem*/ mainCanvas, /*Canvas Elem*/ deltaCanvas) {
                 tool.save_history();
             }
             tool.isMouseDown = false;
+
+            // Put the stroke from the Delta canvas to the Main canvas
+            tool.save_history();
         };
 
         this.touchstart = function(e) {

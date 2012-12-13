@@ -1,14 +1,6 @@
 // vim: set et ts=4 sts=4 sw=4:
 
-//var Paint = function (mainCanvasId, imageDeltaId, imageTmpId, mergeCanvasId, loadingBarsId) {
-//var Paint = function (imageDeltaId, imageTmpId) {
 var Paint = function (mainCanvasId, imageDeltaId) {
-    //this.imgView = $('#' + mainCanvasId);
-    //this.img_context = (this.imgView.get(0)).getContext('2d');
-
-// we switched some variable names around.
-// imageDeltaId => mainCanvasId
-// imageTmpId   => imageDeltaId
 
     this.delta_canvas = $('#' + mainCanvasId);
     this.tmp_canvas = $('#' + imageDeltaId);
@@ -61,8 +53,9 @@ var Paint = function (mainCanvasId, imageDeltaId) {
         toolFunctionCall = 'mouseup';
         }*/
 
-        if (toolFunctionCall == 'mousedown')
-            {self.setHasChanges(true);}
+        if (toolFunctionCall == 'mousedown') {
+            self.setHasChanges(true);
+        }
 
         /* Handlers for touch events */
         if (toolFunctionCall == "touchstart") {
