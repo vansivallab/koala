@@ -80,16 +80,17 @@ function newSocket(connAddr, dLib) {
 			//get list of canvas ids
 			var canvasSelectionJSelect = $('#canvasSelection').children('#selectionElements');  
             
-            //singleton list
-            canvasSelectionJSelect.append(loadCanvasElementMarkup(data.canvasIds[0])); 
-			
-            //rest
-            for(var i = 2; i < data.canvasIds.length; i+=2) {
-				canvasSelectionJSelect.append("<div class='divide'></div>");            
-				canvasSelectionJSelect.append(loadCanvasElementMarkup(data.canvasIds[i]));            
+            if(data.canvasIds.length > 0) {
+                //singleton list
+                canvasSelectionJSelect.append(loadCanvasElementMarkup(data.canvasIds[0])); 
+                
+                //rest
+                for(var i = 2; i < data.canvasIds.length; i+=2) {
+                    canvasSelectionJSelect.append("<div class='divide'></div>");            
+                    canvasSelectionJSelect.append(loadCanvasElementMarkup(data.canvasIds[i]));            
 
+                }
 			}
-			
 			//redirect
             $('#selectionElements').css('display', 'block');
 			window.util.navigateTo('#select');

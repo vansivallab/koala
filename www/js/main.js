@@ -53,16 +53,21 @@ window.onload = function() {
 
     //invite friends
     $('#inviteFriend').on('click touchstart', function() {
-       /*
         var friend = $('#friend').val();
-        var msg;
+        var msg = "";
         if(($.trim(friend).length == 0) || (window.util.isValidEmail(friend) == false)) {
 			msg = msg + "Invalid Email Address <br />";
+            $('#errorInvite').html(msg);
             $('#friend').val("");
 		}
-        //more code
         
-        window.util.navigateTo('#canvas'); */
+        if(msg = "") {            
+            $('#errorInvite').html("");
+            window.socket.e.inviteUser(friend);
+            window.util.navigateTo('#canvas');
+        }
+
+        
     });
     
 	// select canvas
