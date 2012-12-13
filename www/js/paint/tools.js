@@ -1,9 +1,9 @@
 // vim: set et ts=4 sts=4 sw=4:
 
-var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
+var Tools = function(/*Canvas Elem*/ mainCanvas, /*Canvas Elem*/ deltaCanvas) {
     var tool = this;
     this.tool = tool;
-    var canvas = tmpView;
+    var canvas = deltaCanvas;
     context = canvas.getContext('2d');
 
     this.context = context;
@@ -11,7 +11,7 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
 
     var count = 0;
 
-    var imgView_context = imgView.getContext('2d');
+    var imgView_context = mainCanvas.getContext('2d');
 
     // some default values
     this.isMouseDown = false;
@@ -46,6 +46,21 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
         else if (mode == "line") { this.line_mode(); }
         else if (mode == "circle") { this.circle_mode(); }
         else if (mode == "eraser") { this.eraser_mode(); }
+        else if (mode == "pan") { this.pan_mode(); }
+    };
+
+    this.pan_mode = function() {
+        this.mousedown = function(/*Event Obj*/ e) {
+            ;
+        };
+
+        this.mousemove = function(/*Event Obj*/ e) {
+            ;
+        };
+
+        this.mouseup = function(/*Event Obj*/ e) {
+            ;
+        };
     };
 
     // Rectangle Tool
