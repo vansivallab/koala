@@ -28,6 +28,8 @@ var globalView = {
 	loginView: undefined,
 	selectView: undefined,
 	canvasView: undefined,
+    helpView: undefined,
+    inviteView: undefined,
 	currView: this.loginView,
 	views: []
 };
@@ -36,7 +38,9 @@ function initViews() {
 	globalView.currView = globalView.loginView = new View(globalView, '#login', $('#loginView'));
 	globalView.selectView = new View(globalView, '#select', $('#selectView'));
 	globalView.canvasView = new View(globalView, '#canvas', $('#canvasView'));
-	globalView.views = [globalView.loginView, globalView.selectView, globalView.canvasView];
+    globalView.helpView = new View(globalView, '#help', $('#helpView'));
+    globalView.inviteView = new View(globalView, '#invite', $('#inviteView'));
+	globalView.views = [globalView.loginView, globalView.selectView, globalView.canvasView, globalView.helpView, globalView.inviteView];
 };
 initViews();
 

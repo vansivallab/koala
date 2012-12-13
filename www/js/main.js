@@ -18,7 +18,6 @@ window.onload = function() {
     $('#login').on('click touchstart', submitForm);
     
 	function submitForm() {
-        alert("submit!");
 		var email = $('#email').val();
 		var password = $('#password').val();
 		var msg = "";
@@ -34,6 +33,8 @@ window.onload = function() {
 		
 		if(msg == "") {
 			window.socket.e.login(email, password);
+            $('#email').val("");
+            $('#password').val("");
 			$('#error').html("");
 		}
 		else {
@@ -41,7 +42,29 @@ window.onload = function() {
 			
 		}
 	}
-	
+    
+    //logout
+    $('#logout').on('click touchstart', function() {
+        window.socket.e.logout();
+        $('#selectionElements').empty();
+        
+        window.util.navigateTo('#login');
+    });
+
+    //invite friends
+    $('#inviteFriend').on('click touchstart', function() {
+       /*
+        var friend = $('#friend').val();
+        var msg;
+        if(($.trim(friend).length == 0) || (window.util.isValidEmail(friend) == false)) {
+			msg = msg + "Invalid Email Address <br />";
+            $('#friend').val("");
+		}
+        //more code
+        
+        window.util.navigateTo('#canvas'); */
+    });
+    
 	// select canvas
 	$('#canvasSelection').children('#selectionElements').on('click touchstart', '.selectionElement',  function() {
 		window.socket.e.selectCanvas($(this).attr('id'));

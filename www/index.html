@@ -30,6 +30,34 @@
             <div id="error"></div>
         </div>
     </div>
+    <!-- Help page -->
+    <div class="page" id="helpView">
+        <div id="helpBox">
+            <div id="helpText">
+                Koala is a fun drawing app that lets you and your friends paint together! To get started, select or add a new canvas. <br />
+                Tap the plus button to select your painting tools. You can change the tool's color, width, and opacity, and see the preview before painting! <br />
+                If you want your friends to join, tap the envelope button. <br />
+                To hide the toolbar, tap the the minus button. <br />
+                Enjoy! 
+            </div>
+            <div id="okayHelp" class="button"></div>
+            
+        </div>
+    </div>
+    <!-- Invite Friends -->
+    <div class="page" id="inviteView">
+        <div id="inviteBox">
+            <img src="img/koala.png" height="200px" width="300px">
+            <form id="inviteForm">
+              <!--<label for="email">email:</label>-->
+              <input type="text" placeholder= "friend's email" id="friend" ><br>
+              <input type="button" class="formbutton" value="Invite Friend" id="inviteFriend" />
+              <div id="okayInvite" class="button"></div>
+            </form>
+        
+
+        </div>
+    </div>
     <!-- Pick Canvas -->
     <div class="page" id="selectView" >
         <a href="#login">Sign Out</a>
@@ -80,7 +108,8 @@
 			<!--
 				<canvas id="mergeCanvas" class="ignoreCanvas" height="770" width="550"></canvas>
 			-->
-            <div id="" class="button"></div>                          
+            <div id="back" class="button"></div>
+            <div id="envelope" class="button"></div>
             <div id="show" class="button"></div>
             <div id="hide" class="button"></div>
 
@@ -145,7 +174,7 @@
     </div>
 </body>
 
-<script src="http://128.237.202.154:3000/socket.io/socket.io.js"></script>
+<script src="http://192.168.2.6:3000/socket.io/socket.io.js"></script>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
 <script src="js/lib/Util.js"></script>	

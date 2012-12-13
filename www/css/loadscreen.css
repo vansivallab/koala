@@ -6,6 +6,8 @@
     font-size: 12px;
 }
 
+#helpBox,
+#inviteBox,
 #loginBox {
     position: relative;
     margin-top: 20px;
@@ -35,10 +37,10 @@
     color:#999; 
 }
 
-#loginBox input[type=text],
-#loginBox input[type=password],
-#loginBox input[type=text]:hover,
-#loginBox input[type=password]:hover {
+input[type=text],
+input[type=password],
+input[type=text]:hover,
+input[type=password]:hover {
     width: 93%;
     max-width: 298px;
     border: 1px solid #dcdcdc;
@@ -111,7 +113,28 @@
     }
 }
 
+#helpText {
+    width: 94%;
+    max-width: 276px;
+    max-height: 300px;
+    margin: 0px auto;
+    margin-bottom:10px;
+    padding: 10px;
+    text-align: left;
+    color: #00b9ff;
+    background: #fff;
+    border: 2px solid #00b9ff;
+    overflow: auto;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    border-radius:5px;
+}
 
+#helpText br {
+   content: " ";
+   display: block;
+   margin-top: 10px;
+}
 
 #selectionElements {
     display:none;
