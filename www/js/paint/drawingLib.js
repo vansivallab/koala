@@ -60,7 +60,6 @@ DrawingLib.prototype.drawLine = function(x1, y1, x2, y2, color, width, opacity) 
     
     // Draw the stroke
     this.ctx.stroke();
-    this.ctx.closePath();
 };
 
 DrawingLib.prototype.drawCircle = function(x, y, radius, color, width, opacity) {
