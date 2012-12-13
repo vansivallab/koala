@@ -40,7 +40,7 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
         context.strokeStyle = this.color;
         context.lineWidth = this.width;
         context.globalAlpha = this.opacity;
-		
+        
         if (mode == "rectangle") { this.rect_mode(); }
         else if (mode == "pencil") { this.pencil_mode(); }
         else if (mode == "line") { this.line_mode(); }
@@ -50,10 +50,10 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
 
     // Rectangle Tool
     this.rect_mode = function() {
-		this.drawData = {tool: "rectangle", event: 1, x1: 0, y1: 0, 
-			x2: 0, y2: 0, color: context.strokeStyle, 
-			width: context.lineWidth, opacity: context.globalAlpha};
-		
+        this.drawData = {tool: "rectangle", event: 1, x1: 0, y1: 0, 
+            x2: 0, y2: 0, color: context.strokeStyle, 
+            width: context.lineWidth, opacity: context.globalAlpha};
+        
         this.mousedown = function(/*Event Obj*/ e) {
             if (tool.isMouseDown) return;
 
@@ -118,8 +118,8 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
             var w = Math.abs(e.touches[0].clientX - this.drawData.x1);
             var h = Math.abs(e.touches[0].clientY - this.drawData.y1);
 
-			this.drawData.x2 = e.touches[0].clientX;
-			this.drawData.y2 = e.touches[0].clientY;
+            this.drawData.x2 = e.touches[0].clientX;
+            this.drawData.y2 = e.touches[0].clientY;
 
             context.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -133,8 +133,8 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
                 //tool.mousemove(e);
                 tool.save_history();
             }
-			// now transmit the information to the server
-			window.socket.e.sendStrokeData(this.drawData);
+            // now transmit the information to the server
+            window.socket.e.sendStrokeData(this.drawData);
             tool.isMouseDown = false;
 
             $("#message").html("touchend");
@@ -145,10 +145,10 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
 
     // Line Tool
     this.line_mode = function() {
-		this.drawData = {tool: "line", event: 1, x1: line.x1, y1: line.y1, 
-			x2: line.x2, y2: line.y2, color: context.strokeStyle, 
-			width: context.lineWidth, opacity: context.globalAlpha};
-		
+        this.drawData = {tool: "line", event: 1, x1: line.x1, y1: line.y1, 
+            x2: line.x2, y2: line.y2, color: context.strokeStyle, 
+            width: context.lineWidth, opacity: context.globalAlpha};
+        
         this.mousedown = function(/*Event Obj*/ e) {
             if (tool.isMouseDown) return;
             tool.isMouseDown = true;
@@ -162,17 +162,17 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
         this.mousemove = function(/*Event Obj*/ e) {
             if (!tool.isMouseDown) return;
             context.clearRect(0, 0, canvas.width, canvas.height);
-			this.drawData.x2 = e._x;
-			this.drawData.y2 = e._y;
-			
+            this.drawData.x2 = e._x;
+            this.drawData.y2 = e._y;
+            
             context.beginPath();
             context.moveTo(this.drawData.x1, this.drawData.y1);
             context.lineTo(this.drawData.x2, this.drawData.y2);
             
-			context.lineJoin = "round";
+            context.lineJoin = "round";
             context.lineCap = "round";
-			
-			context.stroke();
+            
+            context.stroke();
             context.closePath();
         };
 
@@ -180,7 +180,7 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
             if (tool.isMouseDown) {
                 //tool.mousemove(e);
                 tool.save_history();
-				window.socket.e.sendStrokeData(this.drawData);
+                window.socket.e.sendStrokeData(this.drawData);
             }
             tool.isMouseDown = false;
         };
@@ -200,24 +200,24 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
         this.touchmove = function(/*Event Obj*/ e) {
              if (!tool.isMouseDown) return;
             context.clearRect(0, 0, canvas.width, canvas.height);
-			this.drawData.x2 = e.touches[0].clientX;
-			this.drawData.y2 = e.touches[0].clientY;
-			
+            this.drawData.x2 = e.touches[0].clientX;
+            this.drawData.y2 = e.touches[0].clientY;
+            
             context.beginPath();
             context.moveTo(this.drawData.x1, this.drawData.y1);
             context.lineTo(this.drawData.x2, this.drawData.y2);
             
-			context.lineJoin = "round";
+            context.lineJoin = "round";
             context.lineCap = "round";
-			
-			context.stroke();
+            
+            context.stroke();
             context.closePath();
         };
 
         this.touchend = function(/*Event Obj*/ e) {
             if (tool.isMouseDown) {
                 tool.save_history();
-				window.socket.e.sendStrokeData(this.drawData);
+                window.socket.e.sendStrokeData(this.drawData);
             }
             tool.isMouseDown = false;
         };
@@ -227,46 +227,59 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
 
     // Pencil Tool
     this.pencil_mode = function() {
-		this.drawData ={tool: "pencil", event: 0, x1: 0, y1: 0, 
-			x2: 0, y2: 0, color: context.strokeStyle, 
-			width: context.lineWidth, opacity: context.globalAlpha};
+        this.drawData ={tool: "pencil", event: 0, x1: 0, y1: 0, 
+            x2: 0, y2: 0, color: context.strokeStyle, 
+            width: context.lineWidth, opacity: context.globalAlpha};
         
-		this.mousedown = function(e) {
+        this.mousedown = function(e) {
             if (tool.isMouseDown) { return; }
-			this.drawData.x1 = e._x;
-			this.drawData.y1 = e._y;
+
+            // Remember that the user has clicked on the canvas
+            tool.isMouseDown = true;
+
+            // Set up the information in drawData
+            this.drawData.x1 = e._x;
+            this.drawData.y1 = e._y;
             this.drawData.color = this.color;
             this.drawData.width = this.width;
             this.drawData.opacity = this.opacity;
             
-			$("#message").html("touchstart");
-			
+            $("#message").html("touchstart");
+            
+            // set up the drawing settings
             context.beginPath();
             context.moveTo(e._x, e._y);
-            tool.isMouseDown = true;
         };
 
         this.mousemove = function(e) {
             if (tool.isMouseDown) {
+                // Store the endpoint of the line into drawData
                 this.drawData.x2 = e._x;
-				this.drawData.y2 = e._y;
+                this.drawData.y2 = e._y;
 
-				context.beginPath();
-				context.moveTo(this.drawData.x1, this.drawData.y1);
+                // Set settings for the line drawing
+                context.beginPath();
+                context.moveTo(this.drawData.x1, this.drawData.y1);
                 context.lineTo(this.drawData.x2, this.drawData.y2);
-				context.closePath();
+                //context.closePath();
+                // ^^^ commented out for consistency with touch
 
+                // Code that gives strokes round stuff
                 context.lineJoin = "round";
                 context.lineCap = "round";
+
+                // Draw the line onto the canvas
                 context.stroke();
 
-				//sendStrokeData(this.drawData);
-				
-				window.socket.e.sendStrokeData(this.drawData);
+                //sendStrokeData(this.drawData);
+                
+                // Send the stroke data to the server
+                window.socket.e.sendStrokeData(this.drawData);
 
-				tool.save_history();
-				this.drawData.x1 = this.drawData.x2;
-				this.drawData.y1 = this.drawData.y2;
+                // Put the stroke from the Delta canvas to the Main canvas
+                tool.save_history();
+                this.drawData.x1 = this.drawData.x2;
+                this.drawData.y1 = this.drawData.y2;
             }
         };
 
@@ -279,39 +292,50 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
 
         this.touchstart = function(e) {
             if (tool.isMouseDown) { return; }
+
+            // Remember that the user has tapped the canvas
             tool.isMouseDown = true;
-			this.drawData.x1 = e.touches[0].clientX;
-			this.drawData.y1 = e.touches[0].clientY;
+            
+            // Set up the information in drawData
+            this.drawData.x1 = e.touches[0].clientX;
+            this.drawData.y1 = e.touches[0].clientY;
             this.drawData.color = this.color;
             this.drawData.width = this.width;
             this.drawData.opacity = this.opacity;
 
+            // Set up drawing settings
             context.beginPath();
             context.moveTo(e.touches[0].clientX, e.touches[0].clientY);
         };
 
+        var num = 0;
+
         this.touchmove = function(e) {
             if (tool.isMouseDown) {
+                // Store the endpoint of the stroke in drawData
+                this.drawData.x2 = e.touches[0].clientX;
+                this.drawData.y2 = e.touches[0].clientY;
+
+                // Set the settings for the stroke
+                context.beginPath();
+                context.moveTo(this.drawData.x1, this.drawData.y1);
+                context.lineTo(this.drawData.x2, this.drawData.y2);
+                //context.closePath(); <-- This line makes the code not work
+
+                // Code that gives strokes round stuff
                 context.lineJoin = "round";
                 context.lineCap = "round";
 
-				this.drawData.x2 = e.touches[0].clientX;
-				this.drawData.y2 = e.touches[0].clientY;
-				
-				context.beginPath();
-				context.moveTo(this.drawData.x1, this.drawData.y1);
-                context.lineTo(this.drawData.x2, this.drawData.y2);
-				context.closePath();
-
+                // Draw the stroke onto Delta canvas
                 context.stroke();
 
-				//sendStrokeData(this.drawData);
-				
-				window.socket.e.sendStrokeData(this.drawData);
+                //sendStrokeData(this.drawData);
+                
+                window.socket.e.sendStrokeData(this.drawData);
 
-				tool.save_history();
-				this.drawData.x1 = this.drawData.x2;
-				this.drawData.y1 = this.drawData.y2;
+                tool.save_history();
+                this.drawData.x1 = this.drawData.x2;
+                this.drawData.y1 = this.drawData.y2;
             }
         };
 
@@ -323,17 +347,17 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
         };
 
     };
-	
+    
     this.circle_mode = function(/*Event Obj*/e) {
-		this.drawData = {tool: "circle", event: 1, x: 0, y: 0, radius: 0,
-			color: context.strokeStyle, width: context.lineWidth, 
-			opacity: context.globalAlpha};
-		
+        this.drawData = {tool: "circle", event: 1, x: 0, y: 0, radius: 0,
+            color: context.strokeStyle, width: context.lineWidth, 
+            opacity: context.globalAlpha};
+        
         this.mousedown = function(e) {
             if (tool.isMouseDown) { return; }
             tool.isMouseDown = true;
-			this.drawData.x = e._x;
-			this.drawData.y = e._y;
+            this.drawData.x = e._x;
+            this.drawData.y = e._y;
             this.drawData.color = this.color;
             this.drawData.width = this.width;
             this.drawData.opacity = this.opacity;
@@ -344,13 +368,13 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
                 context.clearRect(0, 0, canvas.width, canvas.height);
 
                 this.drawData.radius = Math.sqrt(Math.pow(this.drawData.x - e._x, 2)
-										+Math.pow(this.drawData.y - e._y, 2));
+                                        +Math.pow(this.drawData.y - e._y, 2));
 
                 context.beginPath();
                 context.arc(this.drawData.x, this.drawData.y, 
-							this.drawData.radius, 0, 2 * Math.PI, true);
+                            this.drawData.radius, 0, 2 * Math.PI, true);
                 context.closePath();
-				context.stroke();
+                context.stroke();
             }
         };
 
@@ -359,16 +383,16 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
                 tool.save_history();
 
                 // now send the information to the server
-				window.socket.e.sendStrokeData(this.drawData)
+                window.socket.e.sendStrokeData(this.drawData)
             }
             tool.isMouseDown = false;
         };
-		
-		this.touchstart = function(e) {
+        
+        this.touchstart = function(e) {
             if (tool.isMouseDown) { return; }
             tool.isMouseDown = true;
-			this.drawData.x = e.touches[0].clientX;
-			this.drawData.y = e.touches[0].clientY;
+            this.drawData.x = e.touches[0].clientX;
+            this.drawData.y = e.touches[0].clientY;
             this.drawData.color = this.color;
             this.drawData.width = this.width;
             this.drawData.opacity = this.opacity;
@@ -379,13 +403,13 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
                 context.clearRect(0, 0, canvas.width, canvas.height);
 
                 this.drawData.radius = Math.sqrt(Math.pow(this.drawData.x - e.touches[0].clientX, 2)
-										+Math.pow(this.drawData.y - e.touches[0].clientY, 2));
+                                        +Math.pow(this.drawData.y - e.touches[0].clientY, 2));
 
                 context.beginPath();
                 context.arc(this.drawData.x, this.drawData.y, 
-							this.drawData.radius, 0, 2 * Math.PI, true);
+                            this.drawData.radius, 0, 2 * Math.PI, true);
                 context.closePath();
-				context.stroke();
+                context.stroke();
             }
         };
 
@@ -394,7 +418,7 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
                 tool.save_history();
 
                 // now send the information to the server
-				window.socket.e.sendStrokeData(this.drawData)
+                window.socket.e.sendStrokeData(this.drawData)
             }
             tool.isMouseDown = false;
         };
@@ -403,24 +427,24 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
     this.eraser_mode = function(/*Event Obj*/ e) {
 
         // JSON obj that we will send to the server
-		this.drawData ={tool: "eraser", event: 0, x1: 0, y1: 0, 
-			x2: 0, y2: 0, width: context.lineWidth};
+        this.drawData ={tool: "eraser", event: 0, x1: 0, y1: 0, 
+            x2: 0, y2: 0, width: context.lineWidth};
         this.eraserColor = 'white';
-		
-		this.mousedown = function(/*Event Obj*/ e) {
+        
+        this.mousedown = function(/*Event Obj*/ e) {
             if (tool.isMouseDown) { return; }
-			this.drawData.x1 = e._x;
-			this.drawData.y1 = e._y;
+            this.drawData.x1 = e._x;
+            this.drawData.y1 = e._y;
             this.drawData.color = this.color;
             this.drawData.width = this.width;
             this.drawData.opacity = this.opacity;
 
-			$("#message").html("touchstart");
+            $("#message").html("touchstart");
 
             // These are default values for an eraser tool
             context.globalCompositeOperation = "copy";
             context.strokeStyle = this.eraserColor;
-			
+            
 
             // Now begins the normal line operation
             context.beginPath();
@@ -431,36 +455,36 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
         this.mousemove = function(/*Event Obj*/ e) {
             if (tool.isMouseDown) {
                 this.drawData.x2 = e._x;
-				this.drawData.y2 = e._y;
-				context.beginPath();
-				context.moveTo(this.drawData.x1, this.drawData.y1);
-				
-				//context.clearRect(0, 0, canvas.width, canvas.height);
+                this.drawData.y2 = e._y;
+                context.beginPath();
+                context.moveTo(this.drawData.x1, this.drawData.y1);
+                
+                //context.clearRect(0, 0, canvas.width, canvas.height);
                 context.lineTo(this.drawData.x2, this.drawData.y2);
-				context.closePath();
+                context.closePath();
                 context.stroke();
-				
-				window.socket.e.sendStrokeData(this.drawData);
-				tool.save_history();
-				this.drawData.x1 = this.drawData.x2;
-				this.drawData.y1 = this.drawData.y2;
+                
+                window.socket.e.sendStrokeData(this.drawData);
+                tool.save_history();
+                this.drawData.x1 = this.drawData.x2;
+                this.drawData.y1 = this.drawData.y2;
             }
         };
 
         this.mouseup = function(e) {
             if (tool.isMouseDown) {
-				//context.closePath()
+                //context.closePath()
                 //tool.save_history();
             }
-			
+            
             tool.isMouseDown = false;
         };
-		
-		this.touchstart = function(/*Event Obj*/ e) {
+        
+        this.touchstart = function(/*Event Obj*/ e) {
             if (tool.isMouseDown) { return; }
-			this.drawData.x1 = e.touches[0].clientX;
-			this.drawData.y1 = e.touches[0].clientY;
-			$("#message").html("touchstart");
+            this.drawData.x1 = e.touches[0].clientX;
+            this.drawData.y1 = e.touches[0].clientY;
+            $("#message").html("touchstart");
 
             // These are default values for an eraser tool
             context.globalCompositeOperation = "copy";
@@ -476,25 +500,25 @@ var Tools = function(/*delta Canvas Elem*/imgView, /*Canvas Elem*/tmpView) {
         this.touchmove = function(/*Event Obj*/ e) {
             if (tool.isMouseDown) {
                 this.drawData.x2 = e.touches[0].clientX;
-				this.drawData.y2 = e.touches[0].clientY;
-				context.beginPath();
-				context.moveTo(this.drawData.x1, this.drawData.y1);
-				
-				//context.clearRect(0, 0, canvas.width, canvas.height);
+                this.drawData.y2 = e.touches[0].clientY;
+                context.beginPath();
+                context.moveTo(this.drawData.x1, this.drawData.y1);
+                
+                //context.clearRect(0, 0, canvas.width, canvas.height);
                 context.lineTo(this.drawData.x2, this.drawData.y2);
-				context.closePath();
+                context.closePath();
                 context.stroke();
-				
-				window.socket.e.sendStrokeData(this.drawData);
-				tool.save_history();
-				this.drawData.x1 = this.drawData.x2;
-				this.drawData.y1 = this.drawData.y2;
+                
+                window.socket.e.sendStrokeData(this.drawData);
+                tool.save_history();
+                this.drawData.x1 = this.drawData.x2;
+                this.drawData.y1 = this.drawData.y2;
             }
         };
 
         this.touchend = function(e) {
             if (tool.isMouseDown) {
-				//context.closePath()
+                //context.closePath()
                 //tool.save_history();
             }
 
