@@ -28,6 +28,8 @@ var globalView = {
 	loginView: undefined,
 	selectView: undefined,
 	canvasView: undefined,
+    helpView: undefined,
+    inviteView: undefined,
 	currView: this.loginView,
 	views: []
 };
@@ -36,13 +38,15 @@ function initViews() {
 	globalView.currView = globalView.loginView = new View(globalView, '#login', $('#loginView'));
 	globalView.selectView = new View(globalView, '#select', $('#selectView'));
 	globalView.canvasView = new View(globalView, '#canvas', $('#canvasView'));
-	globalView.views = [globalView.loginView, globalView.selectView, globalView.canvasView];
+    globalView.helpView = new View(globalView, '#help', $('#helpView'));
+    globalView.inviteView = new View(globalView, '#invite', $('#inviteView'));
+	globalView.views = [globalView.loginView, globalView.selectView, globalView.canvasView, globalView.helpView, globalView.inviteView];
 };
 initViews();
 
 
 //NAVIGATION
-function navigateTo(hash) {
+window.util.navigateTo = function(hash) {
 	if(hash ===  '') {
 		return globalView.loginView.show();
 	}
@@ -59,12 +63,12 @@ if (window.location.hash === '') {
 	window.location.hash = globalView.loginView.hash;
 } 
 else {
-	navigateTo(window.location.hash);
+	window.util.navigateTo(window.location.hash);
 }
 
 window.onhashchange = function() {
 	// actually perform the navigation
-	navigateTo(window.location.hash);
+	window.util.navigateTo(window.location.hash);
 };
 
 });

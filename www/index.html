@@ -10,20 +10,53 @@
 <body>
     <!-- Log In or Sign Up -->
     <div class="page" id="loginView">
-        <a href="#select">Select Canvas</a>
         <a href="#canvas">Start Drawing</a>
         <br /><p />
         
-        <form id="loginForm" action="javascript:submitForm()">
-          <label for="email">email:</label>
-          <input type="text" id="email" ><br>
-          <label for="password">password:</label>
-          <input type="password" id="password"><br />
-          <input type="submit" name="login" value="Enter"><br />
-        </form>
-        <br /> <p />
-        <div id="error"></div>
+        <div id="loginBox">
+            <img src="img/koala.png" height="200px" width="300px">
+            <form id="loginForm">
+              <!--<label for="email">email:</label>-->
+              <input type="text" placeholder= "email" id="email" ><br>
+              <!--<label for="password">password:</label>-->
+              <input type="password" placeholder = "password" id="password"><br />
+              <!--<input type="submit" id="login" value="Start Painting" class="formbutton" >-->
+              <div id="login"x class="formbutton" >Start Painting</div>
+              
+              <br />
+            </form>
+            
+            <br /> <p />
+            <div id="error"></div>
+        </div>
+    </div>
+    <!-- Help page -->
+    <div class="page" id="helpView">
+        <div id="helpBox">
+            <div id="helpText">
+                Koala is a fun drawing app that lets you and your friends paint together! To get started, select or add a new canvas. <br />
+                Tap the plus button to select your painting tools. You can change the tool's color, width, and opacity, and see the preview before painting! <br />
+                If you want your friends to join, tap the envelope button. <br />
+                To hide the toolbar, tap the the minus button. <br />
+                Enjoy! 
+            </div>
+            <div id="okayHelp" class="button"></div>
+            
+        </div>
+    </div>
+    <!-- Invite Friends -->
+    <div class="page" id="inviteView">
+        <div id="inviteBox">
+            <img src="img/koala.png" height="200px" width="300px">
+            <form id="inviteForm">
+              <!--<label for="email">email:</label>-->
+              <input type="text" placeholder= "friend's email" id="friend" ><br>
+              <input type="button" class="formbutton" value="Invite Friend" id="inviteFriend" />
+              <div id="okayInvite" class="button"></div>
+            </form>
         
+
+        </div>
     </div>
     <!-- Pick Canvas -->
     <div class="page" id="selectView" >
@@ -34,18 +67,23 @@
         
         <div id='canvasSelection'>
                 <div id='canvasSelectionTitle' class="title">Select Canvas</div>
-                <div id='selectionElements' class="loadStyle">
+                <div id='selectionElements'>
                     
-                    <!--saved canvases dynamically added here-->
-                   
-                    <!--add new canvas button-->
-                    <input type="text" placeholder = "Canvas Name" id= "newFile" />
-                    <input type="button" class="loadButton" value=">" id="addButton" />
+                    <!--saved canvases dynamically added here-->                   
                 </div>
+                
+                <!--add new canvas button-->
+                <input type="button" class="formbutton" value="New Canvas" id="addButton" />
+                <br/>
+                <div id="koalaBox">
+                    <img id="koalaMini" src="img/koala50.png" height="100px" width="150px">
+                </div>
+                <div id="logout" class="button"></div>
+                <div id="question" class="button"></div>
+                
 
+                
        </div>
-       <br /><p />
-       <div id="errorCanvas"></div>
        
        
     </div>
@@ -70,12 +108,12 @@
 			<!--
 				<canvas id="mergeCanvas" class="ignoreCanvas" height="770" width="550"></canvas>
 			-->
-            <div id="showHide">
-                <div id="buttons">
-                    <div id="show" class="button"></div>
-                    <div id="hide" class="button"></div>
-                </div>
-            </div>
+            <div id="back" class="button"></div>
+            <div id="envelope" class="button"></div>
+            <div id="show" class="button"></div>
+            <div id="hide" class="button"></div>
+
+
             
             <div id="toolbar">
                 <div id="mainTools">

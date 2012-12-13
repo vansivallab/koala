@@ -1,5 +1,7 @@
 var $show = $("#show");
 var $hide = $("#hide");
+var $envelope = $("#envelope");
+var $back = $("#back");
 var $toolbar = $("#toolbar");
 var $oldBrush = $('#pencil');
 var preview = document.getElementById("littleCanvas");
@@ -9,7 +11,7 @@ var previewWidth = 5;
 var previewOpacity = 0.8;
 
 var paint = new Paint("mainCanvas", "imageDelta");
-paint.toolbox.setWidth(20);
+paint.toolbox.setWidth(5);
 paint.toolbox.setOpacity(.8);
 paint.toolbox.setColor("rgb(163,73,164)");
 paint.toolbox.setMode("pencil");
@@ -20,21 +22,50 @@ $show.css('display', "block");
 
 $show.on('click touchstart', function() {
 	$show.css('display', "none");
-    $hide.css('display', "block");
     $toolbar.stop().animate({
         right: 0
-    }, 400);
+    });
+    $hide.css('display', "block");
+    $back.css('display', "block");
+    $envelope.css('display', "block");
+
 	
 });
 
 $hide.on('click touchstart', function() {
-	$show.css('display', "block");
 	$hide.css('display', "none");
     $toolbar.stop().animate({
         right:'-200px'
-    });
+    });    
+    $back.css('display', "none");
+    $envelope.css('display', "none");
+    $show.css('display', "block");
+
 	
 });
+
+$back.on('click touchstart', function() {
+    window.util.navigateTo('#select');
+});
+
+
+$envelope.on('click touchstart', function() {
+    window.util.navigateTo('#invite');
+});
+
+$('#question').on('click touchstart', function() {
+    window.util.navigateTo('#help');
+});
+
+$('#okayHelp').on('click touchstart', function() {
+    window.util.navigateTo('#select');
+});
+
+$('#okayInvite').on('click touchstart', function() {
+    window.util.navigateTo('#canvas');
+});
+
+
 
 /* select tool */
 $('.brush').on('click touchstart', function() {

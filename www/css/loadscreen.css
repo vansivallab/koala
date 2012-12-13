@@ -1,22 +1,78 @@
 /*load screen css*/
 #canvasSelection {
-    padding-top: 30px;
+    padding-top: 20px;
     text-align: center;
     font-family: 'Arial', sans-serif;
     font-size: 12px;
 }
 
-#loadLogo {
-    margin: 100px auto 50px auto;
-    font-family: 'Finger Paint', cursive;
-    font-size: 50px;
-    color: red;
-    display:block;
+#helpBox,
+#inviteBox,
+#loginBox {
+    position: relative;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
 }
 
+#error, 
+#errorCanvas {
+    color: red;
+}
 
+::-webkit-input-placeholder,
+::-webkit-input-placeholder:hover,
+::-webkit-input-placeholder:active {
+    font-size: 20px;
+    font-family: 'Arial', sans-serif;
+    color:#999;
+}
 
-.loadButton {
+:-moz-placeholder,
+:-moz-placeholder:hover,
+:-moz-placeholder:active {  
+    font-size: 20px;
+    font-family: 'Arial', sans-serif;
+    color:#999; 
+}
+
+input[type=text],
+input[type=password],
+input[type=text]:hover,
+input[type=password]:hover {
+    width: 93%;
+    max-width: 298px;
+    border: 1px solid #dcdcdc;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    border-radius:5px;
+    font-size: 20px;
+    font-family: 'Arial', sans-serif;
+    color: #00b9ff;
+}
+
+#loginBox input[type=text]:active,
+#loginBox input[type=password]:active {
+
+}
+
+#koalaBox {
+    position: absolute;
+    width: 100%;
+    bottom: 10px; 
+}
+
+#koalaMini {
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.formbutton {
+    width: 95%;
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
 	-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
 	-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
 	box-shadow:inset 0px 1px 0px 0px #ffffff;
@@ -34,27 +90,59 @@
 	display:inline-block;
 	color:#666666;
 	font-family: 'Arial', san-serif;
-	font-size:15px;
+	font-size:20px;
 	font-weight:bold;
-	padding:6px 24px;
+	padding-top:6px;
+    padding-bottom:6px;
+    /*padding:6px 24px;*/
 	text-decoration:none;
 	text-shadow:1px 1px 0px #ffffff;
-}.loadButton:hover {
+}.formbutton:hover {
 	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #f6f6f6), color-stop(1, #ffffff) );
 	background:-moz-linear-gradient( center top, #f6f6f6 5%, #ffffff 100% );
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f6f6', endColorstr='#ffffff');
 	background-color:#f6f6f6;
-}.loadButton:active {
+}.formbutton:active {
 	position:relative;
 	top:1px;
 }
 
+@media screen and (min-device-width : 320px) and (max-device-width : 800px) {
+    .formbutton {
+        margin-left: 4px;
+    }
+}
 
-.loadStyle {
-    width: 300px;
+#helpText {
+    width: 94%;
+    max-width: 276px;
+    max-height: 300px;
+    margin: 0px auto;
+    margin-bottom:10px;
+    padding: 10px;
+    text-align: left;
+    color: #00b9ff;
+    background: #fff;
+    border: 2px solid #00b9ff;
+    overflow: auto;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    border-radius:5px;
+}
+
+#helpText br {
+   content: " ";
+   display: block;
+   margin-top: 10px;
+}
+
+#selectionElements {
+    display:none;
+    width: 94%;
+    max-width: 298px;
     max-height: 200px;
     margin: 0px auto;
-    padding: 10px;
+    margin-bottom:10px;
     text-align: center;
     background: #f6f6f6;
     border: 1px solid #dcdcdc;
@@ -62,21 +150,22 @@
     -webkit-box-shadow:inset 0px 0px 0px 1px #ffffff;
     box-shadow:inset 0px 0px 0px 1px #ffffff;
     overflow: auto;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    border-radius:5px;
 }
 
 .selectionElement {
-    margin: 1px 5px;
+    margin: 8px 5px;
     padding:0px 5px;
     text-align:center;
     
 }
-.selectionElements .divide {
-    width: 95%;
-}
+
 
 .title {
     display: block;
-    font-size: 18px;
+    font-size: 20px;
     color: #00b9ff;
     font-weight: bold;
     margin: 30px 0px 10px 0px;
@@ -87,7 +176,7 @@
     color:#666666;
     text-shadow:1px 1px 0px #ffffff;
     display: inline;
-    margin-right: 15px;
+    margin-right: 20px;
 }
 
 .selectionElement:hover {
@@ -98,25 +187,15 @@
     text-shadow:1px 1px 0px #f6f6f6; 
 }
 
-#selectionElements .loadButton {
-    padding: 0px 2px;
-    margin-left: 15px;
-    display:inline;
-    font-weight:normal;
-    -moz-border-radius:20px;
-	-webkit-border-radius:20px;
-	border-radius:20px;
+.divide {
+    width: 95%;
+    color: #FFF;
+    background: #FFF;
+    max-width: 200px;
+    height: 1px;
+    margin: 7px auto;
+    border-top: 1px solid #eeeeee;
 }
 
-
-#selectionElements input[type=text],
-#selectionElements input[type=text]:hover {
-    width: 200px;
-    height: 17px;
-    border: 1px solid #dcdcdc;
-    -moz-border-radius:3px;
-    -webkit-border-radius:3px;
-    border-radius:3px;
-}
 
 

@@ -1,7 +1,10 @@
 body {
 	overflow: hidden;
 	width: 100%;
-    background: white;
+    background: #EEF3FA;
+    font-family: 'Arial', sans-serif;
+    
+    
 }
 
 .page {
@@ -12,6 +15,28 @@ body {
 	display: none;
 }
 
+.button {
+    border: 1px solid #dcdcdc;
+    -moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+    -moz-box-shadow:inset 0px 0px 0px 1px #f6f6f6;
+	-webkit-box-shadow:inset 0px 0px 0px 1px #f6f6f6;
+	box-shadow:inset 0px 0px 0px 1px #f6f6f6;
+    width: 20px;
+    margin: 2px;
+    margin-bottom:3px;
+    height: 20px;
+    float: left;  
+}
+
+.button:hover {
+    border: 1px solid #666666;
+    box-shadow: 0px 0px 1px #333333;
+    -moz-box-shadow: 0px 0px 1px #333333;
+    -webkit-box-shadow: 0px 0px 1px #333333;
+    cursor: pointer;
+}
 /* Changed some canvas name variables
    imageDelta => imageTmp
    imageTmp   => imageDelta
@@ -38,6 +63,7 @@ body {
     position: absolute;
 	left: 1px;
 	top: 1px;
+    background:white;
 }
 
 #canvasContainer {
@@ -46,7 +72,6 @@ body {
     left: 0px;
     background: white;
 	width: 1024px;
-	border: 1px solid #999999;
     display: block;
 
 }
@@ -56,10 +81,13 @@ body {
     position: fixed;
     top: 10px;
     right:-165px;
-    width:160px;
+    width:152px;
     height:228px;
     padding: 2px;
     overflow:hidden;
+    background: #00b9ff;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius:5px;
     
 }
 
@@ -77,12 +105,10 @@ body {
     right:0px;
     width:35px;
     height:224px;
-    background: #7080D7;
-    padding: 2px;
-    padding-top:5px;
-    padding-bottom: 1px;
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
+    background: #EEF3FA;
+    padding-left: 2px;
+    padding-right: 2px;
+    padding-top:4px;
     overflow:hidden;
 }
 
@@ -94,14 +120,46 @@ body {
     float: right;
 }
 
-#showHide {
-    position:fixed; 
-    top: 0px;
-    left: 0px;
-    width: 28px;
-    padding: 2px;
-    padding-top:1px;
 
+#back {
+    display: none;
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    width: 32px;
+    height: 32px;
+    background: url("../img/brush.png") -196px -10px;
+    
+}
+
+#envelope {
+    display:none; 
+    position: fixed;
+    bottom: 0px;
+    left: 38px;
+    width: 32px;
+    height: 32px;
+    background: url("../img/brush.png") -237px -10px;
+}
+
+#okayInvite,
+#okayHelp,
+#logout {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    width: 32px;
+    height: 32px;
+    background: url("../img/brush.png") -196px -10px;
+}
+
+#question {
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    width: 32px;
+    height: 32px;
+    background: url("../img/brush.png") -195px -54px;
 }
 
 #pencil {
@@ -126,12 +184,22 @@ body {
 
 
 #show {
-    background: url("../img/brush.png") -114px -56px;
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    background: url("../img/brush.png") -112px -53px;
     display: none;
+    width: 32px;
+    height: 32px;
 }
 #hide {
-    background: url("../img/brush.png") -158px -57px;
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    background: url("../img/brush.png") -153px -53px;
     display: none;
+    width: 32px;
+    height: 32px;
     
 }
 
@@ -166,6 +234,7 @@ body {
     box-shadow: 0px 0px 1px #333333;
     -moz-box-shadow: 0px 0px 1px #333333;
     -webkit-box-shadow: 0px 0px 1px #333333;
+    cursor: pointer;
 }
 
 .color {
@@ -190,6 +259,7 @@ body {
     box-shadow: inset 0px 0px 4px #000;
     -moz-box-shadow: inset 0px 0px 4px #000;
     -webkit-box-shadow: 0inset px 0px 4px #000;
+    cursor:pointer;
 }
 
 
@@ -200,27 +270,7 @@ body {
     -webkit-box-shadow: 0px 0px 2px #333333; 
 }
 
-.button {
-    border: 1px solid #dcdcdc;
-    -moz-border-radius:5px;
-	-webkit-border-radius:5px;
-	border-radius:5px;
-    -moz-box-shadow:inset 0px 0px 0px 1px #f6f6f6;
-	-webkit-box-shadow:inset 0px 0px 0px 1px #f6f6f6;
-	box-shadow:inset 0px 0px 0px 1px #f6f6f6;
-    width: 20px;
-    margin: 2px;
-    margin-bottom:3px;
-    height: 20px;
-    float: left;  
-}
 
-.button:hover {
-    border: 1px solid #666666;
-    box-shadow: 0px 0px 1px #333333;
-    -moz-box-shadow: 0px 0px 1px #333333;
-    -webkit-box-shadow: 0px 0px 1px #333333;
-}
 
 
 .drag {
@@ -235,6 +285,10 @@ body {
     box-shadow: inset 0px 0px 2px #333333;
     -moz-box-shadow: inset 0px 0px 2px #333333;
     -webkit-box-shadow: inset 0px 0px 2px #333333;
+    text-align:center;
+    color: #00b9ff;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 .slider {
@@ -249,14 +303,12 @@ body {
     float: left;
     position: absolute;
     display: block;
-    border: 1px solid #333;
     height: 228px;
-    width: 120px;
-    margin-top: 0px;
-    margin-left:2px;
-    margin-right: 0px;
-    border-radius: 5px;
-    background: white;
+    width: 116px;
+    margin:0px;
+    background: #EEF3FA;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius:3px;
     
 }
 
@@ -272,22 +324,24 @@ body {
 
 #opacitySlider {
     top: 0px;
-    right:15px;
+    right:11px;
 }
 
 #opacity {
     top: 160px; /*.8 opacity */
-    right: 4px;
+    right: 0px;
+    background: url("../img/brush.png") -281px -59px;    
 }
 
 #widthSlider {
     top: 0px;
-    right: 43px;
+    right: 39px;
 }
 
 #width {
     top: 21px; /* 5px width */
-    right: 32px;
+    right: 28px;
+    background: url("../img/brush.png") -242px -58px;
 }
 
 #colors {
@@ -314,3 +368,4 @@ body {
 	-webkit-box-shadow:inset 0px 0px 0px 1px #ffffff;
 	box-shadow:inset 0px 0px 0px 1px #ffffff;
 }
+

@@ -32,6 +32,15 @@ function loadCanvasEntry(entry, dLib) {
 	}
 }    
 
+//populate canvas ids on canvas selection screen
+function loadCanvasElementMarkup(filePath) {
+    return "<div class='selectionElement' id='"
+        + filePath +"'> " 
+        + "<div class='text'>"+ filePath
+        + "</div>"
+    + "</div>";
+};
+    
 function newSocket(connAddr, dLib) {
 	var retSocket = io.connect(connAddr);
 
@@ -52,7 +61,10 @@ function newSocket(connAddr, dLib) {
 			for(var d = 0; d < data.strokes.length; d++) {
 				loadCanvasEntry(data.strokes[d], this.e.dLib);
 			}
-		}
+		
+            window.util.navigateTo('#canvas');
+        
+        }
 		else {
 			//tell user canvas is invalid
 		}
@@ -61,18 +73,26 @@ function newSocket(connAddr, dLib) {
 	//get user data and redirect to pick canvas page 
 	retSocket.on('loginCallback', function(data) {
 		console.log(data);
+        console.log(data.canvasIds.length);
 		if(data.validConn == true) { //check if user info was valid
 			this.e.connData.connKey = data.connKey;
 			
 			//get list of canvas ids
-			var canvasSelectionJSelect = $('#canvasSelection').children('#selectionElements');       
-			for(var i = 2; i < data.length; i++) {
-				canvasSelectionJSelect.append(loadCanvasElementMarkup(data[i]));            
-				canvasSelectionJSelect.append("<div class='divide'></div>");
+			var canvasSelectionJSelect = $('#canvasSelection').children('#selectionElements');  
+            
+            //singleton list
+            canvasSelectionJSelect.append(loadCanvasElementMarkup(data.canvasIds[0])); 
+			
+            //rest
+            for(var i = 2; i < data.canvasIds.length; i+=2) {
+				canvasSelectionJSelect.append("<div class='divide'></div>");            
+				canvasSelectionJSelect.append(loadCanvasElementMarkup(data.canvasIds[i]));            
+
 			}
 			
-			//redirect 
-			navigateTo('#select');
+			//redirect
+            $('#selectionElements').css('display', 'block');
+			window.util.navigateTo('#select');
 			
 		}
 		else {$('#error').html("Invalid Username/Password");}
@@ -87,7 +107,7 @@ function newSocket(connAddr, dLib) {
 	$(window).unload(function() {
 		console.log("disconnecting");
 		console.log(retSocket.e.connData);
-		retSocket.e.logout();
+		window.socket.e.logout();
 	});
 	
 	/****************************************
@@ -110,7 +130,7 @@ function newSocket(connAddr, dLib) {
 	retSocket.e.login = function(username, password){ //username is an email
 		this.connData.username = username;
 		this.password = password;
-		console.log(this);
+		console.log("login: " + this);
 		this.socket.emit('login', {username: username, password: password});
 	};
 	
