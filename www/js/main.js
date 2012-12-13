@@ -15,7 +15,7 @@ window.onload = function() {
 	
     
     $('#loginForm').submit(submitForm);
-    $('#login').on('click ontouchstart', submitForm);
+    $('#login').on('click touchstart', submitForm);
     
 	function submitForm() {
         alert("submit!");
@@ -42,40 +42,14 @@ window.onload = function() {
 		}
 	}
 	
-	//populate canvas ids on canvas selection screen
-	function loadCanvasElementMarkup(filePath) {
-		return "<div class='selectionElement' id='"
-			+ filePath +"'> " 
-			+ "<div class='text'>"+ filePath
-			+ "</div>"
-		+ "</div>";
-	};
-
 	// select canvas
-	$('#canvasSelection').children('#selectionElements').on('click', '.selectionElement',  function() {
+	$('#canvasSelection').children('#selectionElements').on('click touchstart', '.selectionElement',  function() {
 		window.socket.e.selectCanvas($(this).attr('id'));
 	});
 
 	// add new canvas
-	$('#addButton').on('click', function() {
-		var name = $('#newFile').val();
-		var msg = "";
-		if(($.trim(name).length == 0) || (window.util.isValidInput(name) == false)) {
-			msg = msg + "Invalid Canvas Name <br />";   
-		}
-		
-		$('#errorCanvas').html(msg);
-		if(msg == "") {
-
-			var data = {
-				connectionKey: connectionKey,
-				canvasId: name
-			}
-			
-			window.socket.e.createCanvas();
-			
-		}
-
+	$('#addButton').on('click touchstart', function() {      
+        window.socket.e.createCanvas();
 		
 	});
 };

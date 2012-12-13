@@ -9,7 +9,7 @@ var previewWidth = 5;
 var previewOpacity = 0.8;
 
 var paint = new Paint("mainCanvas", "imageDelta");
-paint.toolbox.setWidth(20);
+paint.toolbox.setWidth(5);
 paint.toolbox.setOpacity(.8);
 paint.toolbox.setColor("rgb(163,73,164)");
 paint.toolbox.setMode("pencil");
