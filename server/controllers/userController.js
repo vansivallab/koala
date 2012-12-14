@@ -6,7 +6,7 @@ var Util = require('../util.js');
 var UserController = {
 	newUser: function(username, password, /*superuser,*/ callback) {
 		User.findOne({username: username}, function(err, user) {
-			if(err) {throw err;}
+			if(err) {return callback(null);}
 			
 			if(!Util.exists(user)) {
 				user = new User({
@@ -18,7 +18,10 @@ var UserController = {
 				
 				user.lastLoginTimestamp = user.registeredTimestamp = new Date();
 				user.save(function(err) {
-					if(err) {throw err;}
+					if(err) {
+						console.log("\n--userController.js 22 ERR: "+err+"--\n");
+						return callback(null);
+					}
 					return callback(user);
 				});
 				
@@ -33,8 +36,9 @@ var UserController = {
 	authUser: function(username, password, callback) {
 		User.findOne({username: username}, function(err, result) {
 			if(err) {
-			console.log(err);
-			throw err;}
+				console.log("\n--userController.js 38 ERR: "+err+"--\n");
+				return callback(false, null);
+			}
 			console.log("line36 urname: "+username+" result: ");
 			console.log(JSON.stringify(result));
 			console.log("-------------\n");
@@ -55,14 +59,20 @@ var UserController = {
 	
 	find: function(searchJSON, callback) {
 		User.find(searchJSON, function(err, userObjs) {
-			if(err) {throw err;}
+			if(err) {
+				console.log("\n--userController.js 63 ERR: "+err+"--\n");
+				return callback(null);
+			}
 			if(Util.exists(callback)) {return callback(userObjs);}
 		});
 	},
 	
 	findOne: function(searchJSON, callback) {
 		User.findOne(searchJSON, function(err, userObj) {
-			if(err) {throw err;}
+			if(err) {
+				console.log("\n--userController.js 73 ERR: "+err+"--\n");
+				return callback(false, null);
+			}
 			if(Util.exists(callback)) {return callback(userObj);}
 		});
 	}

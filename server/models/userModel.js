@@ -22,7 +22,10 @@ UserSchema.methods.createCanvas = function(callback) {
 		user.userCanvasIds.push(canvasObj.userCanvasId);
 		canvasObj.usernames.push(user.username);
 		canvasObj.save(function(err) {
-			if(err) {throw err;}
+			if(err) {
+				console.log("\n--userMode.js 26 ERR: "+err+"--\n");
+				return callback(null);
+			}
 			user.save(function(err) {
 				if(err) {throw err;}
 				if(Util.exists(callback)) {return callback(canvasObj);}
@@ -41,7 +44,10 @@ UserSchema.methods.addCanvas = function(userCanvasId, callback) {
 				canvasObj.save(function(err) {
 					if(err) {throw err;}
 					user.save(function(err) {
-						if(err) {throw err;}
+						if(err) {
+							console.log("\n--userMode.js 48 ERR: "+err+"--\n");
+							return callback(null);
+						}
 						if(Util.exists(callback)) {return callback(canvasObj);}
 					});
 				});
@@ -56,7 +62,10 @@ UserSchema.methods.addCanvasObj = function(canvasObj, callback) {
 		this.userCanvasIds.push(canvasObj.userCanvasId);
 		
 		this.save(function(err) {
-			if(err) {throw err;}
+			if(err) {
+				console.log("\n--userMode.js 66 ERR: "+err+"--\n");
+				return callback(null);
+			}
 			if(Util.exists(callback)) {return callback();}
 		});
 	}

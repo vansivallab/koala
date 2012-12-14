@@ -25,10 +25,13 @@ var CanvasController = {
 				userObj.userCanvasIds.push(result.userCanvasId);
 				
 				userObj.save(function(err) {
-					if(err) {throw err;}
+					if(err) {return callback(null);}
 					//console.log("++line29 saving canvas: "+JSON.stringify(result)+'\n');
 					result.save(function(err) {
-						if(err) {throw err;}
+						if(err) {
+							console.log("\n--canvasController.js 32 ERR: "+err+"--\n");
+							return callback(null);
+						}
 						//console.log("canvas saved++");
 						if(Util.exists(callback)) {
 							return callback(result);
@@ -54,7 +57,10 @@ var CanvasController = {
 	
 	find: function(searchJSON, callback) {
 		Canvas.find(searchJSON, function(err, canvasObjs) {
-			if(err) {throw err;}
+			if(err) {
+				console.log("\n--canvasController.js 61 ERR: "+err+"--\n");
+				return callback(null);
+			}
 			if(Util.exists(callback)) {return callback(canvasObjs);}
 		});
 	},
@@ -63,7 +69,10 @@ var CanvasController = {
 		console.log('line63 :'+JSON.stringify(searchJSON));
 		Canvas.findOne(searchJSON, function(err, canvasObj) {
 			console.log("CC findone: "+JSON.stringify(canvasObj));
-			if(err) {throw err;}
+			if(err) {
+				console.log("\n--canvasController.js 72 ERR: "+err+"--\n");
+				return callback(null);
+			}
 			if(Util.exists(callback)) {return callback(canvasObj);}
 		});
 	}

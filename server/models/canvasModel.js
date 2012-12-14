@@ -32,7 +32,10 @@ CanvasSchema.methods.addStroke = function(data, callback) {
 		console.log("saving...");
 		this.saveCount = 0;
 		this.save(function(err) {
-			if(err) {throw err;}
+			if(err) {
+				console.log("\n--canvasModel.js 36 ERR: "+err+"--\n");
+				return callback(null);
+			}
 			console.log("+++ saving stroke +++");
 			if(Util.exists(callback)) {callback(newStroke);}
 		});
@@ -50,7 +53,10 @@ CanvasSchema.methods.addUser = function(inviteUsername, callback) {
 		this.usernames.push(inviteUsername);
 		
 		this.save(function(err) {
-			if(err) {throw err;}
+			if(err) {
+				console.log("\n--canvasModel.js 57 ERR: "+err+"--\n");
+				return callback(null);
+			}
 			if(Util.exists(callback)) {callback(inviteUsername);}
 		});
 	}
@@ -61,7 +67,10 @@ CanvasSchema.methods.addUserObj = function(userObj, callback) {
 		this.usernames.push(userObj.username);
 		
 		this.save(function(err) {
-			if(err) {throw err;}
+			if(err) {
+				console.log("\n--canvasModel.js 71 ERR: "+err+"--\n");
+				return callback(null);
+			}
 			if(Util.exists(callback)) {return callback();}
 		});
 	}
@@ -72,7 +81,10 @@ CanvasSchema.methods.removeUser = function(inviteUsername, callback) {
 	if(usernamesIdx !== -1) {
 		this.usernames.splice(usernamesIdx, 1);
 		this.save(function(err) {
-			if(err) {throw err;}
+			if(err) {
+				console.log("\n--canvasModel.js 85 ERR: "+err+"--\n");
+				return callback(null);
+			}
 			if(Util.exists(callback)) {callback(inviteUsername);}
 		});
 	}
@@ -82,7 +94,10 @@ CanvasSchema.methods.addUserConn = function(username, callback) {
 	if(this.userConns.indexOf(username) === -1) {
 		this.userConns.push(username);
 		this.save(function(err) {
-			if(err) {throw err;}
+			if(err) {
+				console.log("\n-- canvasModel.js 98 ERR: "+err+"--\n");
+				return callback(null);
+			}
 			if(Util.exists(callback)) {callback(inviteUsername);}
 		});
 	}
@@ -93,7 +108,10 @@ CanvasSchema.methods.removeUserConn = function(username, callback) {
 	if(usernameIdx !== -1) {
 		this.userConns.splice(usernameIdx, 1);
 		this.save(function(err) {
-			if(err) {throw err;}
+			if(err) {
+				console.log("\n--canvasModel.js 112 ERR: "+err+"--\n");
+				return callback(null);
+			}
 			if(Util.exists(callback)) {callback(inviteUsername);}
 		});
 	}
