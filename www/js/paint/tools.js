@@ -38,8 +38,6 @@ var Tools = function(/*Canvas Elem*/ mainCanvas, /*Canvas Elem*/ deltaCanvas) {
 
     this.save_history = function() {
         imgView_context.drawImage(canvas, -_x+1, -_y+1);
-        console.log("save_history x:" + _x);
-        console.log("save_history y:" + _y);
         context.clearRect(0, 0, canvas.width, canvas.height);
     };
 
@@ -169,12 +167,12 @@ var Tools = function(/*Canvas Elem*/ mainCanvas, /*Canvas Elem*/ deltaCanvas) {
         this.drawData = {tool: "rectangle", event: 1, x1: 0, y1: 0, 
             x2: 0, y2: 0, color: context.strokeStyle, 
             width: context.lineWidth, opacity: context.globalAlpha};
-        
+
         this.mousedown = function(/*Event Obj*/ e) {
-            if (tool.isMouseDown) return;
+            if (tool.isMouseDown) { return; }
 
             $("#message").html("startDraw");
-            
+
             tool.isMouseDown = true;
 
             this.drawData.x1 = e._x; // store initial x,y coordinate
@@ -185,7 +183,7 @@ var Tools = function(/*Canvas Elem*/ mainCanvas, /*Canvas Elem*/ deltaCanvas) {
         };
 
         this.mousemove = function(/*Event Obj*/ e) {
-            if (!tool.isMouseDown) return;
+            if (!tool.isMouseDown) { return; }
 
             var x = Math.min(e._x, this.drawData.x1);
             var y = Math.min(e._y, this.drawData.y1);
@@ -209,7 +207,13 @@ var Tools = function(/*Canvas Elem*/ mainCanvas, /*Canvas Elem*/ deltaCanvas) {
             }
             tool.isMouseDown = false;
 
-            // now transmit the information to the server
+            // First adjust the data according to the top-left corner
+            this.drawData.x1 -= _x;
+            this.drawData.x2 -= _x;
+            this.drawData.y1 -= _y;
+            this.drawData.y2 -= _y;
+
+            // Then transmit the information to the server
             window.socket.e.sendStrokeData(this.drawData);
         };
 
@@ -249,14 +253,20 @@ var Tools = function(/*Canvas Elem*/ mainCanvas, /*Canvas Elem*/ deltaCanvas) {
                 //tool.mousemove(e);
                 tool.save_history();
             }
-            // now transmit the information to the server
+
+            // First adjust the data according to the top-left corner
+            this.drawData.x1 -= _x;
+            this.drawData.x2 -= _x;
+            this.drawData.y1 -= _y;
+            this.drawData.y2 -= _y;
+
+            // Then transmit the data to the server
             window.socket.e.sendStrokeData(this.drawData);
+
             tool.isMouseDown = false;
 
             $("#message").html("touchend");
         };
-
-
     }
 
     // Line Tool
@@ -294,8 +304,15 @@ var Tools = function(/*Canvas Elem*/ mainCanvas, /*Canvas Elem*/ deltaCanvas) {
 
         this.mouseup = function(/*Event Obj*/e) {
             if (tool.isMouseDown) {
-                //tool.mousemove(e);
                 tool.save_history();
+
+                // Adjust drawData before sending it
+                this.drawData.x1 -= _x;
+                this.drawData.x2 -= _x;
+                this.drawData.y1 -= _y;
+                this.drawData.y2 -= _y;
+
+                // Send over drawData to the server
                 window.socket.e.sendStrokeData(this.drawData);
             }
             tool.isMouseDown = false;
@@ -333,6 +350,14 @@ var Tools = function(/*Canvas Elem*/ mainCanvas, /*Canvas Elem*/ deltaCanvas) {
         this.touchend = function(/*Event Obj*/ e) {
             if (tool.isMouseDown) {
                 tool.save_history();
+
+                // Adjust drawData before sending it
+                this.drawData.x1 -= _x;
+                this.drawData.x2 -= _x;
+                this.drawData.y1 -= _y;
+                this.drawData.y2 -= _y;
+
+                // Now send the data to the server
                 window.socket.e.sendStrokeData(this.drawData);
             }
             tool.isMouseDown = false;
@@ -377,8 +402,6 @@ var Tools = function(/*Canvas Elem*/ mainCanvas, /*Canvas Elem*/ deltaCanvas) {
                 context.beginPath();
                 context.moveTo(this.drawData.x1, this.drawData.y1);
                 context.lineTo(this.drawData.x2, this.drawData.y2);
-                //context.closePath();
-                // ^^^ commented out for consistency with touch
 
                 // Code that gives strokes round stuff
                 context.lineJoin = "round";
@@ -387,10 +410,20 @@ var Tools = function(/*Canvas Elem*/ mainCanvas, /*Canvas Elem*/ deltaCanvas) {
                 // Draw the line onto the canvas
                 context.stroke();
 
-                //sendStrokeData(this.drawData);
+                // Adjust drawData
+                this.drawData.x1 -= _x;
+                this.drawData.x2 -= _x;
+                this.drawData.y1 -= _y;
+                this.drawData.y2 -= _y;
                 
                 // Send the stroke data to the server
                 window.socket.e.sendStrokeData(this.drawData);
+
+                // Readjust drawData back
+                this.drawData.x1 += _x;
+                this.drawData.x2 += _x;
+                this.drawData.y1 += _y;
+                this.drawData.y2 += _y;
 
                 // Adjust x1 and y1 in anticipation of another mousemove
                 this.drawData.x1 = this.drawData.x2;
@@ -447,9 +480,20 @@ var Tools = function(/*Canvas Elem*/ mainCanvas, /*Canvas Elem*/ deltaCanvas) {
                 // Draw the stroke onto Delta canvas
                 context.stroke();
 
-                //sendStrokeData(this.drawData);
+                // Adjust drawData
+                this.drawData.x1 -= _x;
+                this.drawData.x2 -= _x;
+                this.drawData.y1 -= _y;
+                this.drawData.y2 -= _y;
                 
+                // Send the stroke data to the server
                 window.socket.e.sendStrokeData(this.drawData);
+
+                // Readjust drawData back
+                this.drawData.x1 += _x;
+                this.drawData.x2 += _x;
+                this.drawData.y1 += _y;
+                this.drawData.y2 += _y;
 
                 tool.save_history();
                 this.drawData.x1 = this.drawData.x2;
@@ -489,7 +533,7 @@ var Tools = function(/*Canvas Elem*/ mainCanvas, /*Canvas Elem*/ deltaCanvas) {
                                         +Math.pow(this.drawData.y - e._y, 2));
 
                 context.beginPath();
-                context.arc(this.drawData.x, this.drawData.y, 
+                context.arc(this.drawData.x, this.drawData.y,
                             this.drawData.radius, 0, 2 * Math.PI, true);
                 context.closePath();
                 context.stroke();
@@ -500,8 +544,12 @@ var Tools = function(/*Canvas Elem*/ mainCanvas, /*Canvas Elem*/ deltaCanvas) {
             if (tool.isMouseDown) {
                 tool.save_history();
 
-                // now send the information to the server
-                window.socket.e.sendStrokeData(this.drawData)
+                // First adjust the coordinates
+                this.drawData.x -= _x;
+                this.drawData.y -= _y;
+
+                // Now send the information to the server
+                window.socket.e.sendStrokeData(this.drawData);
             }
             tool.isMouseDown = false;
         };
@@ -535,8 +583,12 @@ var Tools = function(/*Canvas Elem*/ mainCanvas, /*Canvas Elem*/ deltaCanvas) {
             if (tool.isMouseDown) {
                 tool.save_history();
 
+                // First adjust the coordinates
+                this.drawData.x -= _x;
+                this.drawData.y -= _y;
+
                 // now send the information to the server
-                window.socket.e.sendStrokeData(this.drawData)
+                window.socket.e.sendStrokeData(this.drawData);
             }
             tool.isMouseDown = false;
         };
@@ -551,6 +603,8 @@ var Tools = function(/*Canvas Elem*/ mainCanvas, /*Canvas Elem*/ deltaCanvas) {
         
         this.mousedown = function(/*Event Obj*/ e) {
             if (tool.isMouseDown) { return; }
+            tool.isMouseDown = true;
+
             this.drawData.x1 = e._x;
             this.drawData.y1 = e._y;
             this.drawData.color = this.color;
@@ -563,11 +617,9 @@ var Tools = function(/*Canvas Elem*/ mainCanvas, /*Canvas Elem*/ deltaCanvas) {
             context.globalCompositeOperation = "copy";
             context.strokeStyle = this.eraserColor;
             
-
             // Now begins the normal line operation
             context.beginPath();
             context.moveTo(e._x, e._y);
-            tool.isMouseDown = true;
         };
 
         this.mousemove = function(/*Event Obj*/ e) {
@@ -581,8 +633,21 @@ var Tools = function(/*Canvas Elem*/ mainCanvas, /*Canvas Elem*/ deltaCanvas) {
                 context.lineTo(this.drawData.x2, this.drawData.y2);
                 context.closePath();
                 context.stroke();
-                
+
+                // Adjust drawData before sending it to the server
+                this.drawData.x1 -= _x;
+                this.drawData.x2 -= _x;
+                this.drawData.y1 -= _y;
+                this.drawData.y2 -= _y;
+
                 window.socket.e.sendStrokeData(this.drawData);
+
+                // Readjust drawData back
+                this.drawData.x1 += _x;
+                this.drawData.x2 += _x;
+                this.drawData.y1 += _y;
+                this.drawData.y2 += _y;
+
                 tool.save_history();
                 this.drawData.x1 = this.drawData.x2;
                 this.drawData.y1 = this.drawData.y2;
@@ -590,11 +655,6 @@ var Tools = function(/*Canvas Elem*/ mainCanvas, /*Canvas Elem*/ deltaCanvas) {
         };
 
         this.mouseup = function(e) {
-            if (tool.isMouseDown) {
-                //context.closePath()
-                //tool.save_history();
-            }
-            
             tool.isMouseDown = false;
         };
         
@@ -607,7 +667,6 @@ var Tools = function(/*Canvas Elem*/ mainCanvas, /*Canvas Elem*/ deltaCanvas) {
             // These are default values for an eraser tool
             context.globalCompositeOperation = "copy";
             context.strokeStyle = this.eraserColor;
-
 
             // Now begins the normal line operation
             context.beginPath();
@@ -626,8 +685,21 @@ var Tools = function(/*Canvas Elem*/ mainCanvas, /*Canvas Elem*/ deltaCanvas) {
                 context.lineTo(this.drawData.x2, this.drawData.y2);
                 context.closePath();
                 context.stroke();
-                
+
+                // Adjust drawData before sending it to the server
+                this.drawData.x1 -= _x;
+                this.drawData.x2 -= _x;
+                this.drawData.y1 -= _y;
+                this.drawData.y2 -= _y;
+
                 window.socket.e.sendStrokeData(this.drawData);
+
+                // Readjust drawData back
+                this.drawData.x1 += _x;
+                this.drawData.x2 += _x;
+                this.drawData.y1 += _y;
+                this.drawData.y2 += _y;
+
                 tool.save_history();
                 this.drawData.x1 = this.drawData.x2;
                 this.drawData.y1 = this.drawData.y2;
