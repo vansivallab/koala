@@ -49,13 +49,22 @@ var Tools = function(/*Canvas Elem*/ mainCanvas, /*Canvas Elem*/ deltaCanvas) {
         context.strokeStyle = this.color;
         context.lineWidth = this.width;
         context.globalAlpha = this.opacity;
-        
+
+        // Default cursor
+        $(mainCanvas).css("cursor", "crosshair");
+        $(deltaCanvas).css("cursor", "crosshair");
+
         if (mode == "rectangle") { this.rect_mode(); }
         else if (mode == "pencil") { this.pencil_mode(); }
         else if (mode == "line") { this.line_mode(); }
         else if (mode == "circle") { this.circle_mode(); }
         else if (mode == "eraser") { this.eraser_mode(); }
-        else if (mode == "hand") { this.pan_mode(); }
+        else if (mode == "hand") {
+            // Change the cursor to "hand" i.e. "pointer"
+            $(mainCanvas).css("cursor", "pointer");
+            $(deltaCanvas).css("cursor", "pointer");
+            this.pan_mode();
+        }
     };
 
     this.pan_mode = function() {
@@ -107,6 +116,52 @@ var Tools = function(/*Canvas Elem*/ mainCanvas, /*Canvas Elem*/ deltaCanvas) {
             this.panCoords.x2 = 0;
             this.panCoords.y2 = 0;
         };
+
+        this.touchstart = function(/*Event Obj*/ e) {
+            if (tool.isMouseDown) { return; }
+            tool.isMouseDown = true;
+
+            // Store the initial coordinate
+            this.panCoords.x1 = e.touches[0].clientX;
+            this.panCoords.y1 = e.touches[0].clientY;
+        };
+
+        this.touchmove = function(/*Event Obj*/ e) {
+            if (!tool.isMouseDown) return;
+
+            // Store the finishing coordinate
+            this.panCoords.x2 = e.touches[0].clientX;
+            this.panCoords.y2 = e.touches[0].clientY;
+
+            // Calculate the adjustment
+            var diff_x = this.panCoords.x2 - this.panCoords.x1;
+            var diff_y = this.panCoords.y2 - this.panCoords.y1;
+
+            // Move the mainCanvas
+            $(mainCanvas).css("left", _x + diff_x);
+            $(mainCanvas).css("top", _y + diff_y);
+
+            // Adjusting the top-left corner occurs when the user
+            // has finished panning, i.e. ==> this.mouseup(e);
+        };
+
+        this.touchend = function(/*Event Obj*/ e) {
+            tool.isMouseDown = false;
+
+            // Remember the top-left corner of the mainCanvas
+            _x += this.panCoords.x2 - this.panCoords.x1;
+            _y += this.panCoords.y2 - this.panCoords.y1;
+
+            console.log("pan mouseup x:" + _x);
+            console.log("pan mouseup y:" + _y);
+
+            // clear panCoords
+            this.panCoords.x1 = 0;
+            this.panCoords.y1 = 0;
+            this.panCoords.x2 = 0;
+            this.panCoords.y2 = 0;
+        };
+
     };
 
     // Rectangle Tool
