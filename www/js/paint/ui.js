@@ -28,8 +28,6 @@ $show.on('click touchleave', function() {
     $hide.css('display', "block");
     $back.css('display', "block");
     $envelope.css('display', "block");
-
-    
 });
 
 $hide.on('click touchleave', function() {
@@ -40,8 +38,6 @@ $hide.on('click touchleave', function() {
     $back.css('display', "none");
     $envelope.css('display', "none");
     $show.css('display', "block");
-
-    
 });
 
 $back.on('click touchleave', function() {
