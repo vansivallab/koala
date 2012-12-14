@@ -53,7 +53,7 @@ io.sockets.on('connection', function(socket){
 		else {socket.emit('getCanvasListCallback', {valid: false});}
 	});
 	
-	socket.on('createCanvas', function(data) {
+    socket.on('createCanvas', function(data) {
 		console.log("socketserver line30: socket, data");
 		console.log(JSON.stringify(socket.session));
 		console.log(JSON.stringify(data));
@@ -64,13 +64,16 @@ io.sockets.on('connection', function(socket){
 				if(valid) {
 					socket.session.canvasObj = canvasObj;
 					socket.join(canvasObj.userCanvasId);
+					console.log('ss line40: '+JSON.stringify(canvasObj));
+					socket.emit('loadCanvas', {
+						valid: true, 
+						canvasId: socket.session.canvasObj.userCanvasId, 
+						strokes: socket.session.canvasObj.strokes,
+						users: socket.session.canvasObj.usernames, //people with access
+						userConns: socket.session.canvasObj.userConns //people currently drawing
+					});
 				}
-				console.log('ss line40: '+JSON.stringify(canvasObj));
-				socket.emit('loadCanvas', {
-					valid: valid, 
-					canvasId: canvasObj.userCanvasId, 
-					strokes: []
-				});
+				else {socket.emit('loadCanvas', {valid: false});}
 			});
 		}
 		else {socket.emit('loadCanvas', {valid: false});}
