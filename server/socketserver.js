@@ -11,14 +11,25 @@ var koalaDB = new KoalaDBController('mongodb://localhost:27017/koala'); //change
 // Listen for client connection event
 // io.sockets.* is the global, *all clients* socket
 // For every client that is connected, a separate callback is called
-//var connectionCount = 0;
+
+/*
+recieve 		->		send {valid: true/false} send for all
+-----------------------------------------------------------
+login 			->		loginCallback(connKey, userObj.userCanvasIds)
+getCanvasList 	->		getCanvasListCallback(userObj.userCanvasIds)
+createCanvas/selectCanvas -> loadCanvas(canvasObj.userCanvasId, canvasObj.strokes)
+inviteUser		->		inviteUserCallback()
+addStroke		->		addStrokeCallback()
+logout			-> 
+*/
+
 io.sockets.on('connection', function(socket){
-	//connectionCount++;
 	socket.session = {};
+	
 	//login
 	socket.on('login', function(data) {
 		return koalaDB.login(data.username, data.password, function(userObj, retData) {
-			if(retData.validConn) {
+			if(retData.valid) {
 				socket.session.userObj = userObj;
 				retData.canvasIds = userObj.userCanvasIds;
 				console.log("logging into");
@@ -32,6 +43,16 @@ io.sockets.on('connection', function(socket){
 		})
 	});
 	
+	socket.on('getCanvasList', function(data) {
+		if(Util.isValidConn(socket, data) && Util.exists(socket.session.userObj)) {
+			socket.emit('getCanvasListCallback', {
+				valid: true,
+				canvasIds: socket.session.userObj.userCanvasIds 
+			});
+		}
+		else {socket.emit('getCanvasListCallback', {valid: false});}
+	});
+	
 	socket.on('createCanvas', function(data) {
 		console.log("socketserver line30: socket, data");
 		console.log(JSON.stringify(socket.session));
@@ -39,29 +60,40 @@ io.sockets.on('connection', function(socket){
 		if(Util.isValidConn(socket, data)) {
 			console.log("socketserver line32");
 			socket.session.userObj.createCanvas(function(canvasObj) {
-				socket.session.canvasObj = canvasObj;
-				socket.join(canvasObj.userCanvasId);
+				var valid = Util.exists(canvasObj);
+				if(valid) {
+					socket.session.canvasObj = canvasObj;
+					socket.join(canvasObj.userCanvasId);
+				}
 				console.log('ss line40: '+JSON.stringify(canvasObj));
-				socket.emit('loadCanvas', {canvasId: canvasObj.userCanvasId, strokes: []});
+				socket.emit('loadCanvas', {
+					valid: valid, 
+					canvasId: canvasObj.userCanvasId, 
+					strokes: []
+				});
 			});
 		}
-		else {socket.emit('loadCanvas', {});}
+		else {socket.emit('loadCanvas', {valid: false});}
 	});
 	
 	socket.on('selectCanvas', function(data) {
 		//pick load session.canvasObj
 		if(Util.isValidConn(socket, data) && Util.isValidCanvasId(data.canvasId)) {
-			Util.setSocketCanvas(socket, data.canvasId, function(canvasObj) {
-				console.log("into addUserConn");
-				socket.session.canvasObj.addUserConn(socket.session.userObj.username);
-				console.log("outof addUserConn");
-				canvasObj.getStrokes(function(strokes) {
-					console.log("loadCanvas Strokes: "+JSON.stringify(strokes)+"\n");
-					socket.emit('loadCanvas', {canvasId: data.canvasId, strokes: strokes});
-				});
+			Util.setSocketCanvas(socket, data.canvasId, function(valid) {
+				if(valid) {
+					//console.log("into addUserConn");
+					socket.session.canvasObj.addUserConn(socket.session.userObj.username);
+					//console.log("outof addUserConn");
+					socket.emit('loadCanvas', {
+						valid: true, 
+						canvasId: socket.session.canvasObj.userCanvasId, 
+						strokes: socket.session.canvasObj.strokes
+					});
+				}
+				else {socket.emit('loadCanvas', {valid: false});}
 			});
 		}
-		else {socket.emit('loadCanvas', {});}
+		else {socket.emit('loadCanvas', {valid: false});}
 	});
 	
 	socket.on('addStroke', function(data) {
@@ -79,7 +111,9 @@ io.sockets.on('connection', function(socket){
 			//socket.broadcast.join(socket.session.canvasObj.userCanvasId);
 			socket.broadcast.to(socket.session.canvasObj.userCanvasId).emit('loadCanvasEntry', data);
 			console.log("broadcast complete");
+			socket.emit("addStrokeCallback", {valid: true});
 		}
+		else {socket.emit("addStrokeCallback", {valid: false});}
 	});
 	
 	socket.on('inviteUser', function(data) {

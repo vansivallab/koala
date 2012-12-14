@@ -37,7 +37,7 @@ KoalaDB.prototype.getCanvases = function(searchJSON, userId, callback) {
 KoalaDB.prototype.login = function(username, password, callback) {
 	console.log("KBController line 39 loggin in");
 	UserController.authUser(username, password, function(validity, userObj) {
-		var retData = {validConn: validity !== -1};
+		var retData = {valid: validity !== -1};
 		
 		//if user doesnt exist, make one
 		if(validity === 0) {

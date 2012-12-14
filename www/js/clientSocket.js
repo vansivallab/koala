@@ -54,8 +54,10 @@ function newSocket(connAddr, dLib) {
 	retSocket.on('loadCanvas', function(data) {
 		console.log('loadCanvas');
 		console.log(data);
+		//alert(JSON.stringify(data));
+		//alert(data.canvasId);
 		
-		if(util.exists(data.canvasId) && util.exists(data.strokes)) {
+		if(data.valid == true && util.exists(data.canvasId) && util.exists(data.strokes)) {
 			this.e.connData.canvasId = data.canvasId;
 			this.e.dLib.clearCanvas();
 			for(var d = 0; d < data.strokes.length; d++) {
@@ -74,7 +76,7 @@ function newSocket(connAddr, dLib) {
 	retSocket.on('loginCallback', function(data) {
 		console.log(data);
         //console.log(data.canvasIds.length);
-		if(data.validConn == true) { //check if user info was valid
+		if(data.valid == true && util.exists(data.connKey)) { //check if user info was valid
 			this.e.connData.connKey = data.connKey;
 			
 			//get list of canvas ids
