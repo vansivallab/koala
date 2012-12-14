@@ -5,13 +5,14 @@ var connectionKey = "";
 //main.js
 window.onload = function() {
 	window.util.patchFnBind();
+	document.body.addEventListener('touchmove', function(e){ e.preventDefault(); });
 	
 	var mainCanvasDLib = new DrawingLib(document.getElementById("mainCanvas"));
 	var deltaCanvasDLib = new DrawingLib(document.getElementById("imageDelta"));
 	window.mainCanvasDLib = mainCanvasDLib;
 	window.deltaCanvasDLib = deltaCanvasDLib;
 	
-	window.socket = newSocket('http://128.237.112.53:3000/', mainCanvasDLib);	
+	window.socket = newSocket('http://128.237.237.243:3000/', mainCanvasDLib);
 	
     
     $('#loginForm').submit(submitForm);
@@ -71,12 +72,12 @@ window.onload = function() {
     });
     
 	// select canvas
-	$('#canvasSelection').children('#selectionElements').on('click touchleave', '.selectionElement',  function() {
+	$('#canvasSelection').children('#selectionElements').on('click'+window.util.getTapEvent(), '.selectionElement',  function() {
 		window.socket.e.selectCanvas($(this).attr('id'));
 	});
 
 	// add new canvas
-	$('#addButton').on('click touchstart', function() {      
+	$('#addButton').on('click'+window.util.getTapEvent(), function() {      
         window.socket.e.createCanvas();
 		
 	});

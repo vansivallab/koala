@@ -1,0 +1,2 @@
+bugs
+	create new canvas crashing server (i think it is because user draws stroke before socket.session.canvasObj set)
