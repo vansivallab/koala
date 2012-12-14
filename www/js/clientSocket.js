@@ -71,14 +71,18 @@ function newSocket(connAddr, dLib) {
             
             //populate friends list in invite page
             var friendElements = $('#friendElements');
-            friendElements.empty();
+            friendElements.html("");
             
-            if(data.users != undefined) {
-                $('#num').html("" + data.users.length);
+            if(window.util.exists(data.users)) {
+				var cleanUsers = [];
                 for(var i = 0; i < data.users.length; i++) {
-                    friendElements.append(data.users[i]);
-                    friendElements.append("<br />");
+					if(cleanUsers.indexOf(data.users[i]) === -1) {
+						friendElements.append(data.users[i]);
+						friendElements.append("<br />");
+						cleanUsers.push(data.users[i]);
+					}
                 }
+				$('#num').html(cleanUsers.length);
             } else {
                 $('#num').html(0);
             }
