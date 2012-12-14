@@ -51,6 +51,8 @@ $back.on('click touchstart', function() {
 
 
 $envelope.on('click touchstart', function() {
+    $('#friend').val("");
+    $('#errorInvite').html("");
     window.util.navigateTo('#invite');
 });
 

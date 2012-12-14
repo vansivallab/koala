@@ -56,17 +56,17 @@ window.onload = function() {
         var friend = $('#friend').val();
         var msg = "";
         if(($.trim(friend).length == 0) || (window.util.isValidEmail(friend) == false)) {
-			msg = msg + "Invalid Email Address <br />";
+			msg = "Invalid Email Address <br />";
             $('#errorInvite').html(msg);
             $('#friend').val("");
 		}
         
-        if(msg = "") {            
+        if(msg == "") {            
             $('#errorInvite').html("");
             window.socket.e.inviteUser(friend);
-            window.util.navigateTo('#canvas');
+            console.log("sent invite");
+            
         }
-
         
     });
     

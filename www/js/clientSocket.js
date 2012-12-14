@@ -101,6 +101,7 @@ function newSocket(connAddr, dLib) {
 		else {$('#error').html("Invalid Username/Password");}
 	});
 	
+    //populate list of canvas ids
 	retSocket.on('getCanvasListCallback', function(data) {
         $('#selectionElements').empty();
         if(data.canvasIds.length > 0) {
@@ -117,6 +118,17 @@ function newSocket(connAddr, dLib) {
         }
         
 	});
+    
+    retSocket.on('inviteUserCallback', function(data) {
+        if(data.valid == true) {
+            $('#friend').val("");
+            window.util.navigateTo('#canvas'); 
+            //also add friend name to list 
+        }
+        else {
+            $('#errorInvite').html("User not found.");
+        }
+    });
 	
 	retSocket.on("relogin", function() {
 		//if curr page is !canvas
