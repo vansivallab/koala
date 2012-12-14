@@ -24,13 +24,15 @@ var Util = {
 					socket.session.canvasObj = canvasObj;
 					socket.join(canvasObj.userCanvasId);
 					console.log('--exists--\n');
-					if(Util.exists(callback)) {return callback(canvasObj);}
+					return callback(true);
 				}
 				else {
+					return callback(false);
 					console.log("--doesn't exist--\n\n");
 				}
 			});
 		}
+		else {callback(false);}
 	},
 
 	generateConnKey: function(len) {

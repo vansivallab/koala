@@ -28,7 +28,7 @@ CanvasSchema.methods.addStroke = function(data, callback) {
 	console.log("we may save in addStroke: "+this.saveCount+" "+this.strokes.length);
 	/*for some reason this.saveInterval (6) doesnt work, 
 	maybe because of too many object accesses*/
-	if(this.strokes.length%6 === 0 && this.saveCount > 0) {
+	if(this.strokes.length%10 === 0 && this.saveCount > 0) {
 		console.log("saving...");
 		this.saveCount = 0;
 		this.save(function(err) {
