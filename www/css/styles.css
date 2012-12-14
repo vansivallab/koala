@@ -73,12 +73,12 @@ body {
     display: block;
 }
 
+/* this combination below works on cordova finally! */
+
 #mainCanvas,
 #imageDelta,
 #canvasContainer,
-#toolbar,
-#mainTools,
-#subTools,
+#toolbar, 
 #sliders,
 #widthSlider,
 #width,
