@@ -44,7 +44,7 @@ window.onload = function() {
 	}
     
     //logout
-    $('#logout').on('click touchstart', function() {
+    $('#logout').on('click touchleave', function() {
         window.socket.e.logout();
         $('#selectionElements').empty();
         
@@ -71,7 +71,7 @@ window.onload = function() {
     });
     
 	// select canvas
-	$('#canvasSelection').children('#selectionElements').on('click touchstart', '.selectionElement',  function() {
+	$('#canvasSelection').children('#selectionElements').on('click touchleave', '.selectionElement',  function() {
 		window.socket.e.selectCanvas($(this).attr('id'));
 	});
 

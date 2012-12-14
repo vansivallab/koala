@@ -71,15 +71,29 @@ body {
     background: white;
     width: 1024px;
     display: block;
+}
+
+/* this combination below works on cordova finally! */
+
+#mainCanvas,
+#imageDelta,
+#canvasContainer,
+#toolbar, 
+#sliders,
+#widthSlider,
+#width,
+#opacitySlider,
+#opacity{    
     /* backface visibility removes flickering when transitioning on iOS */
         -webkit-backface-visibility: hidden;
     /* turn off the annoying highlight on a tap (we provide our own visual feedback) */
         -webkit-tap-highlight-color: transparent;
     /* prevent the user from highlighting any text */
         -webkit-user-select: none;
-
-
 }
+
+
+
 
 /*toolbar-----------------*/
 #toolbar {
