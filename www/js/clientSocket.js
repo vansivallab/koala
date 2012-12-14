@@ -61,13 +61,23 @@ function newSocket(connAddr, dLib) {
 			&& window.util.exists(data.strokes)) {
 			this.e.connData.canvasId = data.canvasId;
 			this.e.dLib.clearCanvas();
+
+            // Start the wheel
+			$("#loading_screen").css("display", "block");
+
+			// navigate to the selected canvas
             window.util.navigateTo('#canvas');
-            //start wheel
+
 			for(var d = 0; d < data.strokes.length; d++) {
 				loadCanvasEntry(data.strokes[d], this.e.dLib);
 			}
+
             //set timeout 
-            //end wheel
+			setTimeout(function() {
+				// end the wheel
+				$("#loading_screen").css("display", "none");
+			}, 2000);
+
             
             //populate friends list in invite page
             var friendElements = $('#friendElements');
