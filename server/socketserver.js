@@ -123,56 +123,60 @@ io.sockets.on('connection', function(socket){
 			koalaDB.getUser({username: data.inviteUsername}, function(inviteUserObj) {
 				console.log("inviting: "+JSON.stringify(inviteUserObj));
 				if(Util.exists(inviteUserObj)) {
-					console.log("adding canvas");
 					var updated = false;
 					
+					console.log("adding canvas");
 					inviteUserObj.addCanvasObj(socket.session.canvasObj, function() {
 						console.log("added canvas: "+socket.session.canvasObj.userCanvasId
 							+" to user: "+inviteUserObj.username);
-						
-						if(updated) {
+						if(updated) {socket.emit('inviteUserCallback', {valid: true});}
+						updated = true;
+						/*if(updated) {
 							var inviteSocket = io.sockets[inviteUserObj.username];
 							console.log(JSON.stringify(inviteSocket));
 							if(Util.exists(inviteSocket)) {
-								/*koalaDB.getUser({username: inviteSocket.session.userObj.username}, function (userObj) {
+								koalaDB.getUser({username: inviteSocket.session.userObj.username}, function (userObj) {
 									inviteSocket.session.userObj = userObj;	
 									
 									inviteSocket.emit('loginCallback', {validConn: true,
 										connKey: inviteSocket.session.connKey,
 										canvasIds: inviteSocket.userObj.userCanvasIds});
-								});*/
+								});
 								
 								inviteSocket.emit("relogin");
 							}
 						}
-						updated = true;
+						updated = true;*/
 					});
 					
 					console.log("adding user");
 					socket.session.canvasObj.addUserObj(inviteUserObj, function() {
 						console.log("added user: "+inviteUserObj.username
 							+" to canvas: "+socket.session.canvasObj.userCanvasId);
-						
-						if(updated) {
+						if(updated) {socket.emit('inviteUserCallback', {valid: true});}
+						updated = true;
+						/*if(updated) {
 							var inviteSocket = io.sockets[inviteUserObj.username];
 							console.log(JSON.stringify(inviteSocket));
 							if(Util.exists(inviteSocket)) {
-								/*koalaDB.getUser({username: inviteSocket.session.userObj.username}, function (userObj) {
+								koalaDB.getUser({username: inviteSocket.session.userObj.username}, function (userObj) {
 									inviteSocket.session.userObj = userObj;	
 									
 									inviteSocket.emit('loginCallback', {validConn: true,
 										connKey: inviteSocket.session.connKey,
 										canvasIds: inviteSocket.userObj.userCanvasIds});
-								});*/
+								});
 								
-								inviteSocket.emit("relogin");
+								//inviteSocket.emit("relogin");
 							}
 						}
-						updated = true;
+						updated = true;*/
 					});
 				}
+				else {socket.emit('inviteUserCallback', {valid: false});}
 			});
 		}
+		else {socket.emit('inviteUserCallback', {valid: false});}
 	});
 	
 	socket.on('logout', function(data) {

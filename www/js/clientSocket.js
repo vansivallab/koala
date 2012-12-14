@@ -101,6 +101,10 @@ function newSocket(connAddr, dLib) {
 		else {$('#error').html("Invalid Username/Password");}
 	});
 	
+	retSocket.on('getCanvasListCallback', function(data) {
+	
+	});
+	
 	retSocket.on("relogin", function() {
 		//if curr page is !canvas
 		this.e.logout();
@@ -135,6 +139,10 @@ function newSocket(connAddr, dLib) {
 		this.password = password;
 		console.log("login: " + this);
 		this.socket.emit('login', {username: username, password: password});
+	};
+	
+	retSocket.e.getCanvasList = function() {
+		this.socket.emit('getCanvasList', this.connData);
 	};
 	
 	retSocket.e.logout = function() {
