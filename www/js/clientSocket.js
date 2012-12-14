@@ -81,14 +81,18 @@ function newSocket(connAddr, dLib) {
             
             //populate friends list in invite page
             var friendElements = $('#friendElements');
-            friendElements.empty();
+            friendElements.html("");
             
-            if(data.users != undefined) {
-                $('#num').html("" + data.users.length);
+            if(window.util.exists(data.users)) {
+				var cleanUsers = [];
                 for(var i = 0; i < data.users.length; i++) {
-                    friendElements.append(data.users[i]);
-                    friendElements.append("<br />");
+					if(cleanUsers.indexOf(data.users[i]) === -1) {
+						friendElements.append(data.users[i]);
+						friendElements.append("<br />");
+						cleanUsers.push(data.users[i]);
+					}
                 }
+				$('#num').html(cleanUsers.length);
             } else {
                 $('#num').html(0);
             }
@@ -110,15 +114,20 @@ function newSocket(connAddr, dLib) {
 			var canvasSelectionJSelect = $('#canvasSelection').children('#selectionElements');  
             
             if(data.canvasIds.length > 0) {
-                //singleton list
-                canvasSelectionJSelect.append(loadCanvasElementMarkup(data.canvasIds[0])); 
-                
-                //rest
-                for(var i = 2; i < data.canvasIds.length; i+=2) {
-                    canvasSelectionJSelect.append("<div class='divide'></div>");            
-                    canvasSelectionJSelect.append(loadCanvasElementMarkup(data.canvasIds[i]));            
-
-                }
+                var canvasSelectionJSelect = $('#canvasSelection').children('#selectionElements'); 
+				//singleton list
+				canvasSelectionJSelect.append(loadCanvasElementMarkup(data.canvasIds[0])); 
+				
+				var cleanCanvasIds = [data.canvasIds[0]];
+				
+				//rest
+				for(var i = 1; i < data.canvasIds.length; i++) {
+					if(cleanCanvasIds.indexOf(data.canvasIds[i]) === -1) {
+						canvasSelectionJSelect.append("<div class='divide'></div>");            
+						canvasSelectionJSelect.append(loadCanvasElementMarkup(data.canvasIds[i]));
+						cleanCanvasIds.push(data.canvasIds[i]);
+					}
+				}
 			}
 			//redirect
             $('#selectionElements').css('display', 'block');
@@ -130,17 +139,22 @@ function newSocket(connAddr, dLib) {
 	
     //populate list of canvas ids
 	retSocket.on('getCanvasListCallback', function(data) {
+		console.log(data);
         $('#selectionElements').empty();
         if(data.canvasIds.length > 0) {
             var canvasSelectionJSelect = $('#canvasSelection').children('#selectionElements'); 
             //singleton list
             canvasSelectionJSelect.append(loadCanvasElementMarkup(data.canvasIds[0])); 
             
+			var cleanCanvasIds = [data.canvasIds[0]];
+			
             //rest
-            for(var i = 2; i < data.canvasIds.length; i+=2) {
-                canvasSelectionJSelect.append("<div class='divide'></div>");            
-                canvasSelectionJSelect.append(loadCanvasElementMarkup(data.canvasIds[i]));            
-
+            for(var i = 1; i < data.canvasIds.length; i++) {
+				if(cleanCanvasIds.indexOf(data.canvasIds[i]) === -1) {
+					canvasSelectionJSelect.append("<div class='divide'></div>");            
+					canvasSelectionJSelect.append(loadCanvasElementMarkup(data.canvasIds[i]));
+					cleanCanvasIds.push(data.canvasIds[i]);
+				}
             }
         }
         
@@ -153,7 +167,7 @@ function newSocket(connAddr, dLib) {
             var number = Number($('#num').html());
             number++;
             $('#num').html(number);
-            console.log("number is " + number);
+            //console.log("number is " + number);
         }
         else {
             $('#errorInvite').html("User not found.");
