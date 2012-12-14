@@ -6,9 +6,12 @@ var Util = require('../util.js');
 var UserController = {
 	newUser: function(username, password, /*superuser,*/ callback) {
 		User.findOne({username: username}, function(err, user) {
-			if(err) {return callback(null);}
+			if(err) {
+				console.log("\n--userController.js 1o ERR: "+err+"--\n");
+				if(Util.exists(callback)) {return callback(null);}
+			}
 			
-			if(!Util.exists(user)) {
+			else if(!Util.exists(user)) {
 				user = new User({
 					username: username,
 					/*superuser: superuser,*/
@@ -20,13 +23,13 @@ var UserController = {
 				user.save(function(err) {
 					if(err) {
 						console.log("\n--userController.js 22 ERR: "+err+"--\n");
-						return callback(null);
+						if(Util.exists(callback)) {return callback(null);}
 					}
 					return callback(user);
 				});
 				
 			}
-			else {return callback(user);}
+			else if(Util.exists(callback)) {return callback(null);}
 		});
 	},
 
@@ -37,7 +40,8 @@ var UserController = {
 		User.findOne({username: username}, function(err, result) {
 			if(err) {
 				console.log("\n--userController.js 38 ERR: "+err+"--\n");
-				return callback(false, null);
+				if(Util.exists(callback)) {return callback(false, null);}
+				return;
 			}
 			console.log("line36 urname: "+username+" result: ");
 			console.log(JSON.stringify(result));
@@ -61,9 +65,9 @@ var UserController = {
 		User.find(searchJSON, function(err, userObjs) {
 			if(err) {
 				console.log("\n--userController.js 63 ERR: "+err+"--\n");
-				return callback(null);
+				if(Util.exists(callback)) {return callback(null);}
 			}
-			if(Util.exists(callback)) {return callback(userObjs);}
+			else if(Util.exists(callback)) {return callback(userObjs);}
 		});
 	},
 	
@@ -71,9 +75,9 @@ var UserController = {
 		User.findOne(searchJSON, function(err, userObj) {
 			if(err) {
 				console.log("\n--userController.js 73 ERR: "+err+"--\n");
-				return callback(false, null);
+				if(Util.exists(callback)) {return callback(false, null);}
 			}
-			if(Util.exists(callback)) {return callback(userObj);}
+			else if(Util.exists(callback)) {return callback(userObj);}
 		});
 	}
 }

@@ -34,10 +34,10 @@ CanvasSchema.methods.addStroke = function(data, callback) {
 		this.save(function(err) {
 			if(err) {
 				console.log("\n--canvasModel.js 36 ERR: "+err+"--\n");
-				return callback(null);
+				if(Util.exists(callback)) {return callback(null);}
 			}
+			else if(Util.exists(callback)) {callback(newStroke);}
 			console.log("+++ saving stroke +++");
-			if(Util.exists(callback)) {callback(newStroke);}
 		});
 	}
 	
@@ -55,9 +55,9 @@ CanvasSchema.methods.addUser = function(inviteUsername, callback) {
 		this.save(function(err) {
 			if(err) {
 				console.log("\n--canvasModel.js 57 ERR: "+err+"--\n");
-				return callback(null);
+				if(Util.exists(callback)) {return callback(null);}
 			}
-			if(Util.exists(callback)) {callback(inviteUsername);}
+			else if(Util.exists(callback)) {callback(inviteUsername);}
 		});
 	}
 };
@@ -69,9 +69,9 @@ CanvasSchema.methods.addUserObj = function(userObj, callback) {
 		this.save(function(err) {
 			if(err) {
 				console.log("\n--canvasModel.js 71 ERR: "+err+"--\n");
-				return callback(null);
+				if(Util.exists(callback)) {return callback(null);}
 			}
-			if(Util.exists(callback)) {return callback();}
+			else if(Util.exists(callback)) {return callback();}
 		});
 	}
 };
@@ -83,9 +83,9 @@ CanvasSchema.methods.removeUser = function(inviteUsername, callback) {
 		this.save(function(err) {
 			if(err) {
 				console.log("\n--canvasModel.js 85 ERR: "+err+"--\n");
-				return callback(null);
+				if(Util.exists(callback)) {return callback(null);}
 			}
-			if(Util.exists(callback)) {callback(inviteUsername);}
+			else if(Util.exists(callback)) {callback(inviteUsername);}
 		});
 	}
 };
@@ -96,9 +96,9 @@ CanvasSchema.methods.addUserConn = function(username, callback) {
 		this.save(function(err) {
 			if(err) {
 				console.log("\n-- canvasModel.js 98 ERR: "+err+"--\n");
-				return callback(null);
+				if(Util.exists(callback)) {return callback(null);}
 			}
-			if(Util.exists(callback)) {callback(inviteUsername);}
+			else if(Util.exists(callback)) {callback(inviteUsername);}
 		});
 	}
 };
@@ -110,9 +110,9 @@ CanvasSchema.methods.removeUserConn = function(username, callback) {
 		this.save(function(err) {
 			if(err) {
 				console.log("\n--canvasModel.js 112 ERR: "+err+"--\n");
-				return callback(null);
+				if(Util.exists(callback)) {return callback(null);}
 			}
-			if(Util.exists(callback)) {callback(inviteUsername);}
+			else if(Util.exists(callback)) {callback(inviteUsername);}
 		});
 	}
 };

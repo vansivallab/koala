@@ -30,9 +30,9 @@ KoalaDB.prototype.getCanvases = function(searchJSON, userId, callback) {
 	return Canvas.find(searchJSON, function(err, results) {
 		if(err) {
 			console.log("\n--koalaDBController.js 32 ERR: "+err+"--\n");
-			return callback(null);
+			if(Util.exists(callback)) {return callback(null);}
 		}
-		if(Util.exists(callback)) {return callback(results);}
+		else if(Util.exists(callback)) {return callback(results);}
 	});
 };
 

@@ -24,12 +24,17 @@ UserSchema.methods.createCanvas = function(callback) {
 		canvasObj.save(function(err) {
 			if(err) {
 				console.log("\n--userMode.js 26 ERR: "+err+"--\n");
-				return callback(null);
+				if(Util.exists(callback)) {return callback(null);}
 			}
-			user.save(function(err) {
-				if(err) {throw err;}
-				if(Util.exists(callback)) {return callback(canvasObj);}
-			});
+			else {
+				user.save(function(err) {
+					if(err) {
+						console.log("\n--userMode.js 31 ERR: "+err+"--\n");
+						if(Util.exists(callback)) {return callback(null);}
+					}
+					else if(Util.exists(callback)) {return callback(canvasObj);}
+				});
+			}
 		});
 	});
 };
@@ -42,14 +47,19 @@ UserSchema.methods.addCanvas = function(userCanvasId, callback) {
 				user.userCanvasIds.push(canvasObj.userCanvasId);
 				canvasObj.usernames.push(user.username);
 				canvasObj.save(function(err) {
-					if(err) {throw err;}
-					user.save(function(err) {
-						if(err) {
-							console.log("\n--userMode.js 48 ERR: "+err+"--\n");
-							return callback(null);
-						}
-						if(Util.exists(callback)) {return callback(canvasObj);}
-					});
+					if(err) {
+						console.log("\n--userMode.js 48 ERR: "+err+"--\n");
+						if(Util.exists(callback)) {return callback(null);}
+					}
+					else {
+						user.save(function(err) {
+							if(err) {
+								console.log("\n--userMode.js 48 ERR: "+err+"--\n");
+								if(Util.exists(callback)) {return callback(null);}
+							}
+							else if(Util.exists(callback)) {return callback(canvasObj);}
+						});
+					}
 				});
 			}
 		});
@@ -64,9 +74,9 @@ UserSchema.methods.addCanvasObj = function(canvasObj, callback) {
 		this.save(function(err) {
 			if(err) {
 				console.log("\n--userMode.js 66 ERR: "+err+"--\n");
-				return callback(null);
+				if(Util.exists(callback)) {return callback(null);}
 			}
-			if(Util.exists(callback)) {return callback();}
+			else if(Util.exists(callback)) {return callback();}
 		});
 	}
 };
