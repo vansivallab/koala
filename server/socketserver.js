@@ -58,7 +58,7 @@ io.sockets.on('connection', function(socket){
 		else {socket.emit('getCanvasListCallback', {valid: false});}
 	});
 	
-	socket.on('createCanvas', function(data) {
+    socket.on('createCanvas', function(data) {
 		console.log("socketserver line30: socket, data");
 		console.log(JSON.stringify(socket.session));
 		console.log(JSON.stringify(data));

@@ -68,7 +68,20 @@ function newSocket(connAddr, dLib) {
 			}
             //set timeout 
             //end wheel
-
+            
+            //populate friends list in invite page
+            var friendElements = $('#friendElements');
+            friendElements.empty();
+            
+            if(data.users != undefined) {
+                $('#num').html("" + data.users.length);
+                for(var i = 0; i < data.users.length; i++) {
+                    friendElements.append(data.users[i]);
+                    friendElements.append("<br />");
+                }
+            } else {
+                $('#num').html(0);
+            }
         
         }
 		else {
@@ -125,9 +138,12 @@ function newSocket(connAddr, dLib) {
     
     retSocket.on('inviteUserCallback', function(data) {
         if(data.valid == true) {
+            $('#friendElements').append( $('#friend').val() + "<br />");
             $('#friend').val("");
-            window.util.navigateTo('#canvas'); 
-            //also add friend name to list 
+            var number = Number($('#num').html());
+            number++;
+            $('#num').html(number);
+            console.log("number is " + number);
         }
         else {
             $('#errorInvite').html("User not found.");
