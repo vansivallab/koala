@@ -8,12 +8,10 @@
 }
 
 body {
-	overflow: hidden;
-	width: 100%;
+    overflow: hidden;
+    width: 100%;
     background: #EEF3FA;
     font-family: 'Arial', sans-serif;
-    
-    
 }
 
 .page {
@@ -21,17 +19,17 @@ body {
 }
 
 .ignoreCanvas {
-	display: none;
+    display: none;
 }
 
 .button {
     border: 1px solid #dcdcdc;
     -moz-border-radius:5px;
-	-webkit-border-radius:5px;
-	border-radius:5px;
+    -webkit-border-radius:5px;
+    border-radius:5px;
     -moz-box-shadow:inset 0px 0px 0px 1px #f6f6f6;
-	-webkit-box-shadow:inset 0px 0px 0px 1px #f6f6f6;
-	box-shadow:inset 0px 0px 0px 1px #f6f6f6;
+    -webkit-box-shadow:inset 0px 0px 0px 1px #f6f6f6;
+    box-shadow:inset 0px 0px 0px 1px #f6f6f6;
     width: 20px;
     margin: 2px;
     margin-bottom:3px;
@@ -53,34 +51,34 @@ body {
 
 /*
 #mainCanvas {
-	cursor: crosshair;
+    cursor: crosshair;
 }
 
 */
 
 /* #imageTmp { */
 #imageDelta {
-	cursor: crosshair;
-	position: absolute;
-	left: 1px;
-	top: 1px;
+    cursor: crosshair;
+    position: absolute;
+    left: 1px;
+    top: 1px;
 }
 
 #mainCanvas {
 /* #imageDelta { */
     cursor: crosshair;
     position: absolute;
-	left: 1px;
-	top: 1px;
+    left: 1px;
+    top: 1px;
     background:white;
 }
 
 #canvasContainer {
-	position: relative;
+    position: relative;
     top: 0px;
     left: 0px;
     background: white;
-	width: 1024px;
+    width: 1024px;
     display: block;
 
 }
@@ -217,8 +215,8 @@ body {
     top: 3px;
     left: 3px;
     -moz-border-radius:5px;
-	-webkit-border-radius:5px;
-	border-radius:5px;
+    -webkit-border-radius:5px;
+    border-radius:5px;
 }
 
 
@@ -227,11 +225,11 @@ body {
 .brush {
     border: 1px solid #dcdcdc;
     -moz-border-radius:5px;
-	-webkit-border-radius:5px;
-	border-radius:5px;
+    -webkit-border-radius:5px;
+    border-radius:5px;
     -moz-box-shadow:inset 0px 0px 0px 1px #f6f6f6;
-	-webkit-box-shadow:inset 0px 0px 0px 1px #f6f6f6;
-	box-shadow:inset 0px 0px 0px 1px #f6f6f6;
+    -webkit-box-shadow:inset 0px 0px 0px 1px #f6f6f6;
+    box-shadow:inset 0px 0px 0px 1px #f6f6f6;
     width: 30px;
     margin: 2px;
     height: 30px;
@@ -253,8 +251,8 @@ body {
     height: 22px;
     float: left;  
     -moz-border-radius:15px;
-	-webkit-border-radius:15px;
-	border-radius:15px;
+    -webkit-border-radius:15px;
+    border-radius:15px;
     border: 1px solid #000000;
     box-shadow: inset 0px 0px 2px #333333;
     -moz-box-shadow: inset 0px 0px 2px #333333;
@@ -288,8 +286,8 @@ body {
     background: white;
     height: 24px;  
     -moz-border-radius:15px;
-	-webkit-border-radius:15px;
-	border-radius:15px;
+    -webkit-border-radius:15px;
+    border-radius:15px;
     border: 1px solid #666666;
     box-shadow: inset 0px 0px 2px #333333;
     -moz-box-shadow: inset 0px 0px 2px #333333;
@@ -369,12 +367,12 @@ body {
     height: 50px;
     width: 50px;
     -moz-border-radius:5px;
-	-webkit-border-radius:5px;
-	border-radius:5px;
+    -webkit-border-radius:5px;
+    border-radius:5px;
     background: #f6f6f6;
     border: 1px solid #dcdcdc;
     -moz-box-shadow:inset 0px 0px 0px 1px #ffffff;
-	-webkit-box-shadow:inset 0px 0px 0px 1px #ffffff;
-	box-shadow:inset 0px 0px 0px 1px #ffffff;
+    -webkit-box-shadow:inset 0px 0px 0px 1px #ffffff;
+    box-shadow:inset 0px 0px 0px 1px #ffffff;
 }
 
