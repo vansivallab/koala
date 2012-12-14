@@ -102,7 +102,20 @@ function newSocket(connAddr, dLib) {
 	});
 	
 	retSocket.on('getCanvasListCallback', function(data) {
-	
+        $('#selectionElements').empty();
+        if(data.canvasIds.length > 0) {
+            var canvasSelectionJSelect = $('#canvasSelection').children('#selectionElements'); 
+            //singleton list
+            canvasSelectionJSelect.append(loadCanvasElementMarkup(data.canvasIds[0])); 
+            
+            //rest
+            for(var i = 2; i < data.canvasIds.length; i+=2) {
+                canvasSelectionJSelect.append("<div class='divide'></div>");            
+                canvasSelectionJSelect.append(loadCanvasElementMarkup(data.canvasIds[i]));            
+
+            }
+        }
+        
 	});
 	
 	retSocket.on("relogin", function() {

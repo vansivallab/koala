@@ -47,7 +47,6 @@ input[type=password]:hover {
     font-size: 20px;
     font-family: 'Arial', sans-serif;
     color: #00b9ff;
-    -webkit-user-select: text;
 }
 
 #loginBox input[type=text]:active,

@@ -45,6 +45,7 @@ $hide.on('click touchstart', function() {
 });
 
 $back.on('click touchstart', function() {
+    window.socket.e.getCanvasList();
     window.util.navigateTo('#select');
 });
 
