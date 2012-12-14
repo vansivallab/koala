@@ -20,7 +20,7 @@ paint.toolbox.setMode("pencil");
 $show.css('display', "block");
 
 
-$show.on('click touchleave', function() {
+$show.on('click'+window.util.getTapEvent(), function() {
     $show.css('display', "none");
     $toolbar.stop().animate({
         right: 0
@@ -32,7 +32,7 @@ $show.on('click touchleave', function() {
     
 });
 
-$hide.on('click touchleave', function() {
+$hide.on('click'+window.util.getTapEvent(), function() {
     $hide.css('display', "none");
     $toolbar.stop().animate({
         right:'-200px'
@@ -44,27 +44,27 @@ $hide.on('click touchleave', function() {
     
 });
 
-$back.on('click touchleave', function() {
+$back.on('click'+window.util.getTapEvent(), function() {
     window.socket.e.getCanvasList();
     window.util.navigateTo('#select');
 });
 
 
-$envelope.on('click touchleave', function() {
+$envelope.on('click'+window.util.getTapEvent(), function() {
     $('#friend').val("");
     $('#errorInvite').html("");
     window.util.navigateTo('#invite');
 });
 
-$('#question').on('click touchleave', function() {
+$('#question').on('click'+window.util.getTapEvent(), function() {
     window.util.navigateTo('#help');
 });
 
-$('#okayHelp').on('click touchleave', function() {
+$('#okayHelp').on('click'+window.util.getTapEvent(), function() {
     window.util.navigateTo('#select');
 });
 
-$('#okayInvite').on('click touchleave', function() {
+$('#okayInvite').on('click'+window.util.getTapEvent(), function() {
     window.util.navigateTo('#canvas');
 });
 

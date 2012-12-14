@@ -49,6 +49,7 @@ function OnMouseDown(e)
 
 function OnTouchStart(e)
 {
+	//e.preventDefault();
     if (e == null) 
         e = window.event; 
     

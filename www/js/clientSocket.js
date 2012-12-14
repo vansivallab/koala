@@ -228,7 +228,7 @@ function newSocket(connAddr, dLib) {
 		data.canvasId = canvasId;
 		this.socket.emit('selectCanvas', data);
 		console.log('send selectCanvas', data);
-		alert("data: "+JSON.stringify(data));
+		//alert("data: "+JSON.stringify(data));
 	};
 	
 	retSocket.e.inviteUser = function(inviteUsername) {

@@ -29,6 +29,7 @@ io.sockets.on('connection', function(socket){
 	//login
 	socket.on('login', function(data) {
 		if(Util.isValidUsername(data.username) && Util.isValidPassword(data.password)) {
+			data.username = data.username.toLowerCase();
 			return koalaDB.login(data.username, data.password, function(userObj, retData) {
 				if(retData.valid) {
 					socket.session.userObj = userObj;
@@ -62,10 +63,10 @@ io.sockets.on('connection', function(socket){
 		console.log("socketserver line30: socket, data");
 		console.log(JSON.stringify(socket.session));
 		console.log(JSON.stringify(data));
-		if(Util.isValidConn(socket, data)) {
+		if(Util.isValidConn(socket, data) && Util.exists(socket.session.userObj)) {
 			console.log("socketserver line32");
 			if(Util.exists(socket.session.canvasObj)) {
-				socket.session.canvasObj.removeUserConn(user.username);
+				socket.session.canvasObj.removeUserConn(socket.session.userObj.username);
 			}
 			socket.session.userObj.createCanvas(function(canvasObj) {
 				if(Util.exists(canvasObj)) {
@@ -88,9 +89,11 @@ io.sockets.on('connection', function(socket){
 	
 	socket.on('selectCanvas', function(data) {
 		//pick load session.canvasObj
-		if(Util.isValidConn(socket, data) && Util.isValidCanvasId(data.canvasId)) {
+		if(Util.isValidConn(socket, data) && Util.isValidCanvasId(data.canvasId)
+			&& Util.exists(socket.session.userObj)) {
+			
 			if(Util.exists(socket.session.canvasObj)) {
-				socket.session.canvasObj.removeUserConn(user.username);
+				socket.session.canvasObj.removeUserConn(socket.session.userObj.username);
 			}
 			Util.setSocketCanvas(socket, data.canvasId, function(valid) {
 				if(valid) {
@@ -112,8 +115,9 @@ io.sockets.on('connection', function(socket){
 	});
 	
 	socket.on('addStroke', function(data) {
-		if(Util.isValidConn(socket, data) && Util.exists(socket.session.canvasObj)) {
-			console.log("socketserver line62");
+		if(Util.isValidConn(socket, data) && Util.exists(socket.session.canvasObj) 
+			&& socket.session.canvasObj.userCanvasId === data.canvasId) {
+			console.log("socketserver addStroke");
 			// Since io.sockets.* is the *all clients* socket,
 			// this is a broadcast message.
 			socket.session.canvasObj.addStroke(data);

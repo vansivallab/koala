@@ -4,6 +4,11 @@ window.util.exists = function(obj){
     return obj !== undefined && obj !== null;
 }
 
+window.util.getTapEvent = function(){
+	if(this.isAndroid()) {return " touchleave";}
+	else {return " touchstart";}
+};
+
 window.util.isIOS = function(){
     return  !!(navigator.userAgent.match(/iPhone/i) ||
             navigator.userAgent.match(/iPod/i) ||
