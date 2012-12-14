@@ -1,7 +1,7 @@
 //clientSocket.js
 
 function isValidEntry(entry) {
-	return util.exists(entry.drawData) && typeof(entry.drawData.tool) == 'string' 
+	return window.util.exists(entry.drawData) && typeof(entry.drawData.tool) == 'string' 
 			&& ((typeof(entry.drawData.x1) == 'number' && typeof(entry.drawData.y1) == 'number' 
 			&& typeof(entry.drawData.x2) == 'number' && typeof(entry.drawData.y2) == 'number')
 			|| (entry.drawData.tool === 'circle' && typeof(entry.drawData.x) == 'number'
@@ -57,7 +57,8 @@ function newSocket(connAddr, dLib) {
 		//alert(JSON.stringify(data));
 		//alert(data.canvasId);
 		
-		if(data.valid == true && util.exists(data.canvasId) && util.exists(data.strokes)) {
+		if(data.valid == true && window.util.exists(data.canvasId) 
+			&& window.util.exists(data.strokes)) {
 			this.e.connData.canvasId = data.canvasId;
 			this.e.dLib.clearCanvas();
 			for(var d = 0; d < data.strokes.length; d++) {
@@ -76,7 +77,7 @@ function newSocket(connAddr, dLib) {
 	retSocket.on('loginCallback', function(data) {
 		console.log(data);
         //console.log(data.canvasIds.length);
-		if(data.valid == true && util.exists(data.connKey)) { //check if user info was valid
+		if(data.valid == true && window.util.exists(data.connKey)) { //check if user info was valid
 			this.e.connData.connKey = data.connKey;
 			
 			//get list of canvas ids
@@ -171,8 +172,8 @@ function newSocket(connAddr, dLib) {
 	};
 	
 	retSocket.e.logout = function() {
-		if(util.exists(this.connData) 
-			&& util.exists(this.connData.connKey) 
+		if(window.util.exists(this.connData) 
+			&& window.util.exists(this.connData.connKey) 
 			&& this.connData.connKey.length > 0) {
 			
 			this.socket.emit('logout', retSocket.e.connData);

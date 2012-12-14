@@ -11,7 +11,7 @@ and then window.socket.e.selectCanvas("x71wc2");
 or you can create a new canvas with window.socket.e.createCanvas();
 
 List of required elems:
-1. Javascript
+1. Custom Authentication
 2. Canvas
 3. CSS (custom sliders)
 4. HTML (form validation on login)
