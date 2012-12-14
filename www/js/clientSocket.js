@@ -60,11 +60,14 @@ function newSocket(connAddr, dLib) {
 		if(data.valid == true && util.exists(data.canvasId) && util.exists(data.strokes)) {
 			this.e.connData.canvasId = data.canvasId;
 			this.e.dLib.clearCanvas();
+            window.util.navigateTo('#canvas');
+            //start wheel
 			for(var d = 0; d < data.strokes.length; d++) {
 				loadCanvasEntry(data.strokes[d], this.e.dLib);
 			}
-		
-            window.util.navigateTo('#canvas');
+            //set timeout 
+            //end wheel
+
         
         }
 		else {
