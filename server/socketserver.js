@@ -13,11 +13,11 @@ var koalaDB = new KoalaDBController('mongodb://localhost:27017/koala'); //change
 // For every client that is connected, a separate callback is called
 
 /*
-recieve 		->		send {valid: true/false} send for all
+recieve 		->		emit {valid: true/false} send for all
 -----------------------------------------------------------
 login 			->		loginCallback(connKey, userObj.userCanvasIds)
 getCanvasList 	->		getCanvasListCallback(userObj.userCanvasIds)
-createCanvas/selectCanvas -> loadCanvas(canvasObj.userCanvasId, canvasObj.strokes)
+createCanvas/selectCanvas -> loadCanvas(canvasObj.userCanvasId, canvasObj.strokes, canvasObj.usernames, canvasObj.userConns)
 inviteUser		->		inviteUserCallback()
 addStroke		->		addStrokeCallback()
 logout			-> 
@@ -87,7 +87,9 @@ io.sockets.on('connection', function(socket){
 					socket.emit('loadCanvas', {
 						valid: true, 
 						canvasId: socket.session.canvasObj.userCanvasId, 
-						strokes: socket.session.canvasObj.strokes
+						strokes: socket.session.canvasObj.strokes,
+						users: socket.session.canvasObj.usernames, //people with access
+						userConns: socket.session.canvasObj.userConns //people currently drawing
 					});
 				}
 				else {socket.emit('loadCanvas', {valid: false});}
