@@ -1,2 +1,23 @@
 bugs
 	create new canvas crashing server (i think it is because user draws stroke before socket.session.canvasObj set)
+
+Video
+	story board & script
+	film
+	edit
+
+Presentation
+	Server-side tech: mongodb, sockets, invite system, custom authorization and conneciton keys
+		->demo: show concurrency and overlap
+	
+	Client-side tech: custom canvas tools from scratch, pan, overlap (made sure that
+		the paint app behaved as the user expected is very important in this app), custom
+		pages plugin to "redirect", 
+	
+	interesting/challenging element: 
+		1. sync and overlap the same across sessions and users
+		2. serverside: multiple saves and db accesses
+	
+Heroku
+Phonegap APK - Alex
+How to submit - Alex
