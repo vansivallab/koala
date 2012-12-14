@@ -137,7 +137,8 @@ io.sockets.on('connection', function(socket){
 	
 	socket.on('inviteUser', function(data) {
 		console.log("\n---inviting user: "+data.inviteUsername+" ---");
-		if(Util.isValidConn(socket, data) && Util.exists(socket.session.canvasObj)) {
+		if(Util.isValidConn(socket, data) && Util.exists(socket.session.canvasObj)
+			&& Util.isValidUsername(data.inviteUsername)) {
 			console.log("validation complete...");
 			koalaDB.getUser({username: data.inviteUsername}, function(inviteUserObj) {
 				console.log("inviting: "+JSON.stringify(inviteUserObj));
