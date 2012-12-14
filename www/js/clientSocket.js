@@ -134,11 +134,11 @@ function newSocket(connAddr, dLib) {
         }
     });
 	
-	retSocket.on("relogin", function() {
+	/*retSocket.on("relogin", function() {
 		//if curr page is !canvas
 		this.e.logout();
 		this.e.login(this.e.connData.username, this.e.password);
-	});
+	});*/
 	
 	$(window).unload(function() {
 		console.log("disconnecting");
@@ -212,6 +212,7 @@ function newSocket(connAddr, dLib) {
 		data.canvasId = canvasId;
 		this.socket.emit('selectCanvas', data);
 		console.log('send selectCanvas', data);
+		alert("data: "+JSON.stringify(data));
 	};
 	
 	retSocket.e.inviteUser = function(inviteUsername) {
