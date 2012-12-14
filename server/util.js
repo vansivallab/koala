@@ -9,6 +9,19 @@ var Util = {
 		return this.exists(canvasId) && /^\w+$/.test(canvasId) 
 			&& canvasId.length === 6;
 	},
+	
+	isValidEmail: function(email) {
+		var regex = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+		return typeof(email) === 'string' && regex.test(email);
+	},
+	
+	isValidUsername: function(username) {
+		return this.isValidEmail(username);
+	},
+	
+	isValidPassword: function(password) {
+		return typeof(password) === 'string' && password.length > 0;
+	},
 
 	setSocketCanvas: function(socket, userCanvasId, callback) {
 		if(this.isValidCanvasId(userCanvasId) && this.exists(socket.session.userObj)) {

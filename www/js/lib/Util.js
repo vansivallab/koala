@@ -96,7 +96,7 @@ window.util.isValidEmail = function(email) {
     } else {
         return false;
     }
-}
+};
 
 window.util.isValidInput = function(input) {
     if(input.match(/^[a-zA-Z0-9]+$/)) {
@@ -105,5 +105,5 @@ window.util.isValidInput = function(input) {
         return "";
     }
 
-}
+};
 

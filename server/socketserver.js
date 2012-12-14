@@ -28,19 +28,24 @@ io.sockets.on('connection', function(socket){
 	
 	//login
 	socket.on('login', function(data) {
-		return koalaDB.login(data.username, data.password, function(userObj, retData) {
-			if(retData.valid) {
-				socket.session.userObj = userObj;
-				retData.canvasIds = userObj.userCanvasIds;
-				console.log("logging into");
-				console.log(JSON.stringify(userObj));
-				retData.connKey = socket.session.connKey = Util.generateConnKey(256/8);
-				socket['nickname'] = userObj.username;
-				console.log("----------\n");
-			}
-			
-			return socket.emit('loginCallback', retData);
-		})
+		if(Util.isValidUsername(data.username) && Util.isValidPassword(data.password)) {
+			return koalaDB.login(data.username, data.password, function(userObj, retData) {
+				if(retData.valid) {
+					socket.session.userObj = userObj;
+					retData.canvasIds = userObj.userCanvasIds;
+					console.log("logging into");
+					console.log(JSON.stringify(userObj));
+					retData.connKey = socket.session.connKey = Util.generateConnKey(256/8);
+					socket['nickname'] = userObj.username;
+					console.log("----------\n");
+				}
+				
+				return socket.emit('loginCallback', retData);
+			})
+		}
+		else {
+			return socket.emit('loginCallback', {valid: false});
+		}
 	});
 	
 	socket.on('getCanvasList', function(data) {
@@ -189,8 +194,8 @@ io.sockets.on('connection', function(socket){
 		console.log('socket ses: '+JSON.stringify(socket.session));
 		var canvasObj = socket.session.canvasObj;
 		var user = socket.session.userObj;
-		if(Util.isValidConn(socket, data) && Util.exists(canvasObj)) {
+		/*if(Util.isValidConn(socket, data) && Util.exists(canvasObj)) {
 			canvasObj.removeUserConn(user.username);
-		}
+		}*/
 	});
 });
