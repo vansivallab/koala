@@ -18,6 +18,11 @@ Presentation
 		1. sync and overlap the same across sessions and users
 		2. serverside: multiple saves and db accesses
 	
+	Alex: How we made paint
+	Antara: UI touch issues, pages plugin
+	Vansi: concurrency and mongodb
+	
+	
 Heroku
 Phonegap APK - Alex
 How to submit - Alex

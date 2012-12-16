@@ -12,7 +12,7 @@ window.onload = function() {
 	window.mainCanvasDLib = mainCanvasDLib;
 	window.deltaCanvasDLib = deltaCanvasDLib;
 	
-	window.socket = newSocket('http://128.237.237.243:3000/', mainCanvasDLib);
+	window.socket = newSocket('http://128.237.236.75:3000/', mainCanvasDLib);
 	
     
     $('#loginForm').submit(submitForm);

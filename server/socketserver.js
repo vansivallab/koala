@@ -4,7 +4,7 @@
 var io = require('socket.io').listen(3000);
 var Util = require('./util.js');
 var KoalaDBController = require('.//controllers/koalaDBController.js');
-var koalaDB = new KoalaDBController('mongodb://localhost:27017/koala'); //change this
+var koalaDB = new KoalaDBController('mongodb://k:k1234bear@69.195.199.181:27017/koala'); //change this
 //koalaDB.clearData();
 
 
